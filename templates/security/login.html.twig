@@ -1,0 +1,61 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="container-fluid pt-5">
+        <div class="row pt-5">
+            <div class="col-sm-8 col-md-6 col-lg-4 mx-auto">
+                {#<div style="background: rgba(0,0,255, .2)" class="card p-2 shadow mx-auto">#}
+                <div style="" class="card p-2 shadow mx-auto">
+                    <div style="background-color: #FA0405" class="card-header text-center mb-3">
+                        ACCESO
+                    </div>
+                    {% if error %}
+                        <div class="alert alert-danger text-center" role="alert">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+                    <form method="post">
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="" for="inputEmail"><strong>Email</strong></label>
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                                       class="form-control" placeholder="Email" required autofocus>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="" for="inputPassword"><strong>Password</strong></label>
+                                <input type="password" name="password" id="inputPassword" class="form-control"
+                                       placeholder="Password" required>
+                            </div>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="remember_me" name="_remember_me" checked />
+                            <label class="custom-control-label" for="remember_me">Recordar</label>
+                        </div>
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+                        <div class="mx-auto text-center mt-3">
+                            <button type="submit" class="btn btn-primary w-50">Entrar</button>
+                        </div>
+                        <div class="mx-auto text-center mt-4">
+                            <p>¿Aún no estás registrado? <a href="{{ path('app_register') }}">Regístrate</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding:0; margin:0; height:10vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {#<script>#}
+        {#$('.custom-control-label').prop('indeterminate', false)#}
+    {#</script>#}
+{% endblock %}

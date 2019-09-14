@@ -1,0 +1,20 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h1>Register</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword) }}
+
+        <button class="btn btn-primary">Register</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {#<script>#}
+        {#$('.custom-control-label').prop('indeterminate', false)#}
+    {#</script>#}
+{% endblock %}

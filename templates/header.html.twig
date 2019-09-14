@@ -1,0 +1,50 @@
+<nav id="navegador" class="navbar fixed-top navbar-expand-lg navbar-light">
+    <!-- Image and text -->
+    <a id="logo-change" class="navbar-brand" href="{{ path('homepage') }}">
+        <img id="img-logo" class="shadow-sm" src="{{ asset('build/img/aparte-36x36-brand-logo.png') }}" height="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+            {% if app.user %}
+                <!-- Menú para usuarios logueados -->
+                {% if is_granted('ROLE_ADMIN') %}
+                    <!-- ROLE_ADMIN -->
+                    {% include '/menu/admin-header.html.twig' %}
+                {% elseif is_granted('ROLE_USER') %}
+                    <!-- ROLE_USER -->
+                    <!-- Menú para usuarios registrados -->
+                    {% include '/menu/login-user-header.html.twig' %}
+                {% endif %}
+            {% else %}
+                <!-- Menú para usuarios no logueados -->
+                {% if academica is defined %}
+                    {% include '/menu/academica-header.html.twig' %}
+                {% elseif social is defined %}
+                    {% include '/menu/social-header.html.twig' %}
+                {% else %}
+                    {% include '/menu/default-header.html.twig' %}
+                {% endif %}
+            {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item nav-fill">
+                {% if app.user %}
+                    <a class="nav-link" href="#">
+                        Cerrar Sesión
+                        {#<span class="glyphicon glyphicon-log-out"></span>#}
+                    </a>
+                {% else %}
+                    <a class="nav-link" href="#">
+                        Acceso
+                        <span class="glyphicon glyphicon-user"></span>
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+    <span class="shadow-panel"></span>
+</nav>

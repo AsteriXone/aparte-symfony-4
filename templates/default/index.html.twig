@@ -1,0 +1,122 @@
+{% extends 'layout.html.twig' %}
+{% block logo %}
+    {# include 'default/logo.html.twig' #}
+{% endblock %}
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-0">
+    <div class="container-fluid">
+        <!-- Seccion Bienvenida -->
+        <div class="seccion pt-5 text-light">
+            <p class="h2 text-center mb-4">BIENVENIDOS A NUESTRA WEB</p>
+            <br/>
+            <br/>
+            <br/>
+            <p class="h5 text-center mb-3">APARTEFOTOGRAFÍA es una empresa joven y dinámica</p>
+            <p class="h5 text-center mb-3">Entendemos la fotografía como la forma de expresar e inmortalizar los momentos más importantes
+            </p>
+            <p class="h5 text-center mb-3">Aseguramos el mejor resultado con materiales, equipos y proveedores de la más alta calidad
+            </p>
+        </div>
+        <!--End Seccion Bienvenida -->
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <!-- Seccion Bienvenida 2 -->
+        <div class="seccion seccion-rojo p-4 text-light">
+            <p class="h2 text-center mb-4">REPORTAJES SOCIALES</p>
+            <p class="h5 text-center mb-3">Bodas, bautizos, comuniones...</p>
+            <p class="h5 text-center mb-3">Fotografía académica y escolar...</p>
+            <p class="h5 text-center mb-3">Eventos publicitarios...</p>
+        </div>
+        <!--End Seccion Bienvenida 2 -->
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+        <!-- Seccion Nuestro Equipo -->
+        <div class="seccion p-4 text-light">
+            <p class="h2 text-center mb-4">NUESTRO EQUIPO</p>
+            <p class="h5 text-center mb-3">APARTEFOTOGRAFÍA cuenta con un amplio equipo de profesionales</p>
+            <p class="h5 text-center mb-3">Fotógrafos, asesores de imagen, psicopedagogos e informáticos</p>
+        </div>
+        <!--End Seccion Nuestro Equipo -->
+
+
+        <!-- Seccion Nuestro Equipo 2 -->
+        <div class="seccion text-light p-4">
+            <div class="row justify-content-center" style="padding-bottom: 0px;">
+                <div style="margin-bottom: 40px;" class="col-md-4 text-center">
+                    <img class="img-circle" src="{{ asset('build/img/avatar/avatar_004.png') }}" alt="Generic placeholder image" height="147" width="147">
+                    <h3 class="text-center">Andrés Pino</h3>
+                    <p class="text-center">Técnico Superior Especialista en imagen y sonido en la especialidad
+                        de Fotografía. Con una experiencia de 14 años en fotografía
+                        académica y de 19 años en reportajes sociales.
+                        Responsable de información, maquetación y fotografía.
+                    </p>
+                </div>
+                <div style="margin-bottom: 40px;" class="col-md-4 text-center">
+                    <img class="img-circle" src="{{ asset('build/img/avatar/avatar_003.png') }}" alt="Generic placeholder image" height="147" width="147">
+                    <h3 class="text-center">David Pino</h3>
+                    <p class="text-center">Profesional informático con más de 20 años de experiencia.
+                        Asesor de imagen en fotografía académica, operador de vídeo y
+                        responsable web.
+                    </p>
+                </div>
+                <div style="margin-bottom: 40px;" class="col-md-4 text-center">
+                    <img class="img-circle" src="{{ asset('build/img/avatar/avatar_002.png') }}" alt="Generic placeholder image" height="147" width="147">
+                    <h3 class="text-center">Ricardo Boyer</h3>
+                    <p class="text-center">Fotógrafo de reportaje social y foto-escuela, maquetador, encargado
+                        de diseño final y calidad de imagen.
+                    </p>
+                </div>
+            </div>
+            <div class="row justify-content-center" style="padding-top:  10px;">
+                <div style="margin-bottom: 40px;" class="col-md-offset-2 col-md-4 text-center">
+                    <img class="img-circle" src="{{ asset('build/img/avatar/avatar_001.png') }}" alt="Generic placeholder image" height="147" width="147">
+                    <h3 class="text-center">Cristina Martín</h3>
+                    <p class="text-center">
+                        Licenciada en Psicopedagogía por la Universidad de Sevilla.
+                        Responsable de foto-escuela, maquetación de reportaje social y
+                        fotografía.
+                    </p>
+                </div>
+                <div style="margin-bottom: 40px;" class="col-md-4 text-center">
+                    <img class="img-circle" src="{{ asset('build/img/avatar/avatar_007.png') }}" alt="Generic placeholder image" height="147" width="147">
+                    <h3 class="text-center">Jorge Díaz</h3>
+                    <p class="text-center">
+                        Fotógrafo social y académico, asesor de imagen, gestión de datos y
+                        retoque, editor de imagen.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- End Seccion Nuestro Equipo 2 -->
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <!-- Seccion Proveedores y Calidad -->
+        <div class="seccion seccion-rojo p-4 text-light">
+            <p class="h2 text-center mb-4">CALIDAD Y DURABILIDAD</p>
+            <p class="h5 text-center mb-3">Garantizamos la máxima calidad</p>
+            <p class="h5 text-center mb-3">Fotografía de proceso químico que asegura el paso del tiempo</p>
+        </div>
+        <!--End Seccion Proveedores y Calidad -->
+
+
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
