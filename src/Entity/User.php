@@ -33,6 +33,61 @@ class User implements UserInterface
      */
     private $password;
 
+    public function __toString()
+    {
+        return $this->getEmail() ?: '';
+    }
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserAdmin", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $userAdmin;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $apellido_1;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $apellido_2;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $direccion;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $telefono;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $mencion;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isErasmus;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fecha_registro;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserCarrera", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $userCarrera;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,5 +164,135 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUserAdmin(): ?UserAdmin
+    {
+        return $this->userAdmin;
+    }
+
+    public function setUserAdmin(UserAdmin $userAdmin): self
+    {
+        $this->userAdmin = $userAdmin;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $userAdmin->getUser()) {
+            $userAdmin->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(?string $nombre): self
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getApellido1(): ?string
+    {
+        return $this->apellido_1;
+    }
+
+    public function setApellido1(?string $apellido_1): self
+    {
+        $this->apellido_1 = $apellido_1;
+
+        return $this;
+    }
+
+    public function getApellido2(): ?string
+    {
+        return $this->apellido_2;
+    }
+
+    public function setApellido2(?string $apellido_2): self
+    {
+        $this->apellido_2 = $apellido_2;
+
+        return $this;
+    }
+
+    public function getDireccion(): ?string
+    {
+        return $this->direccion;
+    }
+
+    public function setDireccion(?string $direccion): self
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    public function getTelefono(): ?string
+    {
+        return $this->telefono;
+    }
+
+    public function setTelefono(string $telefono): self
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    public function getMencion(): ?bool
+    {
+        return $this->mencion;
+    }
+
+    public function setMencion(bool $mencion): self
+    {
+        $this->mencion = $mencion;
+
+        return $this;
+    }
+
+    public function getIsErasmus(): ?bool
+    {
+        return $this->isErasmus;
+    }
+
+    public function setIsErasmus(bool $isErasmus): self
+    {
+        $this->isErasmus = $isErasmus;
+
+        return $this;
+    }
+
+    public function getFechaRegistro(): ?string
+    {
+        return $this->fecha_registro;
+    }
+
+    public function setFechaRegistro(?string $fecha_registro): self
+    {
+        $this->fecha_registro = $fecha_registro;
+
+        return $this;
+    }
+
+    public function getUserCarrera(): ?UserCarrera
+    {
+        return $this->userCarrera;
+    }
+
+    public function setUserCarrera(UserCarrera $userCarrera): self
+    {
+        $this->userCarrera = $userCarrera;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $userCarrera->getUser()) {
+            $userCarrera->setUser($this);
+        }
+
+        return $this;
     }
 }

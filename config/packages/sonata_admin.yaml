@@ -1,0 +1,11 @@
+sonata_admin:
+    title: ' '
+    title_logo: 'build/img/brand_logo.png'
+    dashboard:
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left }
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]

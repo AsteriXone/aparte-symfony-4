@@ -4,6 +4,14 @@
 <li class="nav-item nav-fill">
     <a class="js-scroll-trigger nav-link opensans" href="#foto-escuela-anchor">FOTO ESCUELA<span class="sr-only">(current)</span></a>
 </li>
-<li class="nav-item nav-fill">
-    <a class="nav-link" href="#">GALERIA<span class="sr-only">(current)</span></a>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    GALERÍAS
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background: #f00">
+        {% for galeria in galerias.galerias %}
+        <a class="dropdown-item" href="#">{{ galeria.nombreGaleria }}</a>
+        {# <a class="dropdown-item" href="{{ galeria.id }}">{{ galeria.nombreGaleria }}</a> #}
+        {% endfor %}
+    </div>
 </li>

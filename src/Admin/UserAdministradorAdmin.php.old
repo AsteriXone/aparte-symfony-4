@@ -1,0 +1,51 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Admin;
+
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Form\Type\AdminType;
+
+final class UserAdministradorAdmin extends AbstractAdmin
+{
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    {
+        $datagridMapper
+            ->add('user', null, ['admin_code' => 'admin.user_admin_for_administrador'])
+            ;
+    }
+
+    protected function configureListFields(ListMapper $listMapper): void
+    {
+        $listMapper
+            ->add('id')
+            ->add('user', null, ['admin_code' => 'admin.user_admin_for_administrador'])
+            ->add('_action', null, [
+                'actions' => [
+                    'show' => [ 'Mostrar' ],
+                    'edit' => [ 'Editar' ],
+                    'delete' => [ 'Eliminar' ], // TODO: Remove Original User too!
+                ],
+            ]);
+    }
+
+    protected function configureFormFields(FormMapper $formMapper): void
+    {
+        $formMapper
+            ->add('user', AdminType::class, ['label'=>'Usuario'],['admin_code' => 'admin.user_admin_for_administrador'])
+            ;
+    }
+
+    protected function configureShowFields(ShowMapper $showMapper): void
+    {
+        $showMapper
+            ->add('id')
+            ->add('user')
+            ;
+    }
+}

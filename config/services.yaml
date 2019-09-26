@@ -5,6 +5,12 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
+twig:
+
+    globals:
+        galerias: '@App\Services\Galerias'
+        arguments: [ "@doctrine.orm.entity_manager" ]
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -25,3 +31,87 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    admin.user_admin:
+        class: App\Admin\UserAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Todos, 'icon': '<i class="fa fa-users"></i>'}
+        public: true
+
+    admin.user_administrador:
+        class: App\Admin\AdministradorAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Administradores, 'icon': '<i class="fa fa-users"></i>'}
+        public: true
+
+    admin.user_carrera:
+        class: App\Admin\UserCarreraAdmin
+        arguments: [~, App\Entity\UserCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuarios Carrera, 'icon': '<i class="fa fa-users"></i>'}
+        public: true
+
+    # admin.user_carrera:
+    #     class: App\Admin\UserCarreraAdmin
+    #     arguments: [~, App\Entity\User, ~]
+    #     tags:
+    #         - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuarios Carrera, 'icon': '<i class="fa fa-users"></i>'}
+    #     public: true
+
+    # admin.user_administrador:
+    #     class: App\Admin\UserAdministradorAdmin
+    #     arguments: [~, App\Entity\UserAdmin, App\Controller\UserAdministradorAdminController]
+    #     tags:
+    #         - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Administradores, 'icon': '<i class="fa fa-users"></i>' }
+    #     public: true
+
+    admin.grupo_carrera:
+        class: App\Admin\GrupoCarreraAdmin
+        arguments: [~, App\Entity\GrupoCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Grupos, label: Carreras, 'icon': '<i class="fa fa-graduation-cap"></i>' }
+        public: true
+
+    admin.galeria:
+        class: App\Admin\GaleriaAdmin
+        arguments: [~, App\Entity\Galeria, App\Controller\GaleriaAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Galerías, label: Galerías , 'icon': '<i class="fa fa-image"></i>' }
+        public: true
+
+    admin.image_gallery_academica:
+        class: App\Admin\ImageGalleryAcademicaAdmin
+        arguments: [~, App\Entity\ImageGallery, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Galerías, label: Imágenes Académica, 'icon': '<i class="fa fa-image"></i>' }
+        public: true
+
+    admin.image_gallery_social:
+        class: App\Admin\ImageGallerySocialAdmin
+        arguments: [~, App\Entity\ImageGallery, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Galerías, label: Imágenes Social, 'icon': '<i class="fa fa-image"></i>' }
+        public: true
+
+    admin.universidad:
+        class: App\Admin\UniversidadAdmin
+        arguments: [~, App\Entity\Universidad, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Universidad, 'icon': '<i class="fa fa-database"></i>' }
+        public: true
+
+    admin.especialidad_carrera:
+        class: App\Admin\EspecialidadCarreraAdmin
+        arguments: [~, App\Entity\EspecialidadCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Especialidades Carreras, 'icon': '<i class="fa fa-database"></i>' }
+        public: true
+
+    admin.user_carrera_base:
+        class: App\Admin\UserCarreraBaseAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Usuarios Carrera Base, 'icon': '<i class="fa fa-database"></i>'}
+        public: true
