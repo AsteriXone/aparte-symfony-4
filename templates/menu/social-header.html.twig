@@ -10,6 +10,16 @@
 <li class="nav-item nav-fill">
     <a class="js-scroll-trigger nav-link opensans" href="#foto-escuela-anchor">ESTUDIO<span class="sr-only">(current)</span></a>
 </li>
-<li class="nav-item nav-fill">
-    <a class="nav-link" href="#">GALERIA<span class="sr-only">(current)</span></a>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    GALERÍAS
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background: #FA0405;">
+        {% for galeria in galerias.galerias %}
+        {# TODO: if galerio.tipo_galleria = social #}
+
+        {# <a class="dropdown-item" href="{{ path('galeria-social', {slug: galeria.id}) }}"><i class="fas fa-images"></i> {{ galeria.nombreGaleria }}</a> #}
+        <a class="dropdown-item" href="#"><i class="fas fa-images"></i> {{ galeria.nombreGaleria }}</a>
+        {% endfor %}
+    </div>
 </li>

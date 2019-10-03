@@ -48,4 +48,24 @@ class DefaultController extends AbstractController
         // TODO: Formulario en contactar.html.twig
         return $this->render('default/contactar.html.twig');
     }
+
+    /**
+     * @Route("/galeria-academica", name="galeria-academica")
+     */
+    public function galeriaAcademicaAction(Request $request)
+    {
+        return $this->render('default/galeria.html.twig',
+            ['academica' => true]
+        );
+    }
+
+    /**
+     * @Route("/galeria-social", name="galeria-social")
+     */
+    public function galeriaSocialAction(Request $request)
+    {
+        return $this->render('default/galeria.html.twig',
+            ['social' => true]
+        );
+    }
 }

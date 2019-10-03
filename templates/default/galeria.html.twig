@@ -1,0 +1,51 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Galeria{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/unite-gallery.css') }}" type='text/css' />
+    {# <link rel="stylesheet" href="{{ asset('css/ug-theme-default.css') }}" type='text/css' /> #}
+{% endblock %}
+{% block logo %}
+    {# include 'default/logo.html.twig' #}
+{% endblock %}
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-5">
+    <div class="container-fluid pb-5">
+    <div class="mt-5" id="gallery" style="display:none;">
+
+        <img alt="Image 1 Title" src="{{ asset('build/img/fotoescuela_02.jpg') }}"
+            data-image="build/img/fotoescuela_02.jpg"
+            data-description="Image 1 Description">
+
+        <img alt="Image 2 Title" src=""
+            data-image="images/image02.jpg"
+            data-description="Image 2 Description">
+
+    </div>
+
+
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/jquery-11.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/unitegallery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/ug-theme-tiles.js') }}"></script>
+    <script type="text/javascript">
+        jQuery("#gallery").unitegallery({
+            tiles_space_between_cols:25,
+            tiles_justified_space_between:25,
+            tiles_col_width:220,
+            tile_enable_shadow:true,
+        });
+    </script>
+{% endblock %}

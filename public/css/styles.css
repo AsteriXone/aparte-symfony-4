@@ -1,0 +1,9 @@
+div.dropdown-menu {
+    border: 0px;
+    box-shadow: -1px 1px 1px rgba(0, 0, 0, .3);
+    border
+}
+
+a.dropdown-item:hover {
+    background-color: #FA0405;
+}
