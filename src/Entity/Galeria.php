@@ -24,7 +24,7 @@ class Galeria
     private $nombre_galeria;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $carpeta;
 

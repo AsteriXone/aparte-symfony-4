@@ -55,7 +55,7 @@ final class AdministradorAdmin extends AbstractAdmin
             ->add('apellido_1')
             ->add('apellido_2')
             ->add('direccion')
-            ->add('userAdmin.gruposCarrera', null , ['route' => [
+            ->add('userAdmin.gruposCarrera', null , ['label' => 'Grupos que administra', 'route' => [
                     'name' => ''
                 ]])
             // ->add('roles', 'array')

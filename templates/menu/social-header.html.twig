@@ -16,10 +16,9 @@
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background: #FA0405;">
         {% for galeria in galerias.galerias %}
-        {# TODO: if galerio.tipo_galleria = social #}
-
-        {# <a class="dropdown-item" href="{{ path('galeria-social', {slug: galeria.id}) }}"><i class="fas fa-images"></i> {{ galeria.nombreGaleria }}</a> #}
-        <a class="dropdown-item" href="#"><i class="fas fa-images"></i> {{ galeria.nombreGaleria }}</a>
+            {% if galeria.tipoGalleria == "Social" %}
+                <a class="dropdown-item" href="{{ path('galeria-social', {slug: galeria.id}) }}"><i class="fas fa-images"></i> {{ galeria.nombreGaleria }}</a>
+            {% endif %}
         {% endfor %}
     </div>
 </li>

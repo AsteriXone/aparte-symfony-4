@@ -20,7 +20,7 @@ final class GaleriaAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('nombre_galeria')
-            ->add('carpeta')
+            // ->add('carpeta')
             ;
     }
 
@@ -30,7 +30,7 @@ final class GaleriaAdmin extends AbstractAdmin
             ->add('id')
             ->add('tipo_galleria')
             ->add('nombre_galeria')
-            ->add('carpeta')
+            // ->add('carpeta')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -52,7 +52,7 @@ final class GaleriaAdmin extends AbstractAdmin
                 ],
             ])
             ->add('nombre_galeria')
-            ->add('carpeta')
+            // ->add('carpeta')
             ;
     }
 
@@ -61,7 +61,7 @@ final class GaleriaAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('nombre_galeria')
-            ->add('carpeta')
+            // ->add('carpeta')
             ;
     }
 }

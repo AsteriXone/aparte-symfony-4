@@ -33,7 +33,7 @@ final class ImageGalleryAcademicaAdmin extends AbstractAdmin
         ->andWhere(
             $query->expr()->like('g.tipo_galleria', ':param')
         );
-        $query->setParameter('param', 'Academica');
+        $query->setParameter('param', 'Académica');
         return $query;
     }
 
