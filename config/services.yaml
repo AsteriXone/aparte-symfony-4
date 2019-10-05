@@ -32,6 +32,8 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    # Sonata Admin Services
+
     admin.user_admin:
         class: App\Admin\UserAdmin
         arguments: [~, App\Entity\User, ~]
@@ -53,25 +55,11 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuarios Carrera, 'icon': '<i class="fa fa-users"></i>'}
         public: true
 
-    # admin.user_carrera:
-    #     class: App\Admin\UserCarreraAdmin
-    #     arguments: [~, App\Entity\User, ~]
-    #     tags:
-    #         - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuarios Carrera, 'icon': '<i class="fa fa-users"></i>'}
-    #     public: true
-
-    # admin.user_administrador:
-    #     class: App\Admin\UserAdministradorAdmin
-    #     arguments: [~, App\Entity\UserAdmin, App\Controller\UserAdministradorAdminController]
-    #     tags:
-    #         - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Administradores, 'icon': '<i class="fa fa-users"></i>' }
-    #     public: true
-
     admin.grupo_carrera:
         class: App\Admin\GrupoCarreraAdmin
         arguments: [~, App\Entity\GrupoCarrera, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Grupos, label: Carreras, 'icon': '<i class="fa fa-graduation-cap"></i>' }
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Grupos, 'icon': '<i class="fa fa-graduation-cap"></i>' }
         public: true
 
     admin.galeria:
@@ -114,4 +102,18 @@ services:
         arguments: [~, App\Entity\User, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Admin, label: Usuarios Carrera Base, 'icon': '<i class="fa fa-database"></i>'}
+        public: true
+
+    admin.muestras_carrera:
+        class: App\Admin\MuestrasCarreraAdmin
+        arguments: [~, App\Entity\MuestrasCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Muestras Carrera }
+        public: true
+
+    admin.muestras_carrera_grupo_carrera:
+        class: App\Admin\MuestrasCarreraGrupoCarreraAdmin
+        arguments: [~, App\Entity\MuestrasCarreraGrupoCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Muestras Grupo }
         public: true

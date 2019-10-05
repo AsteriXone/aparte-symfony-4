@@ -61,9 +61,15 @@ class GrupoCarrera
      */
     private $especialidadCarrera;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MuestrasCarreraGrupoCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
+     */
+    private $muestraCarreraGruposCarrera;
+
     public function __construct()
     {
         $this->usersCarrera = new ArrayCollection();
+        $this->muestraCarreraGruposCarrera = new ArrayCollection();
     }
 
     public function __toString()
@@ -188,6 +194,37 @@ class GrupoCarrera
     public function setEspecialidadCarrera(?EspecialidadCarrera $especialidadCarrera): self
     {
         $this->especialidadCarrera = $especialidadCarrera;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MuestrasCarreraGrupoCarrera[]
+     */
+    public function getMuestraCarreraGruposCarrera(): Collection
+    {
+        return $this->muestraCarreraGruposCarrera;
+    }
+
+    public function addMuestraCarreraGruposCarrera(MuestrasCarreraGrupoCarrera $muestraCarreraGruposCarrera): self
+    {
+        if (!$this->muestraCarreraGruposCarrera->contains($muestraCarreraGruposCarrera)) {
+            $this->muestraCarreraGruposCarrera[] = $muestraCarreraGruposCarrera;
+            $muestraCarreraGruposCarrera->setGrupoCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMuestraCarreraGruposCarrera(MuestrasCarreraGrupoCarrera $muestraCarreraGruposCarrera): self
+    {
+        if ($this->muestraCarreraGruposCarrera->contains($muestraCarreraGruposCarrera)) {
+            $this->muestraCarreraGruposCarrera->removeElement($muestraCarreraGruposCarrera);
+            // set the owning side to null (unless already changed)
+            if ($muestraCarreraGruposCarrera->getGrupoCarrera() === $this) {
+                $muestraCarreraGruposCarrera->setGrupoCarrera(null);
+            }
+        }
 
         return $this;
     }
