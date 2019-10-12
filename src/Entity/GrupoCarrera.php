@@ -66,10 +66,26 @@ class GrupoCarrera
      */
     private $muestraCarreraGruposCarrera;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProfesorGrupoCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
+     */
+    private $profesoresGruposCarrera;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numeroMaximoVotarProfes;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numeroMaximoVotarOrlas;
+
     public function __construct()
     {
         $this->usersCarrera = new ArrayCollection();
         $this->muestraCarreraGruposCarrera = new ArrayCollection();
+        $this->profesoresGruposCarrera = new ArrayCollection();
     }
 
     public function __toString()
@@ -225,6 +241,61 @@ class GrupoCarrera
                 $muestraCarreraGruposCarrera->setGrupoCarrera(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProfesorGrupoCarrera[]
+     */
+    public function getProfesoresGruposCarrera(): Collection
+    {
+        return $this->profesoresGruposCarrera;
+    }
+
+    public function addProfesoresGruposCarrera(ProfesorGrupoCarrera $profesoresGruposCarrera): self
+    {
+        if (!$this->profesoresGruposCarrera->contains($profesoresGruposCarrera)) {
+            $this->profesoresGruposCarrera[] = $profesoresGruposCarrera;
+            $profesoresGruposCarrera->setGrupoCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfesoresGruposCarrera(ProfesorGrupoCarrera $profesoresGruposCarrera): self
+    {
+        if ($this->profesoresGruposCarrera->contains($profesoresGruposCarrera)) {
+            $this->profesoresGruposCarrera->removeElement($profesoresGruposCarrera);
+            // set the owning side to null (unless already changed)
+            if ($profesoresGruposCarrera->getGrupoCarrera() === $this) {
+                $profesoresGruposCarrera->setGrupoCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNumeroMaximoVotarProfes(): ?int
+    {
+        return $this->numeroMaximoVotarProfes;
+    }
+
+    public function setNumeroMaximoVotarProfes(?int $numeroMaximoVotarProfes): self
+    {
+        $this->numeroMaximoVotarProfes = $numeroMaximoVotarProfes;
+
+        return $this;
+    }
+
+    public function getNumeroMaximoVotarOrlas(): ?int
+    {
+        return $this->numeroMaximoVotarOrlas;
+    }
+
+    public function setNumeroMaximoVotarOrlas(?int $numeroMaximoVotarOrlas): self
+    {
+        $this->numeroMaximoVotarOrlas = $numeroMaximoVotarOrlas;
 
         return $this;
     }

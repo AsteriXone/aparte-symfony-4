@@ -59,7 +59,7 @@ services:
         class: App\Admin\GrupoCarreraAdmin
         arguments: [~, App\Entity\GrupoCarrera, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Grupos, 'icon': '<i class="fa fa-graduation-cap"></i>' }
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Grupos Carrera, 'icon': '<i class="fa fa-graduation-cap"></i>' }
         public: true
 
     admin.galeria:
@@ -115,5 +115,19 @@ services:
         class: App\Admin\MuestrasCarreraGrupoCarreraAdmin
         arguments: [~, App\Entity\MuestrasCarreraGrupoCarrera, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Muestras Grupo }
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Muestras Grupos Carrera}
+        public: true
+
+    admin.profesor_carrera:
+        class: App\Admin\ProfesorCarreraAdmin
+        arguments: [~, App\Entity\ProfesorCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Profes Carrera }
+        public: true
+
+    admin.profesor_grupo_carrera:
+        class: App\Admin\ProfesorGrupoCarreraAdmin
+        arguments: [~, App\Entity\ProfesorGrupoCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Profes Grupos Carrera }
         public: true

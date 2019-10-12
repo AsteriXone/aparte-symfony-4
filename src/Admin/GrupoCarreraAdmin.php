@@ -45,10 +45,9 @@ final class GrupoCarreraAdmin extends AbstractAdmin
     {
         $datagridMapper
             // ->add('id')
-            ->add('codigo_grupo')
-            ->add('isActive')
-            ->add('isCitasActive')
-            ->add('isVotacionesActive')
+            ->add('codigo_grupo', null, ['label' => 'Código Grupo'])
+            ->add('universidad', null, ['label' => 'Universidad'])
+            ->add('especialidadCarrera', null, ['label' => 'Especialidad'])
             ;
     }
 
@@ -56,8 +55,19 @@ final class GrupoCarreraAdmin extends AbstractAdmin
     {
         $listMapper
             // ->add('id')
-            ->add('universidad', null, [ 'route' => ['name'=>''] ])
-            ->add('especialidadCarrera', null, ['label' => 'Especialidad', 'route' => ['name'=>'']])
+            ->add('universidad', null, [
+                'route' => ['name'=>''],
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'Nombre'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'universidad'))
+            ])
+            ->add('especialidadCarrera', null, [
+                'label' => 'Especialidad',
+                'route' => ['name'=>''],
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'especialidad'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'especialidadCarrera'))
+            ])
             ->add('codigo_grupo', null, ['label' => 'Código Grupo', 'editable' => true])
             ->add('isActive', null, ['label' => 'Activo', 'editable' => true])
             ->add('isCitasActive', null, ['label' => 'Citas', 'editable' => true])
@@ -99,6 +109,8 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('isActive', null, ['label' => 'Activo'])
                     ->add('isCitasActive', null, ['label' => 'Citas'])
                     ->add('isVotacionesActive', null, ['label' => 'Votaciones'])
+                    ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?'])
+                    ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?'])
                 ->end()
                 ;
         } else {
@@ -127,6 +139,8 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('isActive', null, ['label' => 'Activo'])
                     ->add('isCitasActive', null, ['label' => 'Citas'])
                     ->add('isVotacionesActive', null, ['label' => 'Votaciones'])
+                    ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?', 'data'=> 5])
+                    ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?', 'data'=> 5])
                 ->end()
                 ;
         }

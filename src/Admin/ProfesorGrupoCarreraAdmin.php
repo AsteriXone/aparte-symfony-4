@@ -12,10 +12,14 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Doctrine\ORM\EntityRepository;
+use Sonata\AdminBundle\Route\RouteCollection;
 
-final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
+final class ProfesorGrupoCarreraAdmin extends AbstractAdmin
 {
-
+    // protected function configureRoutes(RouteCollection $collection)
+    // {
+    //     $collection->remove('delete');
+    // }
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
@@ -30,45 +34,30 @@ final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
                         ->setParameter('user_admin', $user_admin);
                     }
             ])
-            ->add('muestras_carrera')
+            ->add('profesor_carrera')
             ;
-    }
-
-    public function createQuery($context = 'list')
-    {
-        // Getting useAdmin
-        $container = $this->getConfigurationPool()->getContainer();
-        $idUserAdmin = $container->get('security.token_storage')->getToken()->getUser()->getUserAdmin();
-        $query = parent::createQuery($context);
-        $query
-        ->innerJoin($query->getRootAliases()[0].'.grupo_carrera', 'gc')
-        ->innerJoin('gc.userAdmin', 'ua')
-        ->andWhere('ua = :userAdmin');
-        $query->setParameter('userAdmin', $idUserAdmin);
-        return $query;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             // ->add('id')
+            ->add('profesor_carrera', null, [
+                'label' => 'Profesor Carrera',
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'nombre_completo'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'profesor_carrera'))
+            ])
             ->add('grupo_carrera', null, [
-                'label' => 'Grupo',
+                'label' => 'Grupo Carrera',
                 'sortable' => true,
                 'sort_field_mapping'=> array('fieldName'=>'codigo_grupo'),
                 'sort_parent_association_mappings' => array(array('fieldName'=>'grupo_carrera'))
             ])
-            ->add('muestras_carrera', null, [
-                'label'=>'Muestra',
-                'sortable' => true,
-                'sort_field_mapping'=> array('fieldName'=>'imageName'),
-                'sort_parent_association_mappings' => array(array('fieldName'=>'muestras_carrera'))
-            ])
-            ->add('Imagen', null, ['template' => 'muestras/muestra_carrera_grupo_list_admin.html.twig',])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
-                    // 'edit' => [],
+                    'edit' => [],
                     'delete' => [],
                 ],
             ]);
@@ -78,13 +67,12 @@ final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
     {
         $formMapper
             // ->add('id')
-            ->add('muestras_carrera', ModelListType::class, [
-                // 'property'=>'Nombre',
-                // 'dropdown_auto_width' => true,
-                'btn_add' => 'Añadir',
+            ->add('profesor_carrera', ModelListType::class, [
+                'label' => 'Profesor Carrera',
+                'btn_add' => 'Añadir Nuevo',
                 'btn_list' => 'Listado',
-                'btn_delete' => false,
-                'btn_edit' => false,
+                'btn_delete' => null,
+                'btn_edit' => 'Editar',
             ])
             ->add('grupo_carrera', null, [
                 'label' => 'Grupo',
@@ -104,8 +92,8 @@ final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('grupo_carrera', null, ['label' => 'Grupo'])
-            ->add('muestras_carrera', null, ['label' => 'Muestra', 'route' => ['name'=>'']])
+            ->add('profesor_carrera')
+            ->add('grupo_carrera')
             ;
     }
 }

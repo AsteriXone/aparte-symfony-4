@@ -64,17 +64,24 @@ final class UserCarreraAdmin extends AbstractAdmin
     {
         $listMapper
             // ->add('id')
-            ->add('user.email')
-            ->add('user.nombre')
-            ->add('user.apellido_1')
-            ->add('user.apellido_2')
-            ->add('user.direccion')
-            // Block
-            // ->add('titulacion')
-            ->add('user.mencion')
-            ->add('user.isErasmus')
-            // ->add('roles', 'array')
-            ->add('grupoCarrera', null, ['label'=>'Grupo'])
+            ->add('grupoCarrera', null, [
+                'label'=>'Grupo',
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'codigo_grupo'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'grupo_carrera'))
+            ])
+            ->add('user.email', null, ['label'=>'Email'])
+            ->add('user.nombreCompleto', null, [
+                'label'=>'Usuario',
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'nombre'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'user'))
+            ])
+            // ->add('user.apellido_1', null, ['label'=>'Apellido 1'])
+            // ->add('user.apellido_2', null, ['label'=>'Apellido 2'])
+            ->add('user.direccion', null, ['label'=>'Dirección'])
+            ->add('user.mencion', null, ['label'=>'Mención'])
+            ->add('user.isErasmus', null, ['label'=>'Erasmus'])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],

@@ -84,9 +84,16 @@ class User implements UserInterface
     private $fecha_registro;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\UserCarrera", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\UserCarrera", mappedBy="user", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      */
     private $userCarrera;
+
+    public function getNombreCompleto(){
+        $nombre = $this->getNombre();
+        $ape1 = $this->getApellido1();
+        $ape2 = $this->getApellido2();
+        return $nombre." ".$ape1." ".$ape2;
+    }
 
     public function getId(): ?int
     {

@@ -40,18 +40,23 @@ final class ImageGallerySocialAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-            ->add('id')
-            ->add('imageName')
-            ->add('updateAt')
+            // ->add('id')
+            ->add('imageName', null, ['label'=>'Nombre imagen'])
+            // ->add('updateAt')
             ;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->add('galeria')
-            ->add('imageName')
-            ->add('updateAt')
+            ->add('galeria', null, [
+                'label' => 'Galería',
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'nombre_galeria'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'galeria'))
+            ])
+            ->add('imageName', null, ['label'=>'Nombre imagen'])
+            // ->add('updateAt')
             ->add('Imagen', null, ['template' => 'galerias/gallery_image_list_admin.html.twig',])
             ->add('_action', null, [
                 'actions' => [

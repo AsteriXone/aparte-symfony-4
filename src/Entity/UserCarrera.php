@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +29,16 @@ class UserCarrera
      * @ORM\JoinColumn(nullable=false)
      */
     private $grupo_carrera;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VotacionesProfesorCarrera", mappedBy="user_carrera", orphanRemoval=true)
+     */
+    private $votacionesProfesorCarrera;
+
+    public function __construct()
+    {
+        $this->votacionesProfesorCarrera = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -58,6 +70,37 @@ class UserCarrera
     public function setGrupoCarrera(?GrupoCarrera $grupo_carrera): self
     {
         $this->grupo_carrera = $grupo_carrera;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VotacionesProfesorCarrera[]
+     */
+    public function getVotacionesProfesorCarrera(): Collection
+    {
+        return $this->votacionesProfesorCarrera;
+    }
+
+    public function addVotacionesProfesorCarrera(VotacionesProfesorCarrera $votacionesProfesorCarrera): self
+    {
+        if (!$this->votacionesProfesorCarrera->contains($votacionesProfesorCarrera)) {
+            $this->votacionesProfesorCarrera[] = $votacionesProfesorCarrera;
+            $votacionesProfesorCarrera->setUserCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotacionesProfesorCarrera(VotacionesProfesorCarrera $votacionesProfesorCarrera): self
+    {
+        if ($this->votacionesProfesorCarrera->contains($votacionesProfesorCarrera)) {
+            $this->votacionesProfesorCarrera->removeElement($votacionesProfesorCarrera);
+            // set the owning side to null (unless already changed)
+            if ($votacionesProfesorCarrera->getUserCarrera() === $this) {
+                $votacionesProfesorCarrera->setUserCarrera(null);
+            }
+        }
 
         return $this;
     }

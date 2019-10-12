@@ -1,0 +1,82 @@
+{% extends 'layout.html.twig' %}
+{% block title %}
+    Votar Profes
+{% endblock %}
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-0">
+    <div class="container-fluid">
+
+        <div class="seccion pt-5 text-light">
+            <p class="h2 text-center">Votar Profesores</p>
+            <div class="seccion pt-4 text-light mr-4 ml-4 mt-2">
+                {% if grupoDesactivado is defined %}
+                    <div class="col-md-8 alert alert-danger mx-auto text-center" role="alert">
+                        <p class="mb-1">Tu grupo actualmente <strong>no está activado!</strong></p>
+                    </div>
+                {% elseif votoDesactivado is defined and grupoDesactivado is not defined %}
+                    <div class="col-md-8 alert alert-danger mx-auto text-center" role="alert">
+                        <p class="mb-0">Las <strong>votaciones</strong> a profesores están actualmente <strong>desactivadas.</strong></p>
+                        <p class="mb-1">En la tabla se muestra tu votación pero no es posible modificarla!</p>
+                    </div>
+                {% elseif mensaje is defined %}
+                    <div class="col-md-8 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">{{ mensaje }}</p>
+                    </div>
+                {% else %}
+                    <div class="col-md-8 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">Puedes <strong>votar a {{ numeroVotosPosible }} profes</strong> como máximo marcando las <strong>casillas de verificación</strong> correspondientes.</p>
+                        <p class="mb-1">Al finalizar <strong>no olvides guardar</strong> tu votación!</p>
+
+                    </div>
+                {% endif %}
+
+                <div class="col-md-8 mx-auto">
+                {% if profesoresGrupoCarrera is defined %}
+                <form class="form-inline" method="post">
+                  <table style="box-shadow: 0px 0px 20px rgba(255,255,255, 1)" class="mt-2 table table-hover table-dark">
+                    <thead>
+                      <tr>
+                        <th colspan="2" style="text-align: center" scope="col">Profesores</th>
+                        {# <th scope="col"></th> #}
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for profesorGrupoCarrera in profesoresGrupoCarrera %}
+                            <tr>
+                              <td>{{ profesorGrupoCarrera.profesorCarrera.nombreCompleto }}</td>
+                              {% if votoDesactivado is defined %}
+                                  {% if profesorGrupoCarrera.profesorCarrera.isVotado %}
+                                    <td style="text-align: right"><input type="checkbox" id="" checked disabled></td>
+                                  {% else %}
+                                    <td style="text-align: right"><input type="checkbox" id="" disabled></td>
+                                  {% endif %}
+                              {% else %}
+                                  {% if profesorGrupoCarrera.profesorCarrera.isVotado %}
+                                    <td style="text-align: right"><input type="checkbox" name="{{ profesorGrupoCarrera.profesorCarrera.id }}" id="{{ profesorGrupoCarrera.profesorCarrera.id }}" checked></td>
+                                  {% else %}
+                                    <td style="text-align: right"><input type="checkbox" name="{{ profesorGrupoCarrera.profesorCarrera.id }}" id="{{ profesorGrupoCarrera.profesorCarrera.id }}"></td>
+                                  {% endif %}
+                              {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                  {% if votoDesactivado is not defined and grupoDesactivado is not defined %}
+                  <button type="submit" class="btn btn-primary mb-2">Guardar Votación</button>
+                  {% endif %}
+                </form>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

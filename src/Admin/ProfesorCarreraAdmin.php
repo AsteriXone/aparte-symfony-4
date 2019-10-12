@@ -10,32 +10,29 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
-final class GaleriaAdmin extends AbstractAdmin
+final class ProfesorCarreraAdmin extends AbstractAdmin
 {
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-            // ->add('id')
-            ->add('nombre_galeria')
-            // ->add('carpeta')
+            ->add('id')
+            ->add('nombre_completo')
+            ->add('cargo')
             ;
     }
 
     protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            // ->add('id')
-            ->add('tipo_galleria')
-            ->add('nombre_galeria')
-            // ->add('carpeta')
+            ->add('id')
+            ->add('nombre_completo')
+            ->add('cargo')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
                     'edit' => [],
-                    'delete' => [],
+                    'delete' => null,
                 ],
             ]);
     }
@@ -44,15 +41,8 @@ final class GaleriaAdmin extends AbstractAdmin
     {
         $formMapper
             // ->add('id')
-            ->add('tipo_galleria', ChoiceType::class, [
-                'expanded' => true,
-                'choices' => [
-                    'Academica' => 'Académica',
-                    'Social' => 'Social',
-                ],
-            ])
-            ->add('nombre_galeria')
-            // ->add('carpeta')
+            ->add('nombre_completo')
+            ->add('cargo')
             ;
     }
 
@@ -60,8 +50,8 @@ final class GaleriaAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('nombre_galeria')
-            // ->add('carpeta')
+            ->add('nombre_completo')
+            ->add('cargo')
             ;
     }
 }
