@@ -17,6 +17,19 @@ final class GrupoCarreraAdmin extends AbstractAdmin
     protected $baseRouteName = 'carrera';
     protected $baseRoutePattern = 'carrera';
 
+    protected $datagridValues = [
+
+        // display the first page (default = 1)
+        '_page' => 1,
+
+        // reverse order (default = 'ASC')
+        '_sort_order' => 'DESC',
+
+        // name of the ordered field (default = the model's id field, if any)
+        '_sort_by' => 'id',
+    ];
+
+
     public function createQuery($context = 'list')
     {
         // This query shows only the user GrupoCarrera owner

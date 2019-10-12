@@ -102,6 +102,12 @@ class UsuariosCarreraController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($votoProfesorCarrera);
                         $entityManager->flush();
+                        // TODO: Aumentar voto en ProfesorGrupoCarrera
+                        $votosActuales = $profesorGrupoCarrera->getVotos();
+
+                        $profesorGrupoCarrera->setVotos($votosActuales + 1);
+                        $entityManager->persist($profesorGrupoCarrera);
+                        $entityManager->flush();
                     }
                     $profesorGrupoCarrera->getProfesorCarrera()->setIsVotado(true);
                 } else {
@@ -120,11 +126,18 @@ class UsuariosCarreraController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->remove($votacionProfe);
                         $entityManager->flush();
+
+                        // TODO: Disminuir voto en ProfesorGrupoCarrera
+                        $votosActuales = $profesorGrupoCarrera->getVotos();
+                        $profesorGrupoCarrera->setVotos($votosActuales - 1);
+                        $entityManager->persist($profesorGrupoCarrera);
+                        $entityManager->flush();
+
                     }
                     $profesorGrupoCarrera->getProfesorCarrera()->setIsVotado(false);
                 }
             }
-            
+
             $mensaje = "Tus votación se han guardado correctamente!";
             return $this->render('usuarios_carrera/votar-profesores.html.twig', [
                 'profesoresGrupoCarrera' => $profesoresGrupoCarrera,

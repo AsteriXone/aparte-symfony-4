@@ -20,6 +20,20 @@ final class ProfesorGrupoCarreraAdmin extends AbstractAdmin
     // {
     //     $collection->remove('delete');
     // }
+
+    protected $datagridValues = [
+
+        // display the first page (default = 1)
+        '_page' => 1,
+
+        // reverse order (default = 'ASC')
+        '_sort_order' => 'ASC',
+
+        // name of the ordered field (default = the model's id field, if any)
+        '_sort_by' => 'grupo_carrera',
+    ];
+
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
@@ -53,6 +67,14 @@ final class ProfesorGrupoCarreraAdmin extends AbstractAdmin
                 'sortable' => true,
                 'sort_field_mapping'=> array('fieldName'=>'codigo_grupo'),
                 'sort_parent_association_mappings' => array(array('fieldName'=>'grupo_carrera'))
+            ])
+
+            ->add('votos', null, [
+                'class'=>'text-center',
+                'label'=>'Nº de Votos',
+                'template' => 'usuarios_carrera/numero_votos_admin.html.twig',
+                'header_style' => 'text-align: center',
+                'row_align' => 'center',
             ])
             ->add('_action', null, [
                 'actions' => [
@@ -95,5 +117,13 @@ final class ProfesorGrupoCarreraAdmin extends AbstractAdmin
             ->add('profesor_carrera')
             ->add('grupo_carrera')
             ;
+    }
+
+    public function getExportFields(){
+        return array(
+            'Grupo' => 'grupo_carrera',
+            'Profesor' => 'profesor_carrera',
+            'Votos'=> 'votos',
+        );
     }
 }

@@ -1,0 +1,8 @@
+{# // object is an instance of ProfesorGrupoCarrera #}
+<td class="sonata-ba-list-field sonata-ba-list-field-text text-center">
+    {% if object.votos %}
+        <span style="" class="badge badge-pill alert-info">{{ object.votos }}</span>
+    {% else %}
+        <span style="" class="badge badge-pill alert-info">0</span>
+    {% endif %}
+</td>

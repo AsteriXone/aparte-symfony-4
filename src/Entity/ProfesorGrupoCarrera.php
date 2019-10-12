@@ -28,6 +28,11 @@ class ProfesorGrupoCarrera
      */
     private $grupo_carrera;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $votos;
+
     public function __toString(){
         // TODO: aniadir grupo
         return $this->profesor_carrera->getNombreCompleto();
@@ -58,6 +63,18 @@ class ProfesorGrupoCarrera
     public function setGrupoCarrera(?GrupoCarrera $grupo_carrera): self
     {
         $this->grupo_carrera = $grupo_carrera;
+
+        return $this;
+    }
+
+    public function getVotos(): ?int
+    {
+        return $this->votos;
+    }
+
+    public function setVotos(?int $votos): self
+    {
+        $this->votos = $votos;
 
         return $this;
     }

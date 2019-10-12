@@ -14,6 +14,17 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class GaleriaAdmin extends AbstractAdmin
 {
+    protected $datagridValues = [
+
+        // display the first page (default = 1)
+        '_page' => 1,
+
+        // reverse order (default = 'ASC')
+        '_sort_order' => 'ASC',
+
+        // name of the ordered field (default = the model's id field, if any)
+        '_sort_by' => 'tipo_galleria',
+    ];
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
