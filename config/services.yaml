@@ -111,11 +111,25 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Admin, label: Muestras Carrera }
         public: true
 
+    admin.productos_carrera:
+        class: App\Admin\ProductosCarreraAdmin
+        arguments: [~, App\Entity\ProductosCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Productos Carrera }
+        public: true
+
     admin.muestras_carrera_grupo_carrera:
         class: App\Admin\MuestrasCarreraGrupoCarreraAdmin
         arguments: [~, App\Entity\MuestrasCarreraGrupoCarrera, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Carreras, label: Muestras Grupos Carrera}
+        public: true
+
+    admin.productos_carrera_grupo_carrera:
+        class: App\Admin\ProductosCarreraGrupoCarreraAdmin
+        arguments: [~, App\Entity\ProductosCarreraGrupoCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Productos Grupos Carrera}
         public: true
 
     admin.profesor_carrera:

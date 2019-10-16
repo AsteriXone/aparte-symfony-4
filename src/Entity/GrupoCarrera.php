@@ -67,6 +67,11 @@ class GrupoCarrera
     private $muestraCarreraGruposCarrera;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductosCarreraGrupoCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
+     */
+    private $productoCarreraGruposCarrera;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProfesorGrupoCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
      */
     private $profesoresGruposCarrera;

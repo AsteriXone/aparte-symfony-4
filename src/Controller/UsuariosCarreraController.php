@@ -221,7 +221,6 @@ class UsuariosCarreraController extends AbstractController
             foreach ($muestrasGrupoCarrera as $muestraGrupoCarrera) {
                 $idMuestra = $muestraGrupoCarrera->getMuestrasCarrera()->getId();
                 $estadoMuestraFormulario = $request->request->get($idMuestra);
-
                 if ($estadoMuestraFormulario){
                     // Seleccionado en formulario
                     // Comprueba si votacion no esta registrada en DB
@@ -240,9 +239,9 @@ class UsuariosCarreraController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($votoMuestraCarrera);
                         $entityManager->flush();
-                        // TODO: Aumentar voto en ProfesorGrupoCarrera
+                        // Aumentar voto en MuestrasCarreraGrupoCarrera
                         $votosActuales = $muestraGrupoCarrera->getVotos();
-
+                        dump('Votos: '.$votosActuales);
                         $muestraGrupoCarrera->setVotos($votosActuales + 1);
                         $entityManager->persist($muestraGrupoCarrera);
                         $entityManager->flush();

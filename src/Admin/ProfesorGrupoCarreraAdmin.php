@@ -56,19 +56,18 @@ final class ProfesorGrupoCarreraAdmin extends AbstractAdmin
     {
         $listMapper
             // ->add('id')
-            ->add('profesor_carrera', null, [
-                'label' => 'Profesor Carrera',
-                'sortable' => true,
-                'sort_field_mapping'=> array('fieldName'=>'nombre_completo'),
-                'sort_parent_association_mappings' => array(array('fieldName'=>'profesor_carrera'))
-            ])
             ->add('grupo_carrera', null, [
                 'label' => 'Grupo Carrera',
                 'sortable' => true,
                 'sort_field_mapping'=> array('fieldName'=>'codigo_grupo'),
                 'sort_parent_association_mappings' => array(array('fieldName'=>'grupo_carrera'))
             ])
-
+            ->add('profesor_carrera', null, [
+                'label' => 'Profesor Carrera',
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'nombre_completo'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'profesor_carrera'))
+            ])
             ->add('votos', null, [
                 'class'=>'text-center',
                 'label'=>'Nº de Votos',

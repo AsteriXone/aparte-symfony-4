@@ -13,7 +13,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Doctrine\ORM\EntityRepository;
 
-final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
+final class ProductosCarreraGrupoCarreraAdmin extends AbstractAdmin
 {
     protected $datagridValues = [
 
@@ -41,7 +41,7 @@ final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
                         ->setParameter('user_admin', $user_admin);
                     }
             ])
-            ->add('muestras_carrera')
+            ->add('productos_carrera')
             ;
     }
 
@@ -69,20 +69,13 @@ final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
                 'sort_field_mapping'=> array('fieldName'=>'codigo_grupo'),
                 'sort_parent_association_mappings' => array(array('fieldName'=>'grupo_carrera'))
             ])
-            ->add('muestras_carrera', null, [
-                'label'=>'Muestra',
+            ->add('productos_carrera', null, [
+                'label'=>'Producto',
                 'sortable' => true,
                 'sort_field_mapping'=> array('fieldName'=>'imageName'),
-                'sort_parent_association_mappings' => array(array('fieldName'=>'muestras_carrera'))
+                'sort_parent_association_mappings' => array(array('fieldName'=>'productos_carrera'))
             ])
-            ->add('Imagen', null, ['template' => 'muestras/muestra_carrera_grupo_list_admin.html.twig',])
-            ->add('votos', null, [
-                'class'=>'text-center',
-                'label'=>'Nº de Votos',
-                'template' => 'usuarios_carrera/numero_votos_muestras_admin.html.twig',
-                'header_style' => 'text-align: center',
-                'row_align' => 'center',
-            ])
+            ->add('Imagen', null, ['template' => 'productos/producto_carrera_grupo_list_admin.html.twig',])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -96,7 +89,7 @@ final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
     {
         $formMapper
             // ->add('id')
-            ->add('muestras_carrera', ModelListType::class, [
+            ->add('productos_carrera', ModelListType::class, [
                 // 'property'=>'Nombre',
                 // 'dropdown_auto_width' => true,
                 'btn_add' => 'Añadir',
@@ -123,7 +116,7 @@ final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('grupo_carrera', null, ['label' => 'Grupo'])
-            ->add('muestras_carrera', null, ['label' => 'Muestra', 'route' => ['name'=>'']])
+            ->add('productos_carrera', null, ['label' => 'Producto', 'route' => ['name'=>'']])
             ;
     }
 }
