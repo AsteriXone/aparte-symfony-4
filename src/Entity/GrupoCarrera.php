@@ -39,6 +39,11 @@ class GrupoCarrera
     /**
      * @ORM\Column(type="boolean")
      */
+    private $isContratoActive;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
     private $isVotacionesActive;
 
     /**
@@ -156,6 +161,18 @@ class GrupoCarrera
     public function setIsCitasActive(bool $isCitasActive): self
     {
         $this->isCitasActive = $isCitasActive;
+
+        return $this;
+    }
+
+    public function getIsContratoActive(): ?bool
+    {
+        return $this->isContratoActive;
+    }
+
+    public function setIsContratoActive(bool $isContratoActive): self
+    {
+        $this->isContratoActive = $isContratoActive;
 
         return $this;
     }

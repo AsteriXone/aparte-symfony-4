@@ -15,13 +15,17 @@ class UsuariosCarreraController extends AbstractController
     /**
      * @Route("/usuario-carrera/contrato", name="contrato")
      */
-    public function contratoAction()
+    public function contratoAction(Request $request)
     {
-        // TODO: Obtener contrato para grupo
+        // Obtener contrato para grupo
         $contrato = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getContrato();
-
-        $contratoPath = $this->getParameter('contratos_directory').'/'.$contrato;
-        return $this->file($contratoPath);
+        $isContratoActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsContratoActive();
+        if ($isContratoActive){
+            $contratoPath = $this->getParameter('contratos_directory').'/'.$contrato;
+            return $this->file($contratoPath);
+        } else {
+            return $this->render('usuarios_carrera/no-contrato.html.twig');
+        }        
     }
 
     /**

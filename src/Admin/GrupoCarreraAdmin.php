@@ -86,6 +86,7 @@ final class GrupoCarreraAdmin extends AbstractAdmin
             ->add('isActive', null, ['label' => 'Activo', 'editable' => true])
             ->add('isCitasActive', null, ['label' => 'Citas', 'editable' => true])
             ->add('isVotacionesActive', null, ['label' => 'Votaciones', 'editable' => true])
+            ->add('isContratoActive', null, ['label' => 'Contrato', 'editable' => true])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -123,6 +124,7 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('isActive', null, ['label' => 'Activo'])
                     ->add('isCitasActive', null, ['label' => 'Citas'])
                     ->add('isVotacionesActive', null, ['label' => 'Votaciones'])
+                    ->add('isContratoActive', null, ['label' => 'Contrato'])
                     ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?'])
                     ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?'])
                 ->end()
@@ -160,6 +162,7 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('isActive', null, ['label' => 'Activo'])
                     ->add('isCitasActive', null, ['label' => 'Citas'])
                     ->add('isVotacionesActive', null, ['label' => 'Votaciones'])
+                    ->add('isContratoActive', null, ['label' => 'Contrato'])
                     ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?', 'data'=> 5])
                     ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?', 'data'=> 2])
                 ->end()
@@ -182,6 +185,7 @@ final class GrupoCarreraAdmin extends AbstractAdmin
             ->add('isActive')
             ->add('isCitasActive')
             ->add('isVotacionesActive')
+            ->add('isContratoActive')
             ->add('usersCarrera', null, ['label'=>'Usuarios','admin_code' => 'admin.user_carrera'])
             // ->add('usersCarrera', null, ['label'=>'Usuarios','admin_code' => 'admin.user_carrera', 'route' => [
             //     'name' => ''
