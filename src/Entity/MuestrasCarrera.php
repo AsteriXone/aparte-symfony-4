@@ -50,9 +50,20 @@ class MuestrasCarrera
      */
     private $muestraCarreraGruposCarrera;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VotacionesMuestraCarrera", mappedBy="muestra_carrera", orphanRemoval=true)
+     */
+    private $votacionesMuestraCarrera;
+
+    /**
+     * Not mapped field to use in votacionesMuestraCarrera
+     */
+    private $isVotado = false;
+
     public function __construct()
     {
         $this->muestraCarreraGruposCarrera = new ArrayCollection();
+        $this->votacionesMuestraCarrera = new ArrayCollection();
     }
 
     public function __toString(){
@@ -147,6 +158,49 @@ class MuestrasCarrera
                 $muestraCarreraGruposCarrera->setMuestrasCarrera(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VotacionesMuestraCarrera[]
+     */
+    public function getVotacionesMuestraCarrera(): Collection
+    {
+        return $this->votacionesMuestraCarrera;
+    }
+
+    public function addVotacionesMuestraCarrera(VotacionesMuestraCarrera $votacionesMuestraCarrera): self
+    {
+        if (!$this->votacionesMuestraCarrera->contains($votacionesMuestraCarrera)) {
+            $this->votacionesMuestraCarrera[] = $votacionesMuestraCarrera;
+            $votacionesMuestraCarrera->setMuestraCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotacionesMuestraCarrera(VotacionesMuestraCarrera $votacionesMuestraCarrera): self
+    {
+        if ($this->votacionesMuestraCarrera->contains($votacionesMuestraCarrera)) {
+            $this->votacionesMuestraCarrera->removeElement($votacionesMuestraCarrera);
+            // set the owning side to null (unless already changed)
+            if ($votacionesMuestraCarrera->getMuestraCarrera() === $this) {
+                $votacionesMuestraCarrera->setMuestraCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getIsVotado()
+    {
+        return $this->isVotado;
+    }
+
+    public function setIsVotado($opcion)
+    {
+        $this->isVotado = $opcion;
 
         return $this;
     }

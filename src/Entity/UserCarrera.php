@@ -35,9 +35,15 @@ class UserCarrera
      */
     private $votacionesProfesorCarrera;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VotacionesMuestraCarrera", mappedBy="user_carrera", orphanRemoval=true)
+     */
+    private $votacionesMuestraCarrera;
+
     public function __construct()
     {
         $this->votacionesProfesorCarrera = new ArrayCollection();
+        $this->votacionesMuestraCarrera = new ArrayCollection();
     }
 
     public function __toString()
@@ -99,6 +105,37 @@ class UserCarrera
             // set the owning side to null (unless already changed)
             if ($votacionesProfesorCarrera->getUserCarrera() === $this) {
                 $votacionesProfesorCarrera->setUserCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VotacionesMuestraCarrera[]
+     */
+    public function getVotacionesMuestraCarrera(): Collection
+    {
+        return $this->votacionesMuestraCarrera;
+    }
+
+    public function addVotacionesMuestraCarrera(VotacionesMuestraCarrera $votacionesMuestraCarrera): self
+    {
+        if (!$this->votacionesMuestraCarrera->contains($votacionesMuestraCarrera)) {
+            $this->votacionesMuestraCarrera[] = $votacionesMuestraCarrera;
+            $votacionesMuestraCarrera->setUserCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotacionesMuestraCarrera(VotacionesMuestraCarrera $votacionesMuestraCarrera): self
+    {
+        if ($this->votacionesMuestraCarrera->contains($votacionesMuestraCarrera)) {
+            $this->votacionesMuestraCarrera->removeElement($votacionesMuestraCarrera);
+            // set the owning side to null (unless already changed)
+            if ($votacionesMuestraCarrera->getUserCarrera() === $this) {
+                $votacionesMuestraCarrera->setUserCarrera(null);
             }
         }
 

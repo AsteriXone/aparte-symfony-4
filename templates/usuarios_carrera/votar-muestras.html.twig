@@ -1,0 +1,106 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Muestras{% endblock %}
+
+
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-5">
+    <div class="container-fluid">
+
+        <div class="seccion pt-5 text-light">
+            <p class="h2 text-center">Votar Muestras</p>
+            <div class="seccion pt-4 text-light mr-4 ml-4 mt-2">
+                {% if grupoDesactivado is defined %}
+                    <div class="col-md-8 alert alert-danger mx-auto text-center" role="alert">
+                        <p class="mb-1">Tu grupo actualmente <strong>no está activado!</strong></p>
+                    </div>
+                {% elseif votoDesactivado is defined and grupoDesactivado is not defined %}
+                    <div class="col-md-8 alert alert-danger mx-auto text-center" role="alert">
+                        <p class="mb-0">Las <strong>votaciones</strong> a muestras están actualmente <strong>desactivadas.</strong></p>
+                        <p class="mb-1">En la tabla se muestra tu votación pero no es posible modificarla!</p>
+                    </div>
+                {% elseif mensaje is defined %}
+                    <div class="col-md-8 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">{{ mensaje }}</p>
+                    </div>
+                {% else %}
+                    <div class="col-md-8 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">Puedes <strong>votar {{ numeroVotosPosible }} muestras</strong> como máximo marcando las <strong>casillas de verificación</strong> correspondientes.</p>
+                        <p class="mb-0">Si haces <strong>click</strong> en las <strong>imágenes en miniatura</strong> se ampliarán para mejor visualización.</p>
+                        <p class="mb-1">Al finalizar <strong>no olvides guardar</strong> tu votación!</p>
+                    </div>
+                {% endif %}
+
+                <div class="col-md-8 mx-auto">
+                {% if muestrasGrupoCarrera is defined %}
+                <form class="form-inline" method="post">
+                  <table style="box-shadow: 0px 0px 20px rgba(255,255,255, 1)" class="mt-2 table table-hover table-dark">
+                    <thead>
+                      <tr>
+                        <th colspan="3" style="text-align: center" scope="col">Muestras</th>
+                        {# <th scope="col"></th> #}
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for muestraGrupoCarrera in muestrasGrupoCarrera %}
+                            <tr>
+                                <td data-toggle="modal" data-target="#modal-{{ muestraGrupoCarrera.muestrasCarrera.id }}">
+                                    <img class="center-block" style="height: 40px;" src="{{ asset('build/img/muestras_carrera/' ~ muestraGrupoCarrera.muestrasCarrera.imageName) }}" title="" />
+                                </td>
+                              <td>{{ muestraGrupoCarrera.muestrasCarrera.imageName }}</td>
+                              {% if votoDesactivado is defined %}
+                                  {% if muestraGrupoCarrera.muestrasCarrera.isVotado %}
+                                    <td style="text-align: right"><input type="checkbox" id="" checked disabled></td>
+                                  {% else %}
+                                    <td style="text-align: right"><input type="checkbox" id="" disabled></td>
+                                  {% endif %}
+                              {% else %}
+                                  {% if muestraGrupoCarrera.muestrasCarrera.isVotado %}
+                                    <td style="text-align: right"><input type="checkbox" name="{{ muestraGrupoCarrera.muestrasCarrera.id }}" id="{{ muestraGrupoCarrera.muestrasCarrera.id }}" checked></td>
+                                  {% else %}
+                                    <td style="text-align: right"><input type="checkbox" name="{{ muestraGrupoCarrera.muestrasCarrera.id }}" id="{{ muestraGrupoCarrera.muestrasCarrera.id }}"></td>
+                                  {% endif %}
+                              {% endif %}
+                            </tr>
+
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                  {% if votoDesactivado is not defined and grupoDesactivado is not defined %}
+                  <button type="submit" class="btn btn-primary mb-2">Guardar Votación</button>
+                  {% endif %}
+                </form>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        {% for muestraGrupoCarrera in muestrasGrupoCarrera %}
+            <!-- Modal -->
+            <div class="modal fade" id="modal-{{ muestraGrupoCarrera.muestrasCarrera.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ muestraGrupoCarrera.muestrasCarrera.imageName }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                  <img class="center-block" style="width: 100%;" src="{{ asset('build/img/muestras_carrera/' ~ muestraGrupoCarrera.muestrasCarrera.imageName) }}" title="" />
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
