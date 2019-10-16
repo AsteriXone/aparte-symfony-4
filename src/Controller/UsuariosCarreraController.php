@@ -13,6 +13,18 @@ use App\Entity\VotacionesMuestraCarrera;
 class UsuariosCarreraController extends AbstractController
 {
     /**
+     * @Route("/usuario-carrera/contrato", name="contrato")
+     */
+    public function contratoAction()
+    {
+        // TODO: Obtener contrato para grupo
+        $contrato = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getContrato();
+
+        $contratoPath = $this->getParameter('contratos_directory').'/'.$contrato;
+        return $this->file($contratoPath);
+    }
+
+    /**
      * @Route("/usuario-carrera/votar-profesores", name="carrera-votar-profesores")
      */
     public function votarProfesoresAction(Request $request)

@@ -46,7 +46,7 @@ class ProductosCarrera
     private $updateAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductosCarreraGrupoCarrera", mappedBy="producto_carrera", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductosCarreraGrupoCarrera", mappedBy="productos_carrera", orphanRemoval=true)
      */
     private $productoCarreraGruposCarrera;
 
@@ -111,7 +111,7 @@ class ProductosCarrera
         if (null !== $imageFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new \DateTime('now');
         }
     }
 

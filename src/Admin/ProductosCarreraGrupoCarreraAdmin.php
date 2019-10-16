@@ -75,6 +75,7 @@ final class ProductosCarreraGrupoCarreraAdmin extends AbstractAdmin
                 'sort_field_mapping'=> array('fieldName'=>'imageName'),
                 'sort_parent_association_mappings' => array(array('fieldName'=>'productos_carrera'))
             ])
+            ->add('precio', null, ['label' => 'Precio'])
             ->add('Imagen', null, ['template' => 'productos/producto_carrera_grupo_list_admin.html.twig',])
             ->add('_action', null, [
                 'actions' => [
@@ -108,6 +109,7 @@ final class ProductosCarreraGrupoCarreraAdmin extends AbstractAdmin
                         ->setParameter('user_admin', $user_admin);
                     },
             ])
+            ->add('precio', null, ['label' => 'Precio (para este grupo)'])
             ;
     }
 
@@ -117,6 +119,7 @@ final class ProductosCarreraGrupoCarreraAdmin extends AbstractAdmin
             ->add('id')
             ->add('grupo_carrera', null, ['label' => 'Grupo'])
             ->add('productos_carrera', null, ['label' => 'Producto', 'route' => ['name'=>'']])
+            ->add('precio', null, ['label' => 'Precio'])
             ;
     }
 }

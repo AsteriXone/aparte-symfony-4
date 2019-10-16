@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Muestras{% endblock %}
+{% block title %}Productos{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('unitegallery/css/unite-gallery.css') }}" type='text/css' />
@@ -16,20 +16,21 @@
             </div>
         </div>
 
-        {# Contenedor muestras #}
+        {# Contenedor productos #}
         <div class="m-4 mt-5" id="gallery" style="display:none;">
-            {% for mc in muestras %}
+            {% for mc in productos %}
             <a href="#">
-            <img alt="{{ mc.muestrasCarrera.imageName }}"
-                 src="{{ asset('build/img/' ~ mc.muestrasCarrera.imageName) }}"
-                 data-image="{{ asset('build/img/' ~ mc.muestrasCarrera.imageName) }}"
-                 data-description="{{ mc.muestrasCarrera.imageName }}"
+            {# <img alt="{{ mc.productosCarrera.imageName }}" #}
+            <img alt="Precio: {{ mc.precio }} €"
+                 src="{{ asset('build/img/' ~ mc.productosCarrera.imageName) }}"
+                 data-image="{{ asset('build/img/' ~ mc.productosCarrera.imageName) }}"
+                 data-description="{{ mc.productosCarrera.imageName }}"
                  style="display:none">
             </a>
             {% endfor %}
 
         </div>
-        {# End Contenedor muestras #}
+        {# End Contenedor productos #}
 
         <div class="row" style="padding:0; margin:0; height:30vh;">
             <div class="malla"></div>
@@ -51,6 +52,8 @@
         jQuery("#gallery").unitegallery({
             lightbox_type: "compact",
 	        tiles_type: "justified",
+            tile_enable_textpanel: true,
+	        tile_textpanel_title_text_align: "center",
         });
     });
     </script>

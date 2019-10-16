@@ -6,8 +6,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GrupoCarreraRepository")
+ * @Vich\Uploadable
  */
 class GrupoCarrera
 {
@@ -85,6 +88,23 @@ class GrupoCarrera
      * @ORM\Column(type="integer", nullable=true)
      */
     private $numeroMaximoVotarOrlas;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
+    private $contrato;
+
+    /**
+     * @Vich\UploadableField(mapping="contrato_carrera", fileNameProperty="contrato")
+     * @var File
+     */
+    private $contratoFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $contratoUpdateAt;
 
     public function __construct()
     {
@@ -301,6 +321,54 @@ class GrupoCarrera
     public function setNumeroMaximoVotarOrlas(?int $numeroMaximoVotarOrlas): self
     {
         $this->numeroMaximoVotarOrlas = $numeroMaximoVotarOrlas;
+
+        return $this;
+    }
+    // Contrato
+    public function getContrato(): ?string
+    {
+        return $this->contrato;
+    }
+
+    public function setContrato(?string $contrato): self
+    {
+        $this->contrato = $contrato;
+        $this->contratoUpdateAt = new \DateTime('now');
+        return $this;
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $contratoFile
+     */
+    public function setContratoFile(?File $contratoFile = null): void
+    {
+        $this->contratoFile = $contratoFile;
+        if (null !== $contratoFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->contratoUpdatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getContratoFile(): ?File
+    {
+        return $this->contratoFile;
+    }
+
+    public function getContratoUpdateAt(): ?\DateTimeInterface
+    {
+        return $this->contratoUpdateAt;
+    }
+
+    public function setContratoUpdateAt(?\DateTimeInterface $contratoUpdateAt): self
+    {
+        $this->contratoUpdateAt = $contratoUpdateAt;
 
         return $this;
     }

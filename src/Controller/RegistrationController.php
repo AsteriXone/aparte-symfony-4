@@ -68,7 +68,7 @@ class RegistrationController extends AbstractController
                                     )
                                 );
                                 $user->setRoles(['ROLE_CARRERA', 'ROLE_USER']);
-
+                                $user->setFechaRegistro(new \DateTime('now'));
                                 // Persist User
                                 $entityManager = $this->getDoctrine()->getManager();
                                 $entityManager->persist($user);

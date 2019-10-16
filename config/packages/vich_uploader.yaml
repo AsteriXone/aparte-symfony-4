@@ -13,3 +13,7 @@ vich_uploader:
        producto_carrera:
            uri_prefix: /img/productos_carrera
            upload_destination: '%kernel.project_dir%/public/build/img/productos_carrera'
+
+       contrato_carrera:
+           uri_prefix: /contratos
+           upload_destination: '%kernel.project_dir%/public/contratos'

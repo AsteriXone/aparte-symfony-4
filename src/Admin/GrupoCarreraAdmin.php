@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 final class GrupoCarreraAdmin extends AbstractAdmin
 {
@@ -125,6 +126,13 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?'])
                     ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?'])
                 ->end()
+                ->with('Contrato', ['class'=> 'col-md-12'])
+                    ->add('contratoFile', VichFileType::class, [
+                        'label' => 'Contrato PDF',
+                        'required' => false,
+                    ])
+                ->end()
+
                 ;
         } else {
             // CREATE
@@ -153,7 +161,13 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('isCitasActive', null, ['label' => 'Citas'])
                     ->add('isVotacionesActive', null, ['label' => 'Votaciones'])
                     ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?', 'data'=> 5])
-                    ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?', 'data'=> 5])
+                    ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?', 'data'=> 2])
+                ->end()
+                ->with('Contrato', ['class'=> 'col-md-12'])
+                    ->add('contratoFile', VichFileType::class, [
+                        'label' => 'Contrato PDF',
+                        'required' => false,
+                    ])
                 ->end()
                 ;
         }

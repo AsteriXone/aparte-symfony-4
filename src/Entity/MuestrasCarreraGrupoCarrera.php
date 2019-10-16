@@ -80,4 +80,16 @@ class MuestrasCarreraGrupoCarrera
 
         return $this;
     }
+
+    public function getPrecio(): ?int
+    {
+        return $this->precio;
+    }
+
+    public function setPrecio(?int $precio): self
+    {
+        $this->precio = $precio;
+
+        return $this;
+    }
 }

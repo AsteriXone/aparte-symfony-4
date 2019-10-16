@@ -28,6 +28,11 @@ class ProductosCarreraGrupoCarrera
      */
     private $grupo_carrera;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $precio;
+
     public function __toString(){
         $nombreImagen = $this->productos_carrera->getImageName();
         $grupo = $this->grupo_carrera->getCodigoGrupo();
@@ -60,6 +65,18 @@ class ProductosCarreraGrupoCarrera
     public function setGrupoCarrera(?GrupoCarrera $grupo_carrera): self
     {
         $this->grupo_carrera = $grupo_carrera;
+
+        return $this;
+    }
+
+    public function getPrecio(): ?int
+    {
+        return $this->precio;
+    }
+
+    public function setPrecio(?int $precio): self
+    {
+        $this->precio = $precio;
 
         return $this;
     }

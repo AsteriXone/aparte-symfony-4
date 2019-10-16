@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-use App\Entity\MuestrasCarreraGrupoCarrera;
+use App\Entity\ProductosCarreraGrupoCarrera;
 
 class ProductosCarreraController extends AbstractController
 {
@@ -20,9 +20,9 @@ class ProductosCarreraController extends AbstractController
         $grupo = $this->getUser()
             ->getUserCarrera()
             ->getGrupoCarrera();
-        $muestras = $this->getDoctrine()
+        $productos = $this->getDoctrine()
         // TODO: Obtener Productos
-        ->getRepository(MuestrasCarreraGrupoCarrera::class)
+        ->getRepository(ProductosCarreraGrupoCarrera::class)
         ->findBy([
             'grupo_carrera' => $grupo,
         ]);
@@ -30,7 +30,7 @@ class ProductosCarreraController extends AbstractController
 
         return $this->render('default/productos-carrera.html.twig',
             [
-                'muestras' => $muestras,
+                'productos' => $productos,
             ]
         );
     }
