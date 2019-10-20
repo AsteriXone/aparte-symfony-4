@@ -80,6 +80,7 @@ final class UserCarreraAdmin extends AbstractAdmin
             // ->add('user.apellido_1', null, ['label'=>'Apellido 1'])
             // ->add('user.apellido_2', null, ['label'=>'Apellido 2'])
             ->add('user.direccion', null, ['label'=>'Dirección'])
+            ->add('user.onlyDate', null, ['label'=>'Fecha Registro'])
             ->add('user.mencion', null, ['label'=>'Mención'])
             ->add('user.isErasmus', null, ['label'=>'Erasmus'])
             ->add('_action', null, [

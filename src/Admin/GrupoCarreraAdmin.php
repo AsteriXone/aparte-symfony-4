@@ -12,6 +12,10 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
+use Doctrine\ORM\EntityManagerInterface;
+
+use App\Entity\User;
+use App\Entity\UserCarrera;
 
 final class GrupoCarreraAdmin extends AbstractAdmin
 {
@@ -198,5 +202,42 @@ final class GrupoCarreraAdmin extends AbstractAdmin
         $container = $this->getConfigurationPool()->getContainer();
         $admin = $container->get('security.token_storage')->getToken()->getUser()->getUserAdmin();
         $object->setUserAdmin($admin);
+        $object->setContrato('No tiene');
+    }
+
+    public function postPersist($object) {
+        // Create user
+        $container = $this->getConfigurationPool()->getContainer();
+        $entityManager = $container->get('doctrine')->getManager();
+
+        $user = new User();
+        $user->setNombre('Usuario');
+        $user->setApellido1('Auto generado');
+        $user->setTelefono('');
+        $user->setMencion(false);
+        $user->setIsErasmus(false);
+        $user->setFechaRegistro(new \DateTime('now'));
+        $email = $object->getCodigoGrupo().'@gmail.com';
+        $user->setEmail($email);
+        $user->setRoles(['ROLE_CARRERA', 'ROLE_USER']);
+
+        $password = $object->getCodigoGrupo().'1.0';
+        $container = $this->getConfigurationPool()->getContainer();
+        $encoder = $container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user, $password);
+        $user->setPassword($encoded);
+        // tell Doctrine you want to (eventually) save the UserAdmin (no queries yet)
+        $entityManager->persist($user);
+        // actually executes the queries (i.e. the INSERT query)
+        $entityManager->flush();
+
+        // Create userCarrera
+        $userCarrera = new UserCarrera();
+        $userCarrera->setUser($user);
+        $userCarrera->setGrupoCarrera($object);
+        // tell Doctrine you want to (eventually) save the UserAdmin (no queries yet)
+        $entityManager->persist($userCarrera);
+        // actually executes the queries (i.e. the INSERT query)
+        $entityManager->flush();
     }
 }

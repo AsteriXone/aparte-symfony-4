@@ -79,12 +79,12 @@ class User implements UserInterface
     private $isErasmus;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="datetime", length=255, nullable=true)
      */
     private $fecha_registro;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\UserCarrera", mappedBy="user", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OneToOne(targetEntity="App\Entity\UserCarrera", mappedBy="user", cascade={"persist", "remove"})
      */
     private $userCarrera;
 
@@ -98,6 +98,14 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getOnlyDate(){
+        if ($this->fecha_registro){
+            return $this->fecha_registro->format('d/m/Y');
+        } else {
+            return 'No se estableció';
+        }
     }
 
     public function getEmail(): ?string
@@ -274,18 +282,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getFechaRegistro(): ?string
-    {
-        return $this->fecha_registro;
-    }
-
-    public function setFechaRegistro(?string $fecha_registro): self
-    {
-        $this->fecha_registro = $fecha_registro;
-
-        return $this;
-    }
-
     public function getUserCarrera(): ?UserCarrera
     {
         return $this->userCarrera;
@@ -299,6 +295,18 @@ class User implements UserInterface
         if ($this !== $userCarrera->getUser()) {
             $userCarrera->setUser($this);
         }
+
+        return $this;
+    }
+
+    public function getFechaRegistro(): ?\DateTimeInterface
+    {
+        return $this->fecha_registro;
+    }
+
+    public function setFechaRegistro(?\DateTimeInterface $fecha_registro): self
+    {
+        $this->fecha_registro = $fecha_registro;
 
         return $this;
     }

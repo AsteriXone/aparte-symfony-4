@@ -25,7 +25,7 @@ class UsuariosCarreraController extends AbstractController
             return $this->file($contratoPath);
         } else {
             return $this->render('usuarios_carrera/no-contrato.html.twig');
-        }        
+        }
     }
 
     /**
@@ -257,7 +257,7 @@ class UsuariosCarreraController extends AbstractController
                         $entityManager->flush();
                         // Aumentar voto en MuestrasCarreraGrupoCarrera
                         $votosActuales = $muestraGrupoCarrera->getVotos();
-                        dump('Votos: '.$votosActuales);
+                        // dump('Votos: '.$votosActuales);
                         $muestraGrupoCarrera->setVotos($votosActuales + 1);
                         $entityManager->persist($muestraGrupoCarrera);
                         $entityManager->flush();

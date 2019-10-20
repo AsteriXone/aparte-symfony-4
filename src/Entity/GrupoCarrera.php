@@ -116,6 +116,7 @@ class GrupoCarrera
         $this->usersCarrera = new ArrayCollection();
         $this->muestraCarreraGruposCarrera = new ArrayCollection();
         $this->profesoresGruposCarrera = new ArrayCollection();
+        $this->productoCarreraGruposCarrera = new ArrayCollection();
     }
 
     public function __toString()
@@ -386,6 +387,37 @@ class GrupoCarrera
     public function setContratoUpdateAt(?\DateTimeInterface $contratoUpdateAt): self
     {
         $this->contratoUpdateAt = $contratoUpdateAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductosCarreraGrupoCarrera[]
+     */
+    public function getProductoCarreraGruposCarrera(): Collection
+    {
+        return $this->productoCarreraGruposCarrera;
+    }
+
+    public function addProductoCarreraGruposCarrera(ProductosCarreraGrupoCarrera $productoCarreraGruposCarrera): self
+    {
+        if (!$this->productoCarreraGruposCarrera->contains($productoCarreraGruposCarrera)) {
+            $this->productoCarreraGruposCarrera[] = $productoCarreraGruposCarrera;
+            $productoCarreraGruposCarrera->setGrupoCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductoCarreraGruposCarrera(ProductosCarreraGrupoCarrera $productoCarreraGruposCarrera): self
+    {
+        if ($this->productoCarreraGruposCarrera->contains($productoCarreraGruposCarrera)) {
+            $this->productoCarreraGruposCarrera->removeElement($productoCarreraGruposCarrera);
+            // set the owning side to null (unless already changed)
+            if ($productoCarreraGruposCarrera->getGrupoCarrera() === $this) {
+                $productoCarreraGruposCarrera->setGrupoCarrera(null);
+            }
+        }
 
         return $this;
     }
