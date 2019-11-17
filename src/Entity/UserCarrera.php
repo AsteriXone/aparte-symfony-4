@@ -40,10 +40,16 @@ class UserCarrera
      */
     private $votacionesMuestraCarrera;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CitasFechaCuadranteGrupoCarrera", mappedBy="usuario")
+     */
+    private $citasFechaCuadranteGrupoCarreras;
+
     public function __construct()
     {
         $this->votacionesProfesorCarrera = new ArrayCollection();
         $this->votacionesMuestraCarrera = new ArrayCollection();
+        $this->citasFechaCuadranteGrupoCarreras = new ArrayCollection();
     }
 
     public function __toString()
@@ -136,6 +142,37 @@ class UserCarrera
             // set the owning side to null (unless already changed)
             if ($votacionesMuestraCarrera->getUserCarrera() === $this) {
                 $votacionesMuestraCarrera->setUserCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CitasFechaCuadranteGrupoCarrera[]
+     */
+    public function getCitasFechaCuadranteGrupoCarreras(): Collection
+    {
+        return $this->citasFechaCuadranteGrupoCarreras;
+    }
+
+    public function addCitasFechaCuadranteGrupoCarrera(CitasFechaCuadranteGrupoCarrera $citasFechaCuadranteGrupoCarrera): self
+    {
+        if (!$this->citasFechaCuadranteGrupoCarreras->contains($citasFechaCuadranteGrupoCarrera)) {
+            $this->citasFechaCuadranteGrupoCarreras[] = $citasFechaCuadranteGrupoCarrera;
+            $citasFechaCuadranteGrupoCarrera->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCitasFechaCuadranteGrupoCarrera(CitasFechaCuadranteGrupoCarrera $citasFechaCuadranteGrupoCarrera): self
+    {
+        if ($this->citasFechaCuadranteGrupoCarreras->contains($citasFechaCuadranteGrupoCarrera)) {
+            $this->citasFechaCuadranteGrupoCarreras->removeElement($citasFechaCuadranteGrupoCarrera);
+            // set the owning side to null (unless already changed)
+            if ($citasFechaCuadranteGrupoCarrera->getUsuario() === $this) {
+                $citasFechaCuadranteGrupoCarrera->setUsuario(null);
             }
         }
 

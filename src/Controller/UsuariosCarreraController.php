@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use App\Entity\VotacionesProfesorCarrera;
 use App\Entity\VotacionesMuestraCarrera;
+use App\Entity\CitasFechaCuadranteGrupoCarrera;
 
 class UsuariosCarreraController extends AbstractController
 {
@@ -297,5 +298,93 @@ class UsuariosCarreraController extends AbstractController
                 'mensaje' => $mensaje
             ]);
         }
+    }
+
+    /**
+     * @Route("/usuario-carrera/citas", name="carrera-cita-usuario")
+     */
+    public function citasCarreraAction(Request $request)
+    {
+        $grupoIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsActive();
+        $isCitasActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsCitasActive();
+        if ($grupoIsActive){
+            if ($isCitasActive){
+                // Comprobar si user ha cogido cita, si no Mostrar citas
+                $cita = $this->getDoctrine()
+                ->getRepository(CitasFechaCuadranteGrupoCarrera::class)
+                ->findOneBy([
+                    'usuario' => $this->getUser()->getUserCarrera()
+                ]);
+                if ($cita){
+                    return $this->render('usuarios_carrera/cita-actual.html.twig', [
+                        'cita' => $cita
+                    ]);
+                } else {
+                    // Obtener Citas para grupo
+                    $cuadrantesGrupo = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getCuadrantesGruposCarreras();
+                    // foreach ($cuadrantesGrupo as $cuadranteGrupo) {
+                    //     dump($cuadranteGrupo->getCuadrante()->getNombreCuadrante());
+                    // }
+                    return $this->render('usuarios_carrera/solicitud-citas.html.twig', [
+                        'cuadrantesGrupoCarrera' => $cuadrantesGrupo
+                    ]);
+                }
+            } else {
+                return $this->render('usuarios_carrera/solicitud-citas.html.twig', [
+                    'citaDesactivado' => true
+                ]);
+            }
+        } else {
+            return $this->render('usuarios_carrera/solicitud-citas.html.twig', [
+                'grupoDesactivado' => true
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/usuario-carrera/cita-aceptada", name="carrera-cita-usuario-aceptada")
+     */
+    public function citasCarreraAceptadaAction(Request $request)
+    {
+        if ($request->getMethod()=="POST"){
+            $idCita = $request->request->get('cita');
+            // dump($idCita);
+            // Asegurar que cita no ha sido Ocupada
+            $cita = $this->getDoctrine()
+            ->getRepository(CitasFechaCuadranteGrupoCarrera::class)
+            ->findOneBy([
+                'id' => $idCita
+            ]);
+            if ($cita->getUsuario()){
+                // Cita ocupada
+                return $this->render('usuarios_carrera/cita-ocupada.html.twig', []);
+            } else {
+                // Guardar Citas
+                $cita->setUsuario($this->getUser()->getUserCarrera());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($cita);
+                $entityManager->flush();
+                return $this->render('usuarios_carrera/cita-aceptada.html.twig', [
+                    'cita' => $cita
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @Route("/usuario-carrera/cancelar-cita", name="cancelar-cita-carrera")
+     */
+    public function citasCarreraCancelarAction(Request $request)
+    {
+        $cita = $this->getDoctrine()
+        ->getRepository(CitasFechaCuadranteGrupoCarrera::class)
+        ->findOneBy([
+            'usuario' => $this->getUser()->getUserCarrera()
+        ]);
+        $cita->setUsuario(null);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($cita);
+        $entityManager->flush();
+        return $this->render('usuarios_carrera/cita-cancelada.html.twig', []);
     }
 }

@@ -113,7 +113,7 @@ final class MuestrasCarreraGrupoCarreraAdmin extends AbstractAdmin
                         return $er->createQueryBuilder('u')
                         ->where('u.userAdmin = :user_admin')
                         ->setParameter('user_admin', $user_admin);
-                    },
+                },
             ])
             ;
     }

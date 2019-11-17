@@ -111,12 +111,18 @@ class GrupoCarrera
      */
     private $contratoUpdateAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CuadrantesGruposCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
+     */
+    private $cuadrantesGruposCarreras;
+
     public function __construct()
     {
         $this->usersCarrera = new ArrayCollection();
         $this->muestraCarreraGruposCarrera = new ArrayCollection();
         $this->profesoresGruposCarrera = new ArrayCollection();
         $this->productoCarreraGruposCarrera = new ArrayCollection();
+        $this->cuadrantesGruposCarreras = new ArrayCollection();
     }
 
     public function __toString()
@@ -416,6 +422,37 @@ class GrupoCarrera
             // set the owning side to null (unless already changed)
             if ($productoCarreraGruposCarrera->getGrupoCarrera() === $this) {
                 $productoCarreraGruposCarrera->setGrupoCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CuadrantesGruposCarrera[]
+     */
+    public function getCuadrantesGruposCarreras(): Collection
+    {
+        return $this->cuadrantesGruposCarreras;
+    }
+
+    public function addCuadrantesGruposCarrera(CuadrantesGruposCarrera $cuadrantesGruposCarrera): self
+    {
+        if (!$this->cuadrantesGruposCarreras->contains($cuadrantesGruposCarrera)) {
+            $this->cuadrantesGruposCarreras[] = $cuadrantesGruposCarrera;
+            $cuadrantesGruposCarrera->setGrupoCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCuadrantesGruposCarrera(CuadrantesGruposCarrera $cuadrantesGruposCarrera): self
+    {
+        if ($this->cuadrantesGruposCarreras->contains($cuadrantesGruposCarrera)) {
+            $this->cuadrantesGruposCarreras->removeElement($cuadrantesGruposCarrera);
+            // set the owning side to null (unless already changed)
+            if ($cuadrantesGruposCarrera->getGrupoCarrera() === $this) {
+                $cuadrantesGruposCarrera->setGrupoCarrera(null);
             }
         }
 

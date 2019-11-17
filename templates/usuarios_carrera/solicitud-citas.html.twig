@@ -1,0 +1,108 @@
+{% extends 'layout.html.twig' %}
+{% block title %}
+    Votar Profes
+{% endblock %}
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-0">
+    <div class="container-fluid">
+
+        <div class="seccion pt-5 text-light">
+            <p class="h2 text-center">Pedir Cita</p>
+            <div class="seccion pt-4 text-light mr-4 ml-4 mt-2">
+                {% if grupoDesactivado is defined %}
+                    <div class="col-md-8 alert alert-danger mx-auto text-center" role="alert">
+                        <p class="mb-1">Tu grupo actualmente <strong>no está activado!</strong></p>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                {% elseif citaDesactivado is defined and grupoDesactivado is not defined %}
+                    <div class="col-md-8 alert alert-danger mx-auto text-center" role="alert">
+                        <p class="mb-0">No es posible pedir <strong>cita</strong> en este momento.</p>
+                        <p class="mb-1">El plazo aún no se ha abierto o ha finalizado.</p>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                {% elseif mensaje is defined %}
+                    <div class="col-md-8 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">{{ mensaje }}</p>
+                    </div>
+                {% else %}
+                    <div class="col-md-8 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">Puedes elegir <strong>cita</strong> a la hora disponible que más te convenga.</p>
+                        {# <p class="mb-1">Al finalizar <strong>no olvides guardar</strong> tu votación!</p> #}
+                    </div>
+                    {% if cuadrantesGrupoCarrera is defined %}
+                    <div class="col-md-8 mx-auto">
+                          <table style="box-shadow: 0px 0px 20px rgba(255,255,255, 1)" class="mt-2 table table-hover table-dark">
+                            <thead>
+                              <tr>
+                                <th style="text-align: center" scope="col">Fecha</th>
+                                <th style="text-align: center" scope="col">Hora</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for cuadranteGrupoCarrera in cuadrantesGrupoCarrera %}
+                                    {% for fechaCuadrante in cuadranteGrupoCarrera.cuadrante.fechasCuadranteCarrera %}
+                                    <tr><td colspan="3">{{ fechaCuadrante.fecha|date("d-M-Y") }}</td></tr>
+                                        {% for cita in fechaCuadrante.citasFechaCuadranteGrupoCarreras %}
+                                            <tr>
+                                              <td style="text-align: center">{{ fechaCuadrante.fecha|date("d-M-Y") }}</td>
+                                              <td style="text-align: center">{{ cita.hora|date('H:i') }}</td>
+                                              <td style="text-align: center">
+                                                {% if (cita.usuario) %}
+                                                    <a style="width: 90px" type="button" class="btn btn-sm btn-danger disabled center-block">Ocupada</a>
+                                                {% else %}
+                                                    <form action="{{ path('carrera-cita-usuario-aceptada') }}" method="post">
+                                                        <input style="width: 90px" type="submit" value="Coger cita" class="btn btn-sm btn-success center-block" />
+                                                        <input type="hidden" name="cita" value="{{ cita.id }}">
+                                                    </form>
+                                                {% endif %}
+                                              </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="modal fade" id="modal-numero-maximo-votos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Votaciones</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Has superado el número máximo de votaciones!</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% endblock %}

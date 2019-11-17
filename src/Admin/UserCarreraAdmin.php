@@ -148,4 +148,15 @@ final class UserCarreraAdmin extends AbstractAdmin
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
     }
+
+    public function getExportFields(){
+
+        return array(
+            'Grupo' => 'grupoCarrera',
+            'Usuario' => 'user.nombreCompleto',
+            'Email'=> 'user.email',
+            'Teléfono' => 'user.telefono',
+            'FechaRegistro'=>'user.onlyDate',
+        );
+    }
 }

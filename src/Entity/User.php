@@ -92,7 +92,15 @@ class User implements UserInterface
         $nombre = $this->getNombre();
         $ape1 = $this->getApellido1();
         $ape2 = $this->getApellido2();
-        return $nombre." ".$ape1." ".$ape2;
+        $nombreCompleto = "";
+        if ($ape1 && $ape2){
+            $nombreCompleto = $ape1." ".$ape2.", ".$nombre;
+        } elseif ($ape1){
+            $nombreCompleto = $ape1.", ".$nombre;
+        } else {
+            $nombreCompleto = $nombre;
+        }
+        return $nombreCompleto;
     }
 
     public function getId(): ?int

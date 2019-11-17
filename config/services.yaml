@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    contratos_directory: '%kernel.project_dir%/public/contratos'
+    contratos_directory: '%kernel.project_dir%/www/contratos'
 
 twig:
 
@@ -145,4 +145,32 @@ services:
         arguments: [~, App\Entity\ProfesorGrupoCarrera, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Carreras, label: Profes Grupos Carrera }
+        public: true
+
+    admin.cuadrantes:
+        class: App\Admin\CuadrantesAdmin
+        arguments: [~, App\Entity\Cuadrantes, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Cuadrantes Carrera}
+        public: true
+
+    admin.cuadrantes_grupos_carrera:
+        class: App\Admin\CuadrantesGruposCarreraAdmin
+        arguments: [~, App\Entity\CuadrantesGruposCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Cuadrantes Grupos Carrera }
+        public: true
+
+    admin.fecha_cuadrante_grupo_carrera:
+        class: App\Admin\FechaCuadranteGrupoCarreraAdmin
+        arguments: [~, App\Entity\FechaCuadranteGrupoCarrera, App\Controller\FechaCuadranteGrupoCarreraAdminController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Generar Citas }
+        public: true
+
+    admin.citas_fecha_cuadrante_grupo_carrera:
+        class: App\Admin\CitasFechaCuadranteGrupoCarreraAdmin
+        arguments: [~, App\Entity\CitasFechaCuadranteGrupoCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Citas Carrera }
         public: true
