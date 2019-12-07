@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use App\Entity\VotacionesProfesorCarrera;
 use App\Entity\VotacionesMuestraCarrera;
+use App\Entity\VotacionesColorBecaCarrera;
 use App\Entity\CitasFechaCuadranteGrupoCarrera;
 
 class UsuariosCarreraController extends AbstractController
@@ -386,5 +387,139 @@ class UsuariosCarreraController extends AbstractController
         $entityManager->persist($cita);
         $entityManager->flush();
         return $this->render('usuarios_carrera/cita-cancelada.html.twig', []);
+    }
+
+    /**
+     * @Route("/usuario-carrera/votar-becas", name="carrera-votar-becas")
+     */
+    public function votarBecasAction(Request $request)
+    {
+        // Comprobar grupo activo
+        if ($request->getMethod()=="GET"){
+            // Method GET
+            $grupoIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsActive();
+            if ($grupoIsActive){
+                // Grupo Activo
+                // Comprueba si votaciones activa
+                $votacionesIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsVotacionesActive();
+                if ($votacionesIsActive){
+                    // Votaciones Activas
+                    // Obtener profesores del grupo
+                    $colorBecasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getColorBecaCarreraGruposCarrera();
+                    // Obtener numero de votos numeroVotosPosible
+                    $numeroVotos = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getNumeroMaximoVotarColorBecas();
+                    // Comprobar si cada profesor ya ha sido votado por el usuario
+                    foreach ($colorBecasGrupoCarrera as $colorBecaGrupoCarrera) {
+                        $votacionColorBeca = $this->getDoctrine()
+                        ->getRepository(VotacionesColorBecaCarrera::class)
+                        ->findOneBy([
+                            'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                            'colorBeca_carrera' => $colorBecaGrupoCarrera->getColorBecasCarrera()->getId()
+                        ]);
+                        if ($votacionColorBeca){
+                            // Existe votacion
+                            $colorBecaGrupoCarrera->getColorBecasCarrera()->setIsVotado(true);
+                        }
+                    }
+                } else {
+                    // Votaciones desactivadas
+                    $colorBecasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getColorBecaCarreraGruposCarrera();
+                    // Comprobar si cada colorBeca ya ha sido votado por el usuario
+                    foreach ($colorBecasGrupoCarrera as $colorBecaGrupoCarrera) {
+                        $votacionColorBeca = $this->getDoctrine()
+                        ->getRepository(VotacionesColorBecaCarrera::class)
+                        ->findOneBy([
+                            'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                            'colorBeca_carrera' => $colorBecaGrupoCarrera->getColorBecasCarrera()->getId()
+                        ]);
+                        if ($votacionColorBeca){
+                            // Existe votacion
+                            $colorBecaGrupoCarrera->getColorBecasCarrera()->setIsVotado(true);
+                        }
+                    }
+                    return $this->render('usuarios_carrera/votar-colorBecas.html.twig', [
+                        'colorBecasGrupoCarrera' => $colorBecasGrupoCarrera,
+                        'votoDesactivado' => true
+                    ]);
+
+                }
+            } else {
+                // Grupo Desactivado
+                return $this->render('usuarios_carrera/votar-colorBecas.html.twig', [
+                    'grupoDesactivado' => true
+                ]);
+            }
+
+            return $this->render('usuarios_carrera/votar-colorBecas.html.twig', [
+                'colorBecasGrupoCarrera' => $colorBecasGrupoCarrera,
+                'numeroVotosPosible' => $numeroVotos
+            ]);
+        } else {
+            // Method POST
+            $colorBecasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getColorBecaCarreraGruposCarrera();
+            // Recorrer profesores del grupo
+            foreach ($colorBecasGrupoCarrera as $colorBecaGrupoCarrera) {
+                $idColorBeca = $colorBecaGrupoCarrera->getColorBecasCarrera()->getId();
+                $estadoColorBecaFormulario = $request->request->get($idColorBeca);
+                if ($estadoColorBecaFormulario){
+                    // Seleccionado en formulario
+                    // Comprueba si votacion no esta registrada en DB
+                    $votacionColorBeca = $this->getDoctrine()
+                    ->getRepository(VotacionesColorBecaCarrera::class)
+                    ->findOneBy([
+                        'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                        'colorBeca_carrera' => $idColorBeca
+                    ]);
+                    if (!$votacionColorBeca){
+                        // No existe votacion, registrar en DB
+                        $votoColorBecaCarrera = new VotacionesColorBecaCarrera();
+                        $votoColorBecaCarrera->setUserCarrera($this->getUser()->getUserCarrera());
+                        $votoColorBecaCarrera->setColorBecaCarrera($colorBecaGrupoCarrera->getColorBecasCarrera());
+                        // insert to DB
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($votoColorBecaCarrera);
+                        $entityManager->flush();
+                        // Aumentar voto en ColorBecasCarreraGrupoCarrera
+                        $votosActuales = $colorBecaGrupoCarrera->getVotos();
+                        // dump('Votos: '.$votosActuales);
+                        $colorBecaGrupoCarrera->setVotos($votosActuales + 1);
+                        $entityManager->persist($colorBecaGrupoCarrera);
+                        $entityManager->flush();
+                    }
+                    $colorBecaGrupoCarrera->getColorBecasCarrera()->setIsVotado(true);
+                } else {
+                    // No seleccionado en formulario
+                    // Comprueba si votacion esta registrada en DB
+                    $votacionColorBeca = $this->getDoctrine()
+                    ->getRepository(VotacionesColorBecaCarrera::class)
+                    ->findOneBy([
+                        'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                        'colorBeca_carrera' => $idColorBeca
+                    ]);
+                    if ($votacionColorBeca){
+                        // Existe votacion, eliminar de DB
+
+                        // remove from DB
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->remove($votacionColorBeca);
+                        $entityManager->flush();
+
+                        // TODO: Disminuir voto en ProfesorGrupoCarrera
+                        $votosActuales = $colorBecaGrupoCarrera->getVotos();
+                        $colorBecaGrupoCarrera->setVotos($votosActuales - 1);
+                        $entityManager->persist($colorBecaGrupoCarrera);
+                        $entityManager->flush();
+
+                    }
+                    $colorBecaGrupoCarrera->getColorBecasCarrera()->setIsVotado(false);
+                }
+            }
+
+            $mensaje = "Tu votación ha sido registrada correctamente!";
+            return $this->render('usuarios_carrera/votar-colorBecas-guardado.html.twig', [
+                'colorBecasGrupoCarrera' => $colorBecasGrupoCarrera,
+                'mensaje' => $mensaje
+            ]);
+        }
     }
 }

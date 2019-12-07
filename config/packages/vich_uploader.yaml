@@ -17,3 +17,7 @@ vich_uploader:
        contrato_carrera:
            uri_prefix: /contratos
            upload_destination: '%kernel.project_dir%/public/contratos'
+
+       colorBeca_carrera:
+           uri_prefix: /img/colorBecas_carrera
+           upload_destination: '%kernel.project_dir%/public/build/img/colorBecas_carrera'

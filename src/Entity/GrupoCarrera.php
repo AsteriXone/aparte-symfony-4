@@ -75,6 +75,11 @@ class GrupoCarrera
     private $muestraCarreraGruposCarrera;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ColorBecasCarreraGrupoCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
+     */
+    private $colorBecaCarreraGruposCarrera;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProductosCarreraGrupoCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
      */
     private $productoCarreraGruposCarrera;
@@ -93,6 +98,11 @@ class GrupoCarrera
      * @ORM\Column(type="integer", nullable=true)
      */
     private $numeroMaximoVotarOrlas;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numeroMaximoVotarColorBecas;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -120,6 +130,7 @@ class GrupoCarrera
     {
         $this->usersCarrera = new ArrayCollection();
         $this->muestraCarreraGruposCarrera = new ArrayCollection();
+        $this->colorBecaCarreraGruposCarrera = new ArrayCollection();
         $this->profesoresGruposCarrera = new ArrayCollection();
         $this->productoCarreraGruposCarrera = new ArrayCollection();
         $this->cuadrantesGruposCarreras = new ArrayCollection();
@@ -455,6 +466,49 @@ class GrupoCarrera
                 $cuadrantesGruposCarrera->setGrupoCarrera(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ColorBecasCarreraGrupoCarrera[]
+     */
+    public function getColorBecaCarreraGruposCarrera(): Collection
+    {
+        return $this->colorBecaCarreraGruposCarrera;
+    }
+
+    public function addColorBecaCarreraGruposCarrera(ColorBecasCarreraGrupoCarrera $colorBecaCarreraGruposCarrera): self
+    {
+        if (!$this->colorBecaCarreraGruposCarrera->contains($colorBecaCarreraGruposCarrera)) {
+            $this->colorBecaCarreraGruposCarrera[] = $colorBecaCarreraGruposCarrera;
+            $colorBecaCarreraGruposCarrera->setGrupoCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeColorBecaCarreraGruposCarrera(ColorBecasCarreraGrupoCarrera $colorBecaCarreraGruposCarrera): self
+    {
+        if ($this->colorBecaCarreraGruposCarrera->contains($colorBecaCarreraGruposCarrera)) {
+            $this->colorBecaCarreraGruposCarrera->removeElement($colorBecaCarreraGruposCarrera);
+            // set the owning side to null (unless already changed)
+            if ($colorBecaCarreraGruposCarrera->getGrupoCarrera() === $this) {
+                $colorBecaCarreraGruposCarrera->setGrupoCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNumeroMaximoVotarColorBecas(): ?int
+    {
+        return $this->numeroMaximoVotarColorBecas;
+    }
+
+    public function setNumeroMaximoVotarColorBecas(?int $numeroMaximoVotarColorBecas): self
+    {
+        $this->numeroMaximoVotarColorBecas = $numeroMaximoVotarColorBecas;
 
         return $this;
     }

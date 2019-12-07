@@ -5,14 +5,15 @@
     <a class="nav-link" href="{{ path('productos-carrera') }}">Productos<span class="sr-only">(current)</span></a>
     {# <a class="nav-link" href="#">Productos<span class="sr-only">(current)</span></a> #}
 </li>
-<li class="nav-item nav-fill">
-    <a class="nav-link" href="{{ path('carrera-votar-muestras') }}">Votar Muestras<span class="sr-only">(current)</span></a>
-</li>
-{# <li class="nav-item nav-fill">
-    <a class="nav-link" href="#">Mi Pedido<span class="sr-only">(current)</span></a>
-</li> #}
-<li class="nav-item nav-fill">
-    <a class="nav-link" href="{{ path('carrera-votar-profesores') }}">Votar Profes<span class="sr-only">(current)</span></a>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Votaciones
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background: #FA0405;">
+        <a class="dropdown-item" href="{{ path('carrera-votar-muestras') }}">Votar Muestras</a>
+        <a class="dropdown-item" href="{{ path('carrera-votar-profesores') }}">Votar Profes</a>
+        <a class="dropdown-item" href="{{ path('carrera-votar-becas') }}">Votar Becas</a>
+    </div>
 </li>
 <li class="nav-item nav-fill">
     <a class="nav-link" href="{{ path('carrera-cita-usuario') }}">Cita<span class="sr-only">(current)</span></a>
@@ -21,5 +22,5 @@
     <a class="nav-link" href="#">Orla provisional<span class="sr-only">(current)</span></a>
 </li> #}
 <li class="nav-item nav-fill">
-    <a class="nav-link" href="#">Contactar<span class="sr-only">(current)</span></a>
+    <a class="nav-link" href="{{ path('carrera-votar-becas') }}">Contactar<span class="sr-only">(current)</span></a>
 </li>

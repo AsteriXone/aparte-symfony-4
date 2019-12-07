@@ -129,8 +129,10 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('isCitasActive', null, ['label' => 'Citas'])
                     ->add('isVotacionesActive', null, ['label' => 'Votaciones'])
                     ->add('isContratoActive', null, ['label' => 'Contrato'])
-                    ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?'])
-                    ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?'])
+                    ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?', 'data'=> 5])
+                    ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?', 'data'=> 2])
+                    ->add('numeroMaximoVotarColorBecas', null, ['label' => '¿Cuántos colores de beca se puede votar?', 'data'=> 1])
+
                 ->end()
                 ->with('Contrato', ['class'=> 'col-md-12'])
                     ->add('contratoFile', VichFileType::class, [
@@ -169,6 +171,7 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('isContratoActive', null, ['label' => 'Contrato'])
                     ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?', 'data'=> 5])
                     ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?', 'data'=> 2])
+                    ->add('numeroMaximoVotarColorBecas', null, ['label' => '¿Cuántos colores de beca se puede votar?', 'data'=> 1])
                 ->end()
                 ->with('Contrato', ['class'=> 'col-md-12'])
                     ->add('contratoFile', VichFileType::class, [

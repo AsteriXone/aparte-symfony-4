@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    contratos_directory: '%kernel.project_dir%/www/contratos'
+    contratos_directory: '%kernel.project_dir%/public/contratos'
 
 twig:
 
@@ -173,4 +173,18 @@ services:
         arguments: [~, App\Entity\CitasFechaCuadranteGrupoCarrera, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Carreras, label: Citas Carrera }
+        public: true
+
+    admin.color_becas_carrera:
+        class: App\Admin\ColorBecasCarreraAdmin
+        arguments: [~, App\Entity\ColorBecasCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: Color Becas Carrera }
+        public: true
+
+    admin.color_becas_carrera_grupo_carrera:
+        class: App\Admin\ColorBecasCarreraGrupoCarreraAdmin
+        arguments: [~, App\Entity\ColorBecasCarreraGrupoCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Color Becas Grupos Carrera}
         public: true
