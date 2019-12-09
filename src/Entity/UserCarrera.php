@@ -45,6 +45,11 @@ class UserCarrera
      */
     private $citasFechaCuadranteGrupoCarreras;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Resegnia", mappedBy="user_carrera", cascade={"persist", "remove"})
+     */
+    private $resegnia;
+
     public function __construct()
     {
         $this->votacionesProfesorCarrera = new ArrayCollection();
@@ -174,6 +179,23 @@ class UserCarrera
             if ($citasFechaCuadranteGrupoCarrera->getUsuario() === $this) {
                 $citasFechaCuadranteGrupoCarrera->setUsuario(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getResegnia(): ?Resegnia
+    {
+        return $this->resegnia;
+    }
+
+    public function setResegnia(Resegnia $resegnia): self
+    {
+        $this->resegnia = $resegnia;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $resegnia->getUserCarrera()) {
+            $resegnia->setUserCarrera($this);
         }
 
         return $this;

@@ -17,13 +17,13 @@ class ColorBecasCarreraGrupoCarrera
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ColorBecasCarrera", inversedBy="ColorBecaCarreraGruposCarrera")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ColorBecasCarrera", inversedBy="colorBecaCarreraGruposCarrera")
      * @ORM\JoinColumn(nullable=false)
      */
     private $colorBecas_carrera;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GrupoCarrera", inversedBy="ColorBecaCarreraGruposCarrera")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GrupoCarrera", inversedBy="colorBecaCarreraGruposCarrera")
      * @ORM\JoinColumn(nullable=false)
      */
     private $grupo_carrera;

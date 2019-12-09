@@ -11,9 +11,121 @@ use App\Entity\VotacionesProfesorCarrera;
 use App\Entity\VotacionesMuestraCarrera;
 use App\Entity\VotacionesColorBecaCarrera;
 use App\Entity\CitasFechaCuadranteGrupoCarrera;
+use App\Entity\Resegnia;
 
 class UsuariosCarreraController extends AbstractController
 {
+    /**
+     * @Route("/usuario-carrera/resenia", name="resenia")
+     */
+    public function reseniaAction(Request $request)
+    {
+        // Comprobar si usuario dejó reseña
+        $resenia = $this->getUser()->getUserCarrera()->getResegnia();
+        $grupoIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsActive();
+
+        if ($request->getMethod()=="GET"){
+            // Get Method
+            if ($resenia){
+                // Hay reseña de user
+                $calidad = $resenia->getCalidadPrecio();
+                $ambiente = $resenia->getAmbiente();
+                $trato = $resenia->getTrato();
+                $accesibilidad = $resenia->getAccesibilidad();
+                $disenio = $resenia->getDisegnioOpciones();
+                $comentario = $resenia->getComentario();
+                return $this->render('usuarios_carrera/resenia.html.twig',
+                    [
+                        'calidad' => $calidad,
+                        'ambiente' => $ambiente,
+                        'trato' => $trato,
+                        'accesibilidad' => $accesibilidad,
+                        'disenio' => $disenio,
+                        'comentario' => $comentario
+                    ]);
+            } else{
+                // No hay reseña de user
+                return $this->render('usuarios_carrera/resenia.html.twig');
+            }
+        } else {
+            // Post Method
+            $calidad = $request->request->get('calidad');
+            $ambiente = $request->request->get('ambiente');
+            $trato = $request->request->get('trato');
+            $accesibilidad = $request->request->get('accesibilidad');
+            $disenio = $request->request->get('disenio');
+            $comentario = $request->request->get('comentario');
+
+            if (!$calidad){
+                $calidad = 0;
+            }
+            if (!$ambiente){
+                $ambiente = 0;
+            }
+            if (!$trato){
+                $trato = 0;
+            }
+            if (!$accesibilidad){
+                $accesibilidad = 0;
+            }
+            if (!$disenio){
+                $disenio = 0;
+            }
+            if (!$comentario){
+                $isPublicada = 0;
+                $comentario = "No dejó comentario, no se publicará!";
+            } else {
+                $isPublicada = 1;
+            }
+
+            // Comprobar si usuario dejó reseña
+            $resenia = $this->getUser()->getUserCarrera()->getResegnia();
+
+            if ($resenia){
+                // Existe reseña -> actualiza
+                $resenia->setCalidadPrecio($calidad);
+                $resenia->setAmbiente($ambiente);
+                $resenia->setTrato($trato);
+                $resenia->setAccesibilidad($accesibilidad);
+                $resenia->setDisegnioOpciones($disenio);
+                $resenia->setComentario($comentario);
+                $resenia->setPublicada($isPublicada);
+                $resenia->setUserCarrera($this->getUser()->getUserCarrera());
+                $resenia->setFechaPublicacion(new \DateTime('now'));
+                // insert to DB
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($resenia);
+                $entityManager->flush();
+            } else {
+                // No existe reseña -> crea nueva
+                $resenia = new Resegnia();
+                $resenia->setCalidadPrecio($calidad);
+                $resenia->setAmbiente($ambiente);
+                $resenia->setTrato($trato);
+                $resenia->setAccesibilidad($accesibilidad);
+                $resenia->setDisegnioOpciones($disenio);
+                $resenia->setComentario($comentario);
+                $resenia->setPublicada($isPublicada);
+                $resenia->setUserCarrera($this->getUser()->getUserCarrera());
+                $resenia->setFechaPublicacion(new \DateTime('now'));
+                // insert to DB
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($resenia);
+                $entityManager->flush();
+            }
+            return $this->render('usuarios_carrera/resenia-enviada.html.twig', ['mensaje']);
+        }
+
+        // $isContratoActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsContratoActive();
+        // if ($isContratoActive){
+        //     $contratoPath = $this->getParameter('contratos_directory').'/'.$contrato;
+        //     return $this->file($contratoPath);
+        // } else {
+        //     return $this->render('usuarios_carrera/no-contrato.html.twig');
+        // }
+        return $this->render('usuarios_carrera/resenia.html.twig');
+    }
+
     /**
      * @Route("/usuario-carrera/contrato", name="contrato")
      */
