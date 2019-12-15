@@ -19,7 +19,7 @@
                     </div>
                 {% else %}
                     <div class="col-md-6 alert alert-primary mx-auto text-center" role="alert">
-                        <p class="mb-0">A continuació se muestra <strong>el estado del proceso</strong> en el que se encuentra tu orla.</p>
+                        <p class="mb-0">A continuación se muestra <strong>el estado del proceso</strong> en el que se encuentra tu orla.</p>
                         <p class="mb-1">Se irá <strong>actualizando</strong> periódicamente!</p>
                     </div>
                 {% endif %}
@@ -36,14 +36,19 @@
                         <tr>
                             <td>
                             <div class="progress">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ estado }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ estado }}%"></div>
+                                <div class="progress-bar progress-bar-striped progress-bar-animated {{ color }}" role="progressbar" aria-valuenow="{{ estado }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ estado }}%"></div>
+                            </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <div>
+                                <p class="mb-1">{{ mensajeEstado }}</p>
                             </div>
                             </td>
                         </tr>
                     </tbody>
                   </table>
-
-                  <button type="submit" class="btn btn-success mb-2">Continuar</button>
                 {% endif %}
                 </div>
             </div>

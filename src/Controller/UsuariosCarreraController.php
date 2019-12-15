@@ -24,36 +24,45 @@ class UsuariosCarreraController extends AbstractController
         $dia = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProcesoOrlaGrupo()->getFechaEntrega();
 
         if (!$dia){
+            // No hay fecha
             $fecha = "sin determinar!";
         } else {
             $fecha = $dia->format('d/m/Y');
         }
         if ($estadoOrla == "Sin estado"){
             $estado = 0;
-            $mensajeEstado = "Tu orla aún notiene estado";
+            $mensajeEstado = "Tu orla aún no tiene estado";
+            $color = '';
         } else if ($estadoOrla == "sesion"){
             $estado = 16;
             $mensajeEstado = "Sesión de fotos activa";
+            $color = 'bg-danger';
         } else if ($estadoOrla == "nombrado"){
             $estado = 33;
             $mensajeEstado = "Estamos nombrando las fotografías";
+            $color = 'bg-warning';
         } else if ($estadoOrla == "retoque"){
             $estado = 50;
-            $mensajeEstado = "Las fotos se está retocando";
+            $mensajeEstado = "Las fotos se están retocando";
+            $color = 'bg-warning';
         } else if ($estadoOrla == "montaje"){
             $estado = 66;
             $mensajeEstado = "Estamos montando la orla";
+            $color = 'bg-info';
         } else if ($estadoOrla == "correccion"){
             $estado = 83;
             $mensajeEstado = "Es momento de correcciones";
+            $color = '';
         } else if ($estadoOrla == "entregada"){
             $estado = 100;
             $mensajeEstado = "Orla entregada con fecha ".$fecha;
+            $color = 'bg-success';
         } else {
             $estado = 0;
             $mensajeEstado = "El estado de tu orla está sin determinar";
+            $color = 'bg-dark';
         }
-        return $this->render('usuarios_carrera/estado-orla.html.twig', ['estado' => $estado, 'mensajeEstado' = $mensajeEstado]);
+        return $this->render('usuarios_carrera/estado-orla.html.twig', ['estado' => $estado, 'mensajeEstado' => $mensajeEstado, 'color'=>$color]);
     }
     /**
      * @Route("/usuario-carrera/resenia", name="resenia")

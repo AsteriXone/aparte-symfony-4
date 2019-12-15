@@ -27,6 +27,11 @@ class ProcesoOrlaGrupo
      */
     private $grupo_carrera;
 
+    /**
+     * @ORM\Column(type="datetime", length=255, nullable=true)
+     */
+    private $fecha_entrega;
+
     public function __toString()
     {
         // TODO: Return String Data Carrera (Universidad-Especialidad)
@@ -58,6 +63,18 @@ class ProcesoOrlaGrupo
     public function setGrupoCarrera(GrupoCarrera $grupo_carrera): self
     {
         $this->grupo_carrera = $grupo_carrera;
+
+        return $this;
+    }
+
+    public function getFechaEntrega(): ?\DateTimeInterface
+    {
+        return $this->fecha_entrega;
+    }
+
+    public function setFechaEntrega(?\DateTimeInterface $fecha_entrega): self
+    {
+        $this->fecha_entrega = $fecha_entrega;
 
         return $this;
     }
