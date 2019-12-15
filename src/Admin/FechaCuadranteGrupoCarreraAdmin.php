@@ -24,6 +24,7 @@ final class FechaCuadranteGrupoCarreraAdmin extends AbstractAdmin
     {
         $datagridMapper
             // ->add('id')
+            ->add('cuadrante')
             ->add('fecha')
             ;
     }
@@ -33,7 +34,13 @@ final class FechaCuadranteGrupoCarreraAdmin extends AbstractAdmin
         $listMapper
             // ->add('id')
             // TODO: Sortable cuadrante column
-            ->add('cuadrante', null, ['route'=>['name'=>'']])
+            ->add('cuadrante', null, [
+                'route'=>['name'=>''],
+                'label'=>'Cuadrante',
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'nombre_cuadrante'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'cuadrante'))
+            ])
             ->add('fecha', 'date', ['format' => 'd-M-Y', 'label' => 'Fecha con citas abierta'])
             ->add('_action', null, [
                 'actions' => [

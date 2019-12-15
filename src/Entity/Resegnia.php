@@ -62,6 +62,18 @@ class Resegnia
      */
     private $user_carrera;
 
+    public function getOnlyDate(){
+        if ($this->fecha_publicacion){
+            return $this->fecha_publicacion->format('d/m/Y');
+        } else {
+            return 'No se estableció';
+        }
+    }
+
+    public function __toString(){
+        return 'Reseña de '.$this->user_carrera;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

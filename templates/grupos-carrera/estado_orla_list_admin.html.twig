@@ -1,0 +1,44 @@
+<style>
+    td.image-gallery{
+        opacity: 0.7;
+        filter: alpha(opacity=70); /* For IE8 and earlier */
+    }
+    td.image-gallery:hover{
+        opacity: 1;
+        filter: alpha(opacity=100); /* For IE8 and earlier */
+    }
+</style>
+<td>
+    {% if object.estado == 'sesion' %}
+    <span style="background-color: #ff3300 !important;" class="label" >
+        Sesión de fotos activa
+    </span>
+    {% elseif object.estado == 'nombrado' %}
+    <span class="label" style="background-color: #ffaa00 !important;">
+        Nombrado de fotografías
+    </span>
+    {% elseif object.estado == 'retoque' %}
+    <span class="label" style="background-color: #dccf00 !important;">
+        Retoque
+    </span>
+    {% elseif object.estado == 'montaje' %}
+    <span class="label" style="background-color: #d3c900 !important;">
+        Montaje
+    </span>
+    {% elseif object.estado == 'correccion' %}
+    <span class="label" style="background-color: #afd300 !important;">
+        Corrección
+    </span>
+    {% elseif object.estado == 'entregada' %}
+    <span class="label" style="background-color: #00c81e !important;">
+        Entregada
+    </span>
+    {% elseif object.estado == 'Sin estado' %}
+    <span class="label" style="background-color: #000000 !important;">
+        Sin estado
+    </span>
+    {% endif %}
+</td>
+
+
+<!-- Modal -->

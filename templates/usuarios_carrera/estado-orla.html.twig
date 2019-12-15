@@ -1,0 +1,60 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Estado Orla{% endblock %}
+
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-5">
+    <div class="container-fluid">
+
+        <div class="seccion pt-5 text-light">
+            <p class="h2 text-center">Estado Orla</p>
+            <div class="seccion pt-4 text-light mr-4 ml-4 mt-2">
+                {% if grupoDesactivado is defined %}
+                    <div class="col-md-6 alert alert-danger mx-auto text-center" role="alert">
+                        <p class="mb-1">Tu grupo actualmente <strong>no está activado!</strong></p>
+                    </div>
+                {% elseif mensaje is defined %}
+                    <div class="col-md-6 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">{{ mensaje }}</p>
+                    </div>
+                {% else %}
+                    <div class="col-md-6 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">A continuació se muestra <strong>el estado del proceso</strong> en el que se encuentra tu orla.</p>
+                        <p class="mb-1">Se irá <strong>actualizando</strong> periódicamente!</p>
+                    </div>
+                {% endif %}
+
+                <div class="col-md-6 mx-auto">
+                {% if grupoDesactivado is not defined %}
+                  <table style="box-shadow: 0px 0px 20px rgba(255,255,255, 1)" class="mt-2 table table-hover table-dark">
+                    <thead>
+                      <tr>
+                        <th style="text-align: center" scope="col">Estado de tu orla</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ estado }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ estado }}%"></div>
+                            </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+
+                  <button type="submit" class="btn btn-success mb-2">Continuar</button>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

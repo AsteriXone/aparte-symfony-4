@@ -16,6 +16,46 @@ use App\Entity\Resegnia;
 class UsuariosCarreraController extends AbstractController
 {
     /**
+     * @Route("/usuario-carrera/estado-orla", name="estado-orla-grupo")
+     */
+    public function estadoOrlaAction(Request $request)
+    {
+        $estadoOrla = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProcesoOrlaGrupo()->getEstado();
+        $dia = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProcesoOrlaGrupo()->getFechaEntrega();
+
+        if (!$dia){
+            $fecha = "sin determinar!";
+        } else {
+            $fecha = $dia->format('d/m/Y');
+        }
+        if ($estadoOrla == "Sin estado"){
+            $estado = 0;
+            $mensajeEstado = "Tu orla aún notiene estado";
+        } else if ($estadoOrla == "sesion"){
+            $estado = 16;
+            $mensajeEstado = "Sesión de fotos activa";
+        } else if ($estadoOrla == "nombrado"){
+            $estado = 33;
+            $mensajeEstado = "Estamos nombrando las fotografías";
+        } else if ($estadoOrla == "retoque"){
+            $estado = 50;
+            $mensajeEstado = "Las fotos se está retocando";
+        } else if ($estadoOrla == "montaje"){
+            $estado = 66;
+            $mensajeEstado = "Estamos montando la orla";
+        } else if ($estadoOrla == "correccion"){
+            $estado = 83;
+            $mensajeEstado = "Es momento de correcciones";
+        } else if ($estadoOrla == "entregada"){
+            $estado = 100;
+            $mensajeEstado = "Orla entregada con fecha ".$fecha;
+        } else {
+            $estado = 0;
+            $mensajeEstado = "El estado de tu orla está sin determinar";
+        }
+        return $this->render('usuarios_carrera/estado-orla.html.twig', ['estado' => $estado, 'mensajeEstado' = $mensajeEstado]);
+    }
+    /**
      * @Route("/usuario-carrera/resenia", name="resenia")
      */
     public function reseniaAction(Request $request)

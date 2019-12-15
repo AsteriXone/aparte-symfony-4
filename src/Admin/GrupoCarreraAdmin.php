@@ -15,6 +15,7 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\User;
+use App\Entity\ProcesoOrlaGrupo;
 use App\Entity\UserCarrera;
 
 final class GrupoCarreraAdmin extends AbstractAdmin
@@ -91,6 +92,20 @@ final class GrupoCarreraAdmin extends AbstractAdmin
             ->add('isCitasActive', null, ['label' => 'Citas', 'editable' => true])
             ->add('isVotacionesActive', null, ['label' => 'Votaciones', 'editable' => true])
             ->add('isContratoActive', null, ['label' => 'Contrato', 'editable' => true])
+            ->add('procesoOrlaGrupo.estado', null,
+            [
+                'calegula' => false,
+                'template' => 'grupos-carrera/estado_orla_list_admin_grupo.html.twig',
+
+                // 'choices' => ['uno'=>'uno', 'dos'=>'dos'],
+                'label' => 'Estado Orla',
+                'editable'=> true
+            ])
+            // ->add('procesoOrlaGrupo.estado',null ,[
+            //     'template' => 'grupos-carrera/estado_orla_list_admin_grupo.html.twig',
+            //     'label' => 'Estado Orla',
+            //     'editable'=> true
+            // ])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -132,7 +147,6 @@ final class GrupoCarreraAdmin extends AbstractAdmin
                     ->add('numeroMaximoVotarProfes', null, ['label' => '¿A cuántos profes se puede votar?', 'data'=> 5])
                     ->add('numeroMaximoVotarOrlas', null, ['label' => '¿Cuántas orlas se puede votar?', 'data'=> 2])
                     ->add('numeroMaximoVotarColorBecas', null, ['label' => '¿Cuántos colores de beca se puede votar?', 'data'=> 1])
-
                 ->end()
                 ->with('Contrato', ['class'=> 'col-md-12'])
                     ->add('contratoFile', VichFileType::class, [
@@ -240,6 +254,15 @@ final class GrupoCarreraAdmin extends AbstractAdmin
         $userCarrera->setGrupoCarrera($object);
         // tell Doctrine you want to (eventually) save the UserAdmin (no queries yet)
         $entityManager->persist($userCarrera);
+        // actually executes the queries (i.e. the INSERT query)
+        $entityManager->flush();
+
+        // Create userCarrera
+        $procesoOrlaGrupo = new ProcesoOrlaGrupo();
+        $procesoOrlaGrupo->setGrupoCarrera($object);
+        $procesoOrlaGrupo->setEstado("Sin estado");
+        // tell Doctrine you want to (eventually) save the UserAdmin (no queries yet)
+        $entityManager->persist($procesoOrlaGrupo);
         // actually executes the queries (i.e. the INSERT query)
         $entityManager->flush();
     }

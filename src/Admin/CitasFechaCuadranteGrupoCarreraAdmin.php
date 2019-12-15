@@ -37,13 +37,20 @@ final class CitasFechaCuadranteGrupoCarreraAdmin extends AbstractAdmin
     {
         $listMapper
             // ->add('id')
-            ->add('fechaCuadrante.cuadrante', null, ['label'=> 'Cuadrante'])
+            // ->add('fechaCuadrante.cuadrante', null, ['label'=> 'Cuadrante'])
+            ->add('fechaCuadrante.cuadrante', null, [
+                'route'=>['name'=>''],
+                'label'=>'Cuadrante',
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'cuadrante'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'fechaCuadrante'))
+            ])
             ->add('fechaCuadrante.fecha', null, ['label'=> 'Fecha', 'format' => 'd-M-Y'])
+            ->add('hora')
             ->add('usuario', null, ['label'=> 'Usuario'])
             ->add('usuario.grupoCarrera', null, ['label'=> 'Grupo'])
             ->add('usuario.user.email', null, ['label'=> 'Correo'])
             ->add('usuario.user.telefono', null, ['label'=> 'Telefono'])
-            ->add('hora')
             // ->add('_action', null, [
             //     'actions' => [
             //         'show' => null,

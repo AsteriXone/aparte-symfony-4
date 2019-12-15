@@ -103,6 +103,21 @@ class User implements UserInterface
         return $nombreCompleto;
     }
 
+    public function getNombreCompletoResenia(){
+        $nombre = $this->getNombre();
+        $ape1 = $this->getApellido1();
+        $ape2 = $this->getApellido2();
+        $nombreCompleto = "";
+        if ($ape1 && $ape2){
+            $nombreCompleto = $nombre." ".$ape1." ".$ape2;
+        } elseif ($ape1){
+            $nombreCompleto = $nombre." ".$ape1;
+        } else {
+            $nombreCompleto = $nombre;
+        }
+        return $nombreCompleto;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

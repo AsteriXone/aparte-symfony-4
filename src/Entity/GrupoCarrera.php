@@ -105,7 +105,7 @@ class GrupoCarrera
     private $numeroMaximoVotarColorBecas;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
      */
     private $contrato;
@@ -125,6 +125,11 @@ class GrupoCarrera
      * @ORM\OneToMany(targetEntity="App\Entity\CuadrantesGruposCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
      */
     private $cuadrantesGruposCarreras;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\ProcesoOrlaGrupo", mappedBy="grupo_carrera", cascade={"persist", "remove"})
+     */
+    private $procesoOrlaGrupo;
 
     public function __construct()
     {
@@ -509,6 +514,23 @@ class GrupoCarrera
     public function setNumeroMaximoVotarColorBecas(?int $numeroMaximoVotarColorBecas): self
     {
         $this->numeroMaximoVotarColorBecas = $numeroMaximoVotarColorBecas;
+
+        return $this;
+    }
+
+    public function getProcesoOrlaGrupo(): ?ProcesoOrlaGrupo
+    {
+        return $this->procesoOrlaGrupo;
+    }
+
+    public function setProcesoOrlaGrupo(ProcesoOrlaGrupo $procesoOrlaGrupo): self
+    {
+        $this->procesoOrlaGrupo = $procesoOrlaGrupo;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $procesoOrlaGrupo->getGrupoCarrera()) {
+            $procesoOrlaGrupo->setGrupoCarrera($this);
+        }
 
         return $this;
     }
