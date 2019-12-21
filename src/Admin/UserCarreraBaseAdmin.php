@@ -76,7 +76,9 @@ final class UserCarreraBaseAdmin extends AbstractAdmin
             // Block
             // ->add('titulacion')
             ->add('mencion')
-            ->add('isErasmus')
+            ->add('isErasmus', null, ['label'=>'Erasmus'])
+            // ->add('isVotarCitasActive')
+
             // ->add('roles', 'array')
             ->add('userCarrera.grupoCarrera', null, ['label'=>'Grupo'])
             ->add('_action', null, [
@@ -107,7 +109,7 @@ final class UserCarreraBaseAdmin extends AbstractAdmin
                 // Block
                 // ->add('titulacion')
                 ->add('mencion')
-                ->add('isErasmus')
+                ->add('isErasmus', null, ['label'=>'Erasmus'])
                 ;
         } else {
             // CREATE
@@ -132,7 +134,7 @@ final class UserCarreraBaseAdmin extends AbstractAdmin
                 // Block
                 // ->add('titulacion')
                 ->add('mencion')
-                ->add('isErasmus')
+                ->add('isErasmus', null, ['label'=>'Erasmus'])
                 ;
         }
 

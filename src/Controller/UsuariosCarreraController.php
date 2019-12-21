@@ -39,7 +39,7 @@ class UsuariosCarreraController extends AbstractController
     {
         $estadoOrla = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProcesoOrlaGrupo()->getEstado();
         $dia = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProcesoOrlaGrupo()->getFechaEntrega();
-
+        $tipo = 'progress-bar-striped progress-bar-animated';
         if (!$dia){
             // No hay fecha
             $fecha = "sin determinar!";
@@ -74,12 +74,13 @@ class UsuariosCarreraController extends AbstractController
             $estado = 100;
             $mensajeEstado = "Orla entregada con fecha ".$fecha;
             $color = 'bg-success';
+            $tipo = '';
         } else {
             $estado = 0;
             $mensajeEstado = "El estado de tu orla está sin determinar";
             $color = 'bg-dark';
         }
-        return $this->render('usuarios_carrera/estado-orla.html.twig', ['estado' => $estado, 'mensajeEstado' => $mensajeEstado, 'color'=>$color]);
+        return $this->render('usuarios_carrera/estado-orla.html.twig', ['estado' => $estado, 'mensajeEstado' => $mensajeEstado, 'color'=>$color, 'tipo' => $tipo ]);
     }
     /**
      * @Route("/usuario-carrera/resenia", name="resenia")
@@ -219,48 +220,58 @@ class UsuariosCarreraController extends AbstractController
             $grupoIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsActive();
             if ($grupoIsActive){
                 // Grupo Activo
-                // Comprueba si votaciones activa
-                $votacionesIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsVotacionesActive();
-                if ($votacionesIsActive){
-                    // Votaciones Activas
-                    // Obtener profesores del grupo
-                    $profesoresGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProfesoresGruposCarrera();
-                    // Obtener numero de votos numeroVotosPosible
-                    $numeroVotos = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getNumeroMaximoVotarProfes();
-                    // Comprobar si cada profesor ya ha sido votado por el usuario
-                    foreach ($profesoresGrupoCarrera as $profesorGrupoCarrera) {
-                        $votacionProfe = $this->getDoctrine()
-                        ->getRepository(VotacionesProfesorCarrera::class)
-                        ->findOneBy([
-                            'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
-                            'profesor_carrera' => $profesorGrupoCarrera->getProfesorCarrera()->getId()
-                        ]);
-                        if ($votacionProfe){
-                            // Existe votacion
-                            $profesorGrupoCarrera->getProfesorCarrera()->setIsVotado(true);
-                        }
-                    }
-                } else {
-                    // Votaciones desactivadas
-                    $profesoresGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProfesoresGruposCarrera();
-                    // Comprobar si cada profesor ya ha sido votado por el usuario
-                    foreach ($profesoresGrupoCarrera as $profesorGrupoCarrera) {
-                        $votacionProfe = $this->getDoctrine()
-                        ->getRepository(VotacionesProfesorCarrera::class)
-                        ->findOneBy([
-                            'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
-                            'profesor_carrera' => $profesorGrupoCarrera->getProfesorCarrera()->getId()
-                        ]);
-                        if ($votacionProfe){
-                            // Existe votacion
-                            $profesorGrupoCarrera->getProfesorCarrera()->setIsVotado(true);
-                        }
-                    }
-                    return $this->render('usuarios_carrera/votar-profesores.html.twig', [
-                        'profesoresGrupoCarrera' => $profesoresGrupoCarrera,
-                        'votoDesactivado' => true
-                    ]);
 
+                // Comprueba si usuario bloqueado
+                $bloqueado = $this->getUser()->getUserCarrera()->getIsVotarCitasActive();
+
+                if ($bloqueado){
+                    // Usuario Bloqueado
+                    return $this->render('usuarios_carrera/usuario-bloqueado.html.twig');
+                } else {
+                    // Usuario No Bloqueado
+                    // Comprueba si votaciones activa
+                    $votacionesIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsVotacionesActive();
+                    if ($votacionesIsActive){
+                        // Votaciones Activas
+                        // Obtener profesores del grupo
+                        $profesoresGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProfesoresGruposCarrera();
+                        // Obtener numero de votos numeroVotosPosible
+                        $numeroVotos = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getNumeroMaximoVotarProfes();
+                        // Comprobar si cada profesor ya ha sido votado por el usuario
+                        foreach ($profesoresGrupoCarrera as $profesorGrupoCarrera) {
+                            $votacionProfe = $this->getDoctrine()
+                            ->getRepository(VotacionesProfesorCarrera::class)
+                            ->findOneBy([
+                                'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                                'profesor_carrera' => $profesorGrupoCarrera->getProfesorCarrera()->getId()
+                            ]);
+                            if ($votacionProfe){
+                                // Existe votacion
+                                $profesorGrupoCarrera->getProfesorCarrera()->setIsVotado(true);
+                            }
+                        }
+                    } else {
+                        // Votaciones desactivadas
+                        $profesoresGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getProfesoresGruposCarrera();
+                        // Comprobar si cada profesor ya ha sido votado por el usuario
+                        foreach ($profesoresGrupoCarrera as $profesorGrupoCarrera) {
+                            $votacionProfe = $this->getDoctrine()
+                            ->getRepository(VotacionesProfesorCarrera::class)
+                            ->findOneBy([
+                                'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                                'profesor_carrera' => $profesorGrupoCarrera->getProfesorCarrera()->getId()
+                            ]);
+                            if ($votacionProfe){
+                                // Existe votacion
+                                $profesorGrupoCarrera->getProfesorCarrera()->setIsVotado(true);
+                            }
+                        }
+                        return $this->render('usuarios_carrera/votar-profesores.html.twig', [
+                            'profesoresGrupoCarrera' => $profesoresGrupoCarrera,
+                            'votoDesactivado' => true
+                        ]);
+
+                    }
                 }
             } else {
                 // Grupo Desactivado
@@ -356,49 +367,57 @@ class UsuariosCarreraController extends AbstractController
             $grupoIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsActive();
             if ($grupoIsActive){
                 // Grupo Activo
-                // Comprueba si votaciones activa
-                $votacionesIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsVotacionesActive();
-                if ($votacionesIsActive){
-                    // Votaciones Activas
-                    // Obtener profesores del grupo
-                    $muestrasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getMuestraCarreraGruposCarrera();
-                    // Obtener numero de votos numeroVotosPosible
-                    $numeroVotos = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getNumeroMaximoVotarOrlas();
-                    // Comprobar si cada profesor ya ha sido votado por el usuario
-                    foreach ($muestrasGrupoCarrera as $muestraGrupoCarrera) {
-                        $votacionMuestra = $this->getDoctrine()
-                        ->getRepository(VotacionesMuestraCarrera::class)
-                        ->findOneBy([
-                            'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
-                            'muestra_carrera' => $muestraGrupoCarrera->getMuestrasCarrera()->getId()
-                        ]);
-                        if ($votacionMuestra){
-                            // Existe votacion
-                            $muestraGrupoCarrera->getMuestrasCarrera()->setIsVotado(true);
-                        }
-                    }
+                // Comprueba si usuario Bloqueado
+                $bloqueado = $this->getUser()->getUserCarrera()->getIsVotarCitasActive();
+                if ($bloqueado){
+                    // Usuario Bloqueado
+                    return $this->render('usuarios_carrera/usuario-bloqueado.html.twig');
                 } else {
-                    // Votaciones desactivadas
-                    $muestrasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getMuestraCarreraGruposCarrera();
-                    // Comprobar si cada muestra ya ha sido votado por el usuario
-                    foreach ($muestrasGrupoCarrera as $muestraGrupoCarrera) {
-                        $votacionMuestra = $this->getDoctrine()
-                        ->getRepository(VotacionesMuestraCarrera::class)
-                        ->findOneBy([
-                            'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
-                            'muestra_carrera' => $muestraGrupoCarrera->getMuestrasCarrera()->getId()
-                        ]);
-                        if ($votacionMuestra){
-                            // Existe votacion
-                            $muestraGrupoCarrera->getMuestrasCarrera()->setIsVotado(true);
+                    // Comprueba si votaciones activa
+                    $votacionesIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsVotacionesActive();
+                    if ($votacionesIsActive){
+                        // Votaciones Activas
+                        // Obtener profesores del grupo
+                        $muestrasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getMuestraCarreraGruposCarrera();
+                        // Obtener numero de votos numeroVotosPosible
+                        $numeroVotos = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getNumeroMaximoVotarOrlas();
+                        // Comprobar si cada profesor ya ha sido votado por el usuario
+                        foreach ($muestrasGrupoCarrera as $muestraGrupoCarrera) {
+                            $votacionMuestra = $this->getDoctrine()
+                            ->getRepository(VotacionesMuestraCarrera::class)
+                            ->findOneBy([
+                                'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                                'muestra_carrera' => $muestraGrupoCarrera->getMuestrasCarrera()->getId()
+                            ]);
+                            if ($votacionMuestra){
+                                // Existe votacion
+                                $muestraGrupoCarrera->getMuestrasCarrera()->setIsVotado(true);
+                            }
                         }
-                    }
-                    return $this->render('usuarios_carrera/votar-muestras.html.twig', [
-                        'muestrasGrupoCarrera' => $muestrasGrupoCarrera,
-                        'votoDesactivado' => true
-                    ]);
+                    } else {
+                        // Votaciones desactivadas
+                        $muestrasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getMuestraCarreraGruposCarrera();
+                        // Comprobar si cada muestra ya ha sido votado por el usuario
+                        foreach ($muestrasGrupoCarrera as $muestraGrupoCarrera) {
+                            $votacionMuestra = $this->getDoctrine()
+                            ->getRepository(VotacionesMuestraCarrera::class)
+                            ->findOneBy([
+                                'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                                'muestra_carrera' => $muestraGrupoCarrera->getMuestrasCarrera()->getId()
+                            ]);
+                            if ($votacionMuestra){
+                                // Existe votacion
+                                $muestraGrupoCarrera->getMuestrasCarrera()->setIsVotado(true);
+                            }
+                        }
+                        return $this->render('usuarios_carrera/votar-muestras.html.twig', [
+                            'muestrasGrupoCarrera' => $muestrasGrupoCarrera,
+                            'votoDesactivado' => true
+                        ]);
 
+                    }
                 }
+
             } else {
                 // Grupo Desactivado
                 return $this->render('usuarios_carrera/votar-muestras.html.twig', [
@@ -487,31 +506,38 @@ class UsuariosCarreraController extends AbstractController
         $grupoIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsActive();
         $isCitasActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsCitasActive();
         if ($grupoIsActive){
-            if ($isCitasActive){
-                // Comprobar si user ha cogido cita, si no Mostrar citas
-                $cita = $this->getDoctrine()
-                ->getRepository(CitasFechaCuadranteGrupoCarrera::class)
-                ->findOneBy([
-                    'usuario' => $this->getUser()->getUserCarrera()
-                ]);
-                if ($cita){
-                    return $this->render('usuarios_carrera/cita-actual.html.twig', [
-                        'cita' => $cita
+            // Comprueba si usuario Bloqueado
+            $bloqueado = $this->getUser()->getUserCarrera()->getIsVotarCitasActive();
+            if ($bloqueado){
+                // Usuario Bloqueado
+                return $this->render('usuarios_carrera/usuario-bloqueado.html.twig');
+            } else {
+                if ($isCitasActive){
+                    // Comprobar si user ha cogido cita, si no Mostrar citas
+                    $cita = $this->getDoctrine()
+                    ->getRepository(CitasFechaCuadranteGrupoCarrera::class)
+                    ->findOneBy([
+                        'usuario' => $this->getUser()->getUserCarrera()
                     ]);
+                    if ($cita){
+                        return $this->render('usuarios_carrera/cita-actual.html.twig', [
+                            'cita' => $cita
+                        ]);
+                    } else {
+                        // Obtener Citas para grupo
+                        $cuadrantesGrupo = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getCuadrantesGruposCarreras();
+                        // foreach ($cuadrantesGrupo as $cuadranteGrupo) {
+                        //     dump($cuadranteGrupo->getCuadrante()->getNombreCuadrante());
+                        // }
+                        return $this->render('usuarios_carrera/solicitud-citas.html.twig', [
+                            'cuadrantesGrupoCarrera' => $cuadrantesGrupo
+                        ]);
+                    }
                 } else {
-                    // Obtener Citas para grupo
-                    $cuadrantesGrupo = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getCuadrantesGruposCarreras();
-                    // foreach ($cuadrantesGrupo as $cuadranteGrupo) {
-                    //     dump($cuadranteGrupo->getCuadrante()->getNombreCuadrante());
-                    // }
                     return $this->render('usuarios_carrera/solicitud-citas.html.twig', [
-                        'cuadrantesGrupoCarrera' => $cuadrantesGrupo
+                        'citaDesactivado' => true
                     ]);
                 }
-            } else {
-                return $this->render('usuarios_carrera/solicitud-citas.html.twig', [
-                    'citaDesactivado' => true
-                ]);
             }
         } else {
             return $this->render('usuarios_carrera/solicitud-citas.html.twig', [
@@ -578,56 +604,62 @@ class UsuariosCarreraController extends AbstractController
             $grupoIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsActive();
             if ($grupoIsActive){
                 // Grupo Activo
-                // Comprueba si votaciones activa
-                $votacionesIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsVotacionesActive();
-                if ($votacionesIsActive){
-                    // Votaciones Activas
-                    // Obtener profesores del grupo
-                    $colorBecasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getColorBecaCarreraGruposCarrera();
-                    // Obtener numero de votos numeroVotosPosible
-                    $numeroVotos = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getNumeroMaximoVotarColorBecas();
-                    // Comprobar si cada profesor ya ha sido votado por el usuario
-                    foreach ($colorBecasGrupoCarrera as $colorBecaGrupoCarrera) {
-                        $votacionColorBeca = $this->getDoctrine()
-                        ->getRepository(VotacionesColorBecaCarrera::class)
-                        ->findOneBy([
-                            'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
-                            'colorBeca_carrera' => $colorBecaGrupoCarrera->getColorBecasCarrera()->getId()
-                        ]);
-                        if ($votacionColorBeca){
-                            // Existe votacion
-                            $colorBecaGrupoCarrera->getColorBecasCarrera()->setIsVotado(true);
-                        }
-                    }
+                $bloqueado = $this->getUser()->getUserCarrera()->getIsVotarCitasActive();
+                if ($bloqueado){
+                    // Usuario Bloqueado
+                    return $this->render('usuarios_carrera/usuario-bloqueado.html.twig');
                 } else {
-                    // Votaciones desactivadas
-                    $colorBecasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getColorBecaCarreraGruposCarrera();
-                    // Comprobar si cada colorBeca ya ha sido votado por el usuario
-                    foreach ($colorBecasGrupoCarrera as $colorBecaGrupoCarrera) {
-                        $votacionColorBeca = $this->getDoctrine()
-                        ->getRepository(VotacionesColorBecaCarrera::class)
-                        ->findOneBy([
-                            'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
-                            'colorBeca_carrera' => $colorBecaGrupoCarrera->getColorBecasCarrera()->getId()
-                        ]);
-                        if ($votacionColorBeca){
-                            // Existe votacion
-                            $colorBecaGrupoCarrera->getColorBecasCarrera()->setIsVotado(true);
+                    // Comprueba si votaciones activa
+                    $votacionesIsActive = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getIsVotacionesActive();
+                    if ($votacionesIsActive){
+                        // Votaciones Activas
+                        // Obtener profesores del grupo
+                        $colorBecasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getColorBecaCarreraGruposCarrera();
+                        // Obtener numero de votos numeroVotosPosible
+                        $numeroVotos = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getNumeroMaximoVotarColorBecas();
+                        // Comprobar si cada profesor ya ha sido votado por el usuario
+                        foreach ($colorBecasGrupoCarrera as $colorBecaGrupoCarrera) {
+                            $votacionColorBeca = $this->getDoctrine()
+                            ->getRepository(VotacionesColorBecaCarrera::class)
+                            ->findOneBy([
+                                'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                                'colorBeca_carrera' => $colorBecaGrupoCarrera->getColorBecasCarrera()->getId()
+                            ]);
+                            if ($votacionColorBeca){
+                                // Existe votacion
+                                $colorBecaGrupoCarrera->getColorBecasCarrera()->setIsVotado(true);
+                            }
                         }
-                    }
-                    return $this->render('usuarios_carrera/votar-colorBecas.html.twig', [
-                        'colorBecasGrupoCarrera' => $colorBecasGrupoCarrera,
-                        'votoDesactivado' => true
-                    ]);
+                    } else {
+                        // Votaciones desactivadas
+                        $colorBecasGrupoCarrera = $this->getUser()->getUserCarrera()->getGrupoCarrera()->getColorBecaCarreraGruposCarrera();
+                        // Comprobar si cada colorBeca ya ha sido votado por el usuario
+                        foreach ($colorBecasGrupoCarrera as $colorBecaGrupoCarrera) {
+                            $votacionColorBeca = $this->getDoctrine()
+                            ->getRepository(VotacionesColorBecaCarrera::class)
+                            ->findOneBy([
+                                'user_carrera' => $this->getUser()->getUserCarrera()->getId(),
+                                'colorBeca_carrera' => $colorBecaGrupoCarrera->getColorBecasCarrera()->getId()
+                            ]);
+                            if ($votacionColorBeca){
+                                // Existe votacion
+                                $colorBecaGrupoCarrera->getColorBecasCarrera()->setIsVotado(true);
+                            }
+                        }
+                        return $this->render('usuarios_carrera/votar-colorBecas.html.twig', [
+                            'colorBecasGrupoCarrera' => $colorBecasGrupoCarrera,
+                            'votoDesactivado' => true
+                        ]);
 
+                    }
                 }
+
             } else {
                 // Grupo Desactivado
                 return $this->render('usuarios_carrera/votar-colorBecas.html.twig', [
                     'grupoDesactivado' => true
                 ]);
             }
-
             return $this->render('usuarios_carrera/votar-colorBecas.html.twig', [
                 'colorBecasGrupoCarrera' => $colorBecasGrupoCarrera,
                 'numeroVotosPosible' => $numeroVotos

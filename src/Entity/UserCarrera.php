@@ -50,6 +50,11 @@ class UserCarrera
      */
     private $resegnia;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isVotarCitasActive;
+
     public function __construct()
     {
         $this->votacionesProfesorCarrera = new ArrayCollection();
@@ -197,6 +202,18 @@ class UserCarrera
         if ($this !== $resegnia->getUserCarrera()) {
             $resegnia->setUserCarrera($this);
         }
+
+        return $this;
+    }
+
+    public function getIsVotarCitasActive(): ?bool
+    {
+        return $this->isVotarCitasActive;
+    }
+
+    public function setIsVotarCitasActive(?bool $isVotarCitasActive): self
+    {
+        $this->isVotarCitasActive = $isVotarCitasActive;
 
         return $this;
     }

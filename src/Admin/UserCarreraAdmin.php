@@ -83,6 +83,7 @@ final class UserCarreraAdmin extends AbstractAdmin
             ->add('user.onlyDate', null, ['label'=>'Fecha Registro'])
             ->add('user.mencion', null, ['label'=>'Mención'])
             ->add('user.isErasmus', null, ['label'=>'Erasmus'])
+            ->add('isVotarCitasActive', null, ['label'=>'Bloqueado'])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
