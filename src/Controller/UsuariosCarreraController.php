@@ -16,6 +16,23 @@ use App\Entity\Resegnia;
 class UsuariosCarreraController extends AbstractController
 {
     /**
+     * @Route("/usuario-carrera/orla-provisional", name="orla-provisional-grupo-carrera")
+     */
+    public function orlaProvisionalGrupoCarreraAction(Request $request)
+    {
+        // Getting useAdmin
+        $orlaProvisional = $this->getUser()
+            ->getUserCarrera()
+            ->getGrupoCarrera()
+            ->getOrlaProvisionalGruposCarrera();
+        if ($orlaProvisional){
+            return $this->render('usuarios_carrera/orla-provisional.html.twig', ['orla_provisional' => $orlaProvisional]);
+        } else {
+            return $this->render('usuarios_carrera/no-hay-orla-provisional.html.twig');
+        }
+    }
+
+    /**
      * @Route("/usuario-carrera/estado-orla", name="estado-orla-grupo")
      */
     public function estadoOrlaAction(Request $request)

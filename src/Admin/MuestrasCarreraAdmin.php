@@ -18,9 +18,9 @@ final class MuestrasCarreraAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
-            ->add('id')
+            // ->add('id')
             ->add('imageName')
-            ->add('updateAt')
+            // ->add('updateAt')
             ;
     }
 

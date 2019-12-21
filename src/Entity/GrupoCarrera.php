@@ -131,6 +131,11 @@ class GrupoCarrera
      */
     private $procesoOrlaGrupo;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\OrlaProvisionalGruposCarrera", mappedBy="grupo_carrera", cascade={"persist", "remove"})
+     */
+    private $orlaProvisionalGruposCarrera;
+
     public function __construct()
     {
         $this->usersCarrera = new ArrayCollection();
@@ -530,6 +535,24 @@ class GrupoCarrera
         // set the owning side of the relation if necessary
         if ($this !== $procesoOrlaGrupo->getGrupoCarrera()) {
             $procesoOrlaGrupo->setGrupoCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function getOrlaProvisionalGruposCarrera(): ?OrlaProvisionalGruposCarrera
+    {
+        return $this->orlaProvisionalGruposCarrera;
+    }
+
+    public function setOrlaProvisionalGruposCarrera(?OrlaProvisionalGruposCarrera $orlaProvisionalGruposCarrera): self
+    {
+        $this->orlaProvisionalGruposCarrera = $orlaProvisionalGruposCarrera;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newGrupo_carrera = $orlaProvisionalGruposCarrera === null ? null : $this;
+        if ($newGrupo_carrera !== $orlaProvisionalGruposCarrera->getGrupoCarrera()) {
+            $orlaProvisionalGruposCarrera->setGrupoCarrera($newGrupo_carrera);
         }
 
         return $this;

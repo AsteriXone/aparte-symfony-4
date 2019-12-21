@@ -194,7 +194,7 @@ services:
         class: App\Admin\ColorBecasCarreraGrupoCarreraAdmin
         arguments: [~, App\Entity\ColorBecasCarreraGrupoCarrera, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Color Becas Grupos Carrera}
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Color Becas Carreras}
         public: true
 
     admin.proceso_orla_grupo:
@@ -202,4 +202,11 @@ services:
         arguments: [~, App\Entity\ProcesoOrlaGrupo, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Carreras, label: Proceso Orlas }
+        public: true
+
+    admin.orla_provisional_grupos_carrera:
+        class: App\Admin\OrlaProvisionalGruposCarreraAdmin
+        arguments: [~, App\Entity\OrlaProvisionalGruposCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Orla Provisional Carrera }
         public: true

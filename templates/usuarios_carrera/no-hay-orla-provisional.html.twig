@@ -1,0 +1,28 @@
+{% extends 'layout.html.twig' %}
+{% block logo %}
+    {# include 'default/logo.html.twig' #}
+{% endblock %}
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-0">
+    <div class="container-fluid">
+        <div class="seccion pt-5 mb-3 text-light text-center">
+            <div class="col-md-8 alert alert-primary mx-auto text-center mb-4" role="alert">
+                <p class="mb-1">La orla provisional <strong>no está disponible</strong> para este grupo!</p>
+            </div>
+
+            <a class="mx-auto btn btn-success" href="{{ app.request.headers.get('referer') }}">Continuar</a>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+        <br/>
+            <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
