@@ -7,11 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OrlaProvisionalGruposCarreraRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OrlasProvisionalGrupoCarreraRepository")
  * @Vich\Uploadable
  */
-class OrlaProvisionalGruposCarrera
+class OrlasProvisionalGrupoCarrera
 {
     /**
      * @ORM\Id()
@@ -35,12 +36,12 @@ class OrlaProvisionalGruposCarrera
     private $imageName;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updateAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\GrupoCarrera", inversedBy="orlaProvisionalGruposCarrera")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GrupoCarrera", inversedBy="orlasProvisionalGrupoCarreras")
      * @ORM\JoinColumn(nullable=false)
      */
     private $grupo_carrera;
@@ -49,22 +50,9 @@ class OrlaProvisionalGruposCarrera
         return $this->imageName;
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUpdateAt(): ?\DateTimeInterface
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(?\DateTimeInterface $updateAt): self
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
     }
 
     public function getImageName(): ?string
@@ -75,6 +63,18 @@ class OrlaProvisionalGruposCarrera
     public function setImageName(?string $imageName): self
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeInterface
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(?\DateTimeInterface $updateAt): self
+    {
+        $this->updateAt = $updateAt;
 
         return $this;
     }

@@ -16,19 +16,22 @@
             </div>
         </div>
 
-        {# Contenedor orla #}
-        <div class="col-md-10 mx-auto text-center">
-            <div class="p-2" id="gallery" style="display:none;">
-                <a href="#">
-                <img alt="{{ orla_provisional.imageName }}"
-                     src="{{ asset('build/img/orlas_provisional/' ~ orla_provisional.imageName) }}"
-                     data-image="{{ asset('build/img/orlas_provisional/' ~ orla_provisional.imageName) }}"
-                     data-description="{{ orla_provisional.imageName }}"
-                     style="display:none">
-                </a>
+            {# Contenedor orla #}
+            <div class="col-md-10 mx-auto text-center">
+                <div class="p-2" id="gallery" style="display:none;">
+                {% for orla_provisional in orlas_provisionales %}
+                    <a href="#">
+                    <img alt="{{ orla_provisional.imageName }}"
+                         src="{{ asset('build/img/orlas_provisional/' ~ orla_provisional.imageName) }}"
+                         data-image="{{ asset('build/img/orlas_provisional/' ~ orla_provisional.imageName) }}"
+                         data-description="{{ orla_provisional.imageName }}"
+                         style="display:none">
+                    </a>
+                {% endfor %}
+
+                </div>
             </div>
-        </div>
-        {# End Contenedor orla #}
+            {# End Contenedor orla #}
 
         <div class="row" style="padding:0; margin:0; height:30vh;">
             <div class="malla"></div>

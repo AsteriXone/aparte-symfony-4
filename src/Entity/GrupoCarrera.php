@@ -132,9 +132,9 @@ class GrupoCarrera
     private $procesoOrlaGrupo;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\OrlaProvisionalGruposCarrera", mappedBy="grupo_carrera", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\OrlasProvisionalGrupoCarrera", mappedBy="grupo_carrera", cascade={"persist", "remove"})
      */
-    private $orlaProvisionalGruposCarrera;
+    private $orlasProvisionalGrupoCarreras;
 
     public function __construct()
     {
@@ -144,6 +144,7 @@ class GrupoCarrera
         $this->profesoresGruposCarrera = new ArrayCollection();
         $this->productoCarreraGruposCarrera = new ArrayCollection();
         $this->cuadrantesGruposCarreras = new ArrayCollection();
+        $this->orlasProvisionalGrupoCarreras = new ArrayCollection();
     }
 
     public function __toString()
@@ -540,19 +541,32 @@ class GrupoCarrera
         return $this;
     }
 
-    public function getOrlaProvisionalGruposCarrera(): ?OrlaProvisionalGruposCarrera
+    /**
+     * @return Collection|OrlasProvisionalGrupoCarrera[]
+     */
+    public function getOrlasProvisionalGrupoCarreras(): Collection
     {
-        return $this->orlaProvisionalGruposCarrera;
+        return $this->orlasProvisionalGrupoCarreras;
     }
 
-    public function setOrlaProvisionalGruposCarrera(?OrlaProvisionalGruposCarrera $orlaProvisionalGruposCarrera): self
+    public function addOrlasProvisionalGrupoCarrera(OrlasProvisionalGrupoCarrera $orlasProvisionalGrupoCarrera): self
     {
-        $this->orlaProvisionalGruposCarrera = $orlaProvisionalGruposCarrera;
+        if (!$this->orlasProvisionalGrupoCarreras->contains($orlasProvisionalGrupoCarrera)) {
+            $this->orlasProvisionalGrupoCarreras[] = $orlasProvisionalGrupoCarrera;
+            $orlasProvisionalGrupoCarrera->setGrupoCarrera($this);
+        }
 
-        // set (or unset) the owning side of the relation if necessary
-        $newGrupo_carrera = $orlaProvisionalGruposCarrera === null ? null : $this;
-        if ($newGrupo_carrera !== $orlaProvisionalGruposCarrera->getGrupoCarrera()) {
-            $orlaProvisionalGruposCarrera->setGrupoCarrera($newGrupo_carrera);
+        return $this;
+    }
+
+    public function removeOrlasProvisionalGrupoCarrera(OrlasProvisionalGrupoCarrera $orlasProvisionalGrupoCarrera): self
+    {
+        if ($this->orlasProvisionalGrupoCarreras->contains($orlasProvisionalGrupoCarrera)) {
+            $this->orlasProvisionalGrupoCarreras->removeElement($orlasProvisionalGrupoCarrera);
+            // set the owning side to null (unless already changed)
+            if ($orlasProvisionalGrupoCarrera->getGrupoCarrera() === $this) {
+                $orlasProvisionalGrupoCarrera->setGrupoCarrera(null);
+            }
         }
 
         return $this;

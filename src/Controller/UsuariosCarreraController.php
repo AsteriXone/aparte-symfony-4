@@ -21,12 +21,13 @@ class UsuariosCarreraController extends AbstractController
     public function orlaProvisionalGrupoCarreraAction(Request $request)
     {
         // Getting useAdmin
-        $orlaProvisional = $this->getUser()
+        $orlasProvisional = $this->getUser()
             ->getUserCarrera()
             ->getGrupoCarrera()
-            ->getOrlaProvisionalGruposCarrera();
-        if ($orlaProvisional){
-            return $this->render('usuarios_carrera/orla-provisional.html.twig', ['orla_provisional' => $orlaProvisional]);
+            ->getOrlasProvisionalGrupoCarreras();
+            dump($orlasProvisional);
+        if ($orlasProvisional){
+            return $this->render('usuarios_carrera/orla-provisional.html.twig', ['orlas_provisionales' => $orlasProvisional]);
         } else {
             return $this->render('usuarios_carrera/no-hay-orla-provisional.html.twig');
         }
