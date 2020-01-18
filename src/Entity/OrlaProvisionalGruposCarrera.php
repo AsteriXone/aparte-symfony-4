@@ -40,7 +40,7 @@ class OrlaProvisionalGruposCarrera
     private $updateAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\GrupoCarrera", inversedBy="orlaProvisionalGruposCarrera", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\GrupoCarrera", inversedBy="orlaProvisionalGruposCarrera")
      * @ORM\JoinColumn(nullable=false)
      */
     private $grupo_carrera;

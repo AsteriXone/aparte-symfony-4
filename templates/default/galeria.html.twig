@@ -16,8 +16,8 @@
             {% for image in galeria.imagesGallery %}
             <a href="#">
             <img alt="{{ image.imageName }}"
-                 src="{{ asset('build/img/' ~ image.imageName) }}"
-                 data-image="{{ asset('build/img/' ~ image.imageName) }}"
+                 src="{{ asset('build/img/galerias/' ~ image.imageName) }}"
+                 data-image="{{ asset('/build/img/galerias/' ~ image.imageName) }}"
                  data-description="{{ image.imageName }}"
                  style="display:none">
             </a>

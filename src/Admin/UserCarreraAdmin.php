@@ -83,7 +83,7 @@ final class UserCarreraAdmin extends AbstractAdmin
             ->add('user.onlyDate', null, ['label'=>'Fecha Registro'])
             ->add('user.mencion', null, ['label'=>'Mención'])
             ->add('user.isErasmus', null, ['label'=>'Erasmus'])
-            ->add('isVotarCitasActive', null, ['label'=>'Bloqueado'])
+            ->add('isVotarCitasActive', null, ['label'=>'Bloqueado', 'editable' => true])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -99,6 +99,7 @@ final class UserCarreraAdmin extends AbstractAdmin
             // BLock
             // ->add('id')
             ->add('user', AdminType::class, ['label' => 'Usuario'] ,['admin_code' => 'admin.user_carrera_base'])
+            ->add('isVotarCitasActive', null, ['label'=>'Bloqueado'])
             ->add('grupo_carrera', null, [
                 'label' => 'Grupo',
                 'query_builder' => function (EntityRepository $er) {
