@@ -92,7 +92,7 @@ final class OrlaProvisionalGruposCarreraAdmin extends AbstractAdmin
                 'required' => false,
                 'allow_delete' => true,
             ])
-            ->add('updateAt')
+            // ->add('updateAt')
             ;
     }
 
