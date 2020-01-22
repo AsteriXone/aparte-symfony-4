@@ -1,6 +1,13 @@
+
+{% if galeria is defined %}
+<li class="nav-item nav-fill">
+    <a class="js-scroll-trigger nav-link francois" href="{{ path('foto-academica-slug', {slug: "graduation-anchor"}) }}">ORLAS<span class="sr-only">(current)</span></a>
+</li>
+{% else %}
 <li class="nav-item nav-fill">
     <a class="js-scroll-trigger nav-link francois" href="#graduation-anchor">ORLAS<span class="sr-only">(current)</span></a>
 </li>
+{% endif %}
 <li class="nav-item nav-fill">
     <a class="js-scroll-trigger nav-link opensans" href="#foto-escuela-anchor">FOTO ESCUELA<span class="sr-only">(current)</span></a>
 </li>
@@ -9,9 +16,9 @@
     GALERÍAS
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background: #FA0405;">
-        {% for galeria in galerias.galerias %}
-            {% if galeria.tipoGalleria == "Académica" %}
-                <a class="dropdown-item" href="{{ path('galeria-academica', {slug: galeria.id}) }}"><i class="fas fa-images"></i> {{ galeria.nombreGaleria }}</a>
+        {% for galeriaIndividual in galerias.galerias %}
+            {% if galeriaIndividual.tipoGalleria == "Académica" %}
+                <a class="dropdown-item" href="{{ path('galeria-academica', {slug: galeriaIndividual.id}) }}"><i class="fas fa-images"></i> {{ galeriaIndividual.nombreGaleria }}</a>
             {% endif %}
         {% endfor %}
     </div>

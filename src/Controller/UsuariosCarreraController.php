@@ -12,6 +12,7 @@ use App\Entity\VotacionesMuestraCarrera;
 use App\Entity\VotacionesColorBecaCarrera;
 use App\Entity\CitasFechaCuadranteGrupoCarrera;
 use App\Entity\Resegnia;
+use App\Entity\IncidenciasCarrera;
 
 class UsuariosCarreraController extends AbstractController
 {
@@ -25,7 +26,7 @@ class UsuariosCarreraController extends AbstractController
             ->getUserCarrera()
             ->getGrupoCarrera()
             ->getOrlasProvisionalGrupoCarreras();
-            dump($orlasProvisional);
+            //dump($orlasProvisional);
         if ($orlasProvisional){
             return $this->render('usuarios_carrera/orla-provisional.html.twig', ['orlas_provisionales' => $orlasProvisional]);
         } else {
@@ -730,6 +731,30 @@ class UsuariosCarreraController extends AbstractController
             return $this->render('usuarios_carrera/votar-colorBecas-guardado.html.twig', [
                 'colorBecasGrupoCarrera' => $colorBecasGrupoCarrera,
                 'mensaje' => $mensaje
+            ]);
+        }
+    }
+    /**
+     * @Route("/usuario-carrera/incidencia", name="enviar-incidencia")
+     */
+    public function incidenciaAction(Request $request)
+    {
+        if ($request->getMethod()=="POST"){
+            $asunto = $request->request->get('asunto');
+            $descripcion = $request->request->get('descripcion');
+            $usuario = $this->getUser()->getUserCarrera();
+
+            $incidencia = new IncidenciasCarrera();
+            $incidencia->setUserCarrera($usuario);
+            $incidencia->setIncidencia($asunto);
+            $incidencia->setDescripcion($descripcion);
+            // insert to DB
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($incidencia);
+            $entityManager->flush();
+
+            return $this->render('usuarios_carrera/incidencia-enviada.html.twig', [
+
             ]);
         }
     }

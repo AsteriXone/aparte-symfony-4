@@ -31,6 +31,22 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/foto-academica/{slug}", name="foto-academica-slug")
+     */
+    public function academicaSlugAction(Request $request, $slug)
+    {
+        // dump($slug);
+        // replace this example code with whatever you need
+        return $this->render('default/foto-academica-index.html.twig',
+            [
+                'academica' => true,
+                'anchor' => '#'.$slug
+            ]
+        );
+    }
+
+
+    /**
      * @Route("/social", name="foto-social")
      */
     public function fotoSocialAction(Request $request)

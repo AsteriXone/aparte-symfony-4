@@ -13,6 +13,7 @@
             <div class="col-md-10 alert alert-primary mx-auto text-center" role="alert">
                 <p class="h3">Orla Provisional</p>
                 <p>Puedes hacer click en la imágen y luego girar la rueda del ratón para aumentarla.</p>
+                <button data-toggle="modal" data-target="#modal-incidencia"class="btn btn-danger btn-sm">Enviar incidencia</button>
             </div>
         </div>
 
@@ -21,7 +22,8 @@
                 <div class="p-2" id="gallery" style="display:none;">
                 {% for orla_provisional in orlas_provisionales %}
                     <a href="#">
-                    <img alt="{{ orla_provisional.imageName }}"
+
+                    <img alt=""
                          src="{{ asset('build/img/orlas_provisional/' ~ orla_provisional.imageName) }}"
                          data-image="{{ asset('build/img/orlas_provisional/' ~ orla_provisional.imageName) }}"
                          data-description="{{ orla_provisional.imageName }}"
@@ -32,6 +34,37 @@
                 </div>
             </div>
             {# End Contenedor orla #}
+            <!-- Modal -->
+            <div class="modal fade" id="modal-incidencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Deja una inciencia</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="{{ path('enviar-incidencia') }}" method="post">
+                      <div class="form-group">
+                        <label for="inputAsunto">Asunto</label>
+                        <input type="text" class="form-control" id="asunto" name="asunto" aria-describedby="asuntoHelp" placeholder="Introduce asunto" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputDescripcion">Incidencia</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                      </div>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
         <div class="row" style="padding:0; margin:0; height:30vh;">
             <div class="malla"></div>

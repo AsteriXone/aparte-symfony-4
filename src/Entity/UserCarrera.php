@@ -19,7 +19,7 @@ class UserCarrera
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="userCarrera", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="userCarrera")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -31,17 +31,22 @@ class UserCarrera
     private $grupo_carrera;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\VotacionesProfesorCarrera", mappedBy="user_carrera", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\VotacionesProfesorCarrera", mappedBy="user_carrera", cascade={"persist", "remove"})
      */
     private $votacionesProfesorCarrera;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\VotacionesMuestraCarrera", mappedBy="user_carrera", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\VotacionesColorBecaCarrera", mappedBy="user_carrera", cascade={"persist", "remove"})
+     */
+    private $votacionesColorBecaCarrera;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VotacionesMuestraCarrera", mappedBy="user_carrera", cascade={"persist", "remove"})
      */
     private $votacionesMuestraCarrera;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CitasFechaCuadranteGrupoCarrera", mappedBy="usuario")
+     * @ORM\OneToMany(targetEntity="App\Entity\CitasFechaCuadranteGrupoCarrera", mappedBy="usuario", cascade={"persist", "remove"})
      */
     private $citasFechaCuadranteGrupoCarreras;
 
@@ -55,11 +60,18 @@ class UserCarrera
      */
     private $isVotarCitasActive;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\IncidenciasCarrera", mappedBy="user_carrera")
+     */
+    private $incidenciasCarreras;
+
     public function __construct()
     {
+        $this->votacionesColorBecaCarrera = new ArrayCollection();
         $this->votacionesProfesorCarrera = new ArrayCollection();
         $this->votacionesMuestraCarrera = new ArrayCollection();
         $this->citasFechaCuadranteGrupoCarreras = new ArrayCollection();
+        $this->incidenciasCarreras = new ArrayCollection();
     }
 
     public function __toString()
@@ -214,6 +226,68 @@ class UserCarrera
     public function setIsVotarCitasActive(?bool $isVotarCitasActive): self
     {
         $this->isVotarCitasActive = $isVotarCitasActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VotacionesColorBecaCarrera[]
+     */
+    public function getVotacionesColorBecaCarrera(): Collection
+    {
+        return $this->votacionesColorBecaCarrera;
+    }
+
+    public function addVotacionesColorBecaCarrera(VotacionesColorBecaCarrera $votacionesColorBecaCarrera): self
+    {
+        if (!$this->votacionesColorBecaCarrera->contains($votacionesColorBecaCarrera)) {
+            $this->votacionesColorBecaCarrera[] = $votacionesColorBecaCarrera;
+            $votacionesColorBecaCarrera->setUserCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotacionesColorBecaCarrera(VotacionesColorBecaCarrera $votacionesColorBecaCarrera): self
+    {
+        if ($this->votacionesColorBecaCarrera->contains($votacionesColorBecaCarrera)) {
+            $this->votacionesColorBecaCarrera->removeElement($votacionesColorBecaCarrera);
+            // set the owning side to null (unless already changed)
+            if ($votacionesColorBecaCarrera->getUserCarrera() === $this) {
+                $votacionesColorBecaCarrera->setUserCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|IncidenciasCarrera[]
+     */
+    public function getIncidenciasCarreras(): Collection
+    {
+        return $this->incidenciasCarreras;
+    }
+
+    public function addIncidenciasCarrera(IncidenciasCarrera $incidenciasCarrera): self
+    {
+        if (!$this->incidenciasCarreras->contains($incidenciasCarrera)) {
+            $this->incidenciasCarreras[] = $incidenciasCarrera;
+            $incidenciasCarrera->setUserCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncidenciasCarrera(IncidenciasCarrera $incidenciasCarrera): self
+    {
+        if ($this->incidenciasCarreras->contains($incidenciasCarrera)) {
+            $this->incidenciasCarreras->removeElement($incidenciasCarrera);
+            // set the owning side to null (unless already changed)
+            if ($incidenciasCarrera->getUserCarrera() === $this) {
+                $incidenciasCarrera->setUserCarrera(null);
+            }
+        }
 
         return $this;
     }

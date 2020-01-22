@@ -15,7 +15,7 @@
         <div class="m-4 mt-5" id="gallery" style="display:none;">
             {% for image in galeria.imagesGallery %}
             <a href="#">
-            <img alt="{{ image.imageName }}"
+            <img alt=""
                  src="{{ asset('build/img/galerias/' ~ image.imageName) }}"
                  data-image="{{ asset('/build/img/galerias/' ~ image.imageName) }}"
                  data-description="{{ image.imageName }}"
