@@ -7,30 +7,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-use App\Entity\ProductosCarreraGrupoCarrera;
+use App\Entity\MuestrasCarreraGrupoCarrera;
 
-class ProductosCarreraController extends AbstractController
+class MuestrasCarreraController extends AbstractController
 {
     /**
-     * @Route("/usuario-carrera/productos", name="productos-carrera")
+     * @Route("/usuario-carrera/muestras", name="muestras-carrera")
      */
-    public function productosCarreraAction(Request $request)
+    public function muestrasCarreraAction(Request $request)
     {
         // Getting useAdmin
         $grupo = $this->getUser()
             ->getUserCarrera()
             ->getGrupoCarrera();
-        $productos = $this->getDoctrine()
-        // TODO: Obtener Productos
-        ->getRepository(ProductosCarreraGrupoCarrera::class)
+        $muestras = $this->getDoctrine()
+        ->getRepository(MuestrasCarreraGrupoCarrera::class)
         ->findBy([
             'grupo_carrera' => $grupo,
         ]);
 
 
-        return $this->render('default/productos-carrera.html.twig',
+        return $this->render('default/muestras-carrera.html.twig',
             [
-                'productos' => $productos,
+                'muestras' => $muestras,
             ]
         );
     }

@@ -1,29 +1,35 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Galeria{% endblock %}
+{% block title %}Muestras{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('unitegallery/css/unite-gallery.css') }}" type='text/css' />
 {% endblock %}
-{% block logo %}
-    {# include 'default/logo.html.twig' #}
-{% endblock %}
+
 {% block content %}
 <div id="contenedor-global" class="pt-5 pb-5">
     <div class="container-fluid pb-5">
-        {# Contendor galeria #}
+        <div class="seccion pt-5 text-light mr-4 ml-4 mt-2">
+            <div class="col-md-10 alert alert-primary mx-auto text-center" role="alert">
+                <p class="h3">Muestras disponibles</p>
+                <p>Puedes hacer click en las imágenes y luego girar la rueda del ratón para aumentarlas, también puedes navegar por la galería</p>
+            </div>
+        </div>
+
+        {# Contenedor muestras #}
         <div class="m-4 mt-5" id="gallery" style="display:none;">
-            {% for image in galeria.imagesGallery %}
+            {% for mc in muestras %}
             <a href="#">
-            <img alt=""
-                 src="{{ asset('build/img/galerias/' ~ image.imageName) }}"
-                 data-image="{{ asset('/build/img/galerias/' ~ image.imageName) }}"
-                 data-description="{{ image.imageName }}"
+            <img alt="{{ mc.muestrasCarrera.imageName }}"
+                 src="{{ asset('build/img/' ~ mc.muestrasCarrera.imageName) }}"
+                 data-image="{{ asset('build/img/' ~ mc.muestrasCarrera.imageName) }}"
+                 data-description="{{ mc.muestrasCarrera.imageName }}"
                  style="display:none">
             </a>
             {% endfor %}
+
         </div>
-        {# End Contendor galeria #}
+        {# End Contenedor muestras #}
 
         <div class="row" style="padding:0; margin:0; height:30vh;">
             <div class="malla"></div>

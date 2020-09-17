@@ -87,7 +87,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/galeria-social/{slug}", name="galeria-social")
+     * @Route("/galeria-social/{slug}", name="galeria-social-imagenes")
      */
     public function galeriaSocialAction(Request $request, $slug)
     {

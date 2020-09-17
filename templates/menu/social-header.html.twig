@@ -33,7 +33,7 @@
     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background: #FA0405;">
         {% for galeria in galerias.galerias %}
             {% if galeria.tipoGalleria == "Social" %}
-                <a class="dropdown-item" href="{{ path('galeria-social', {slug: galeria.id}) }}"><i class="fas fa-images"></i> {{ galeria.nombreGaleria }}</a>
+                <a class="dropdown-item" href="{{ path('galeria-social-imagenes', {slug: galeria.id}) }}"><i class="fas fa-images"></i> {{ galeria.nombreGaleria }}</a>
             {% endif %}
         {% endfor %}
     </div>
