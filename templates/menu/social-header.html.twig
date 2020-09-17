@@ -1,15 +1,31 @@
-<li class="nav-item nav-fill">
-    <a class="js-scroll-trigger nav-link francois" href="#bodas-anchor">BODAS<span class="sr-only">(current)</span></a>
-</li>
-<li class="nav-item nav-fill">
-    <a class="js-scroll-trigger nav-link opensans" href="#comuniones-bautizos-anchor">COMUNIONES<span class="sr-only">(current)</span></a>
-</li>
-<li class="nav-item nav-fill">
-    <a class="js-scroll-trigger nav-link opensans" href="#comuniones-bautizos-anchor">BAUTIZOS<span class="sr-only">(current)</span></a>
-</li>
-<li class="nav-item nav-fill">
-    <a class="js-scroll-trigger nav-link opensans" href="#estudio-anchor">ESTUDIO<span class="sr-only">(current)</span></a>
-</li>
+{% if galeria is defined %}
+    <li class="nav-item nav-fill">
+        <a class="js-scroll-trigger nav-link francois" href="{{ path('foto-social') }}">BODAS<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item nav-fill">
+        <a class="js-scroll-trigger nav-link opensans" href="{{ path('foto-social') }}">COMUNIONES<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item nav-fill">
+        <a class="js-scroll-trigger nav-link opensans" href="{{ path('foto-social') }}">BAUTIZOS<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item nav-fill">
+        <a class="js-scroll-trigger nav-link opensans" href="{{ path('foto-social') }}">ESTUDIO<span class="sr-only">(current)</span></a>
+    </li>
+{% else %}
+    <li class="nav-item nav-fill">
+        <a class="js-scroll-trigger nav-link francois" href="#bodas-anchor">BODAS<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item nav-fill">
+        <a class="js-scroll-trigger nav-link opensans" href="#comuniones-bautizos-anchor">COMUNIONES<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item nav-fill">
+        <a class="js-scroll-trigger nav-link opensans" href="#comuniones-bautizos-anchor">BAUTIZOS<span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item nav-fill">
+        <a class="js-scroll-trigger nav-link opensans" href="#estudio-anchor">ESTUDIO<span class="sr-only">(current)</span></a>
+    </li>
+{% endif %}
+
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     GALERÍAS

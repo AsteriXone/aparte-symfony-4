@@ -48,6 +48,16 @@ class OrlasProvisionalGrupoCarrera
      */
     private $grupo_carrera;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VisualizacionOrlaGrupoCarrera", mappedBy="orlaProvisionalGrupoCarrera", orphanRemoval=true)
+     */
+    private $visualizacionesOrlaGrupoCarreras;
+
+    public function __construct()
+    {
+        $this->visualizacionesOrlaGrupoCarreras = new ArrayCollection();
+    }
+
     public function __toString(){
         return $this->imageName;
     }
@@ -116,5 +126,36 @@ class OrlasProvisionalGrupoCarrera
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    /**
+     * @return Collection|VisualizacionOrlaGrupoCarrera[]
+     */
+    public function getVisualizacionesOrlaGrupoCarreras(): Collection
+    {
+        return $this->visualizacionesOrlaGrupoCarreras;
+    }
+
+    public function addVisualizacionesOrlaGrupoCarrera(VisualizacionOrlaGrupoCarrera $visualizacionesOrlaGrupoCarrera): self
+    {
+        if (!$this->visualizacionesOrlaGrupoCarreras->contains($visualizacionesOrlaGrupoCarrera)) {
+            $this->visualizacionesOrlaGrupoCarreras[] = $visualizacionesOrlaGrupoCarrera;
+            $visualizacionesOrlaGrupoCarrera->setOrlaProvisionalGrupoCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVisualizacionesOrlaGrupoCarrera(VisualizacionOrlaGrupoCarrera $visualizacionesOrlaGrupoCarrera): self
+    {
+        if ($this->visualizacionesOrlaGrupoCarreras->contains($visualizacionesOrlaGrupoCarrera)) {
+            $this->visualizacionesOrlaGrupoCarreras->removeElement($visualizacionesOrlaGrupoCarrera);
+            // set the owning side to null (unless already changed)
+            if ($visualizacionesOrlaGrupoCarrera->getOrlaProvisionalGrupoCarrera() === $this) {
+                $visualizacionesOrlaGrupoCarrera->setOrlaProvisionalGrupoCarrera(null);
+            }
+        }
+
+        return $this;
     }
 }

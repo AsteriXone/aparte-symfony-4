@@ -1,16 +1,18 @@
-
 {% if galeria is defined %}
 <li class="nav-item nav-fill">
-    <a class="js-scroll-trigger nav-link francois" href="{{ path('foto-academica-slug', {slug: "graduation-anchor"}) }}">ORLAS<span class="sr-only">(current)</span></a>
+    <a class="js-scroll-trigger nav-link francois" href="{{ path('foto-academica') }}">ORLAS<span class="sr-only">(current)</span></a>
+</li>
+<li class="nav-item nav-fill">
+    <a class="js-scroll-trigger nav-link opensans" href="{{ path('foto-academica') }}">FOTO ESCUELA<span class="sr-only">(current)</span></a>
 </li>
 {% else %}
 <li class="nav-item nav-fill">
     <a class="js-scroll-trigger nav-link francois" href="#graduation-anchor">ORLAS<span class="sr-only">(current)</span></a>
 </li>
-{% endif %}
 <li class="nav-item nav-fill">
     <a class="js-scroll-trigger nav-link opensans" href="#foto-escuela-anchor">FOTO ESCUELA<span class="sr-only">(current)</span></a>
 </li>
+{% endif %}
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     GALERÍAS

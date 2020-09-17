@@ -89,6 +89,7 @@ final class ProcesoOrlaGrupoAdmin extends AbstractAdmin
                     'Retoque' => 'retoque',
                     'Montaje' => 'montaje',
                     'Corrección' => 'correccion',
+                    'Fin de Corrección' => 'fin_correccion',
                     'Entregada' => 'entregada',
                 ]
             ])

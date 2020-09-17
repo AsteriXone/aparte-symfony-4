@@ -136,6 +136,11 @@ class GrupoCarrera
      */
     private $orlasProvisionalGrupoCarreras;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VideosGrupoCarrera", mappedBy="grupo_carrera", cascade={"persist", "remove"})
+     */
+    private $videosGrupoCarreras;
+
     public function __construct()
     {
         $this->usersCarrera = new ArrayCollection();
@@ -145,6 +150,7 @@ class GrupoCarrera
         $this->productoCarreraGruposCarrera = new ArrayCollection();
         $this->cuadrantesGruposCarreras = new ArrayCollection();
         $this->orlasProvisionalGrupoCarreras = new ArrayCollection();
+        $this->videosGrupoCarreras = new ArrayCollection();
     }
 
     public function __toString()
@@ -566,6 +572,38 @@ class GrupoCarrera
             // set the owning side to null (unless already changed)
             if ($orlasProvisionalGrupoCarrera->getGrupoCarrera() === $this) {
                 $orlasProvisionalGrupoCarrera->setGrupoCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|VideosGrupoCarrera[]
+     */
+    public function getVideosGrupoCarreras(): Collection
+    {
+        return $this->videosGrupoCarreras;
+    }
+
+    public function addVideosGrupoCarrera(VideosGrupoCarrera $videosGrupoCarrera): self
+    {
+        if (!$this->videosGrupoCarreras->contains($videosGrupoCarrera)) {
+            $this->videosGrupoCarreras[] = $videosGrupoCarrera;
+            $videosGrupoCarrera->setGrupoCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideosGrupoCarrera(VideosGrupoCarrera $orlasProvisionalGrupoCarrera): self
+    {
+        if ($this->videosGrupoCarreras->contains($videosGrupoCarrera)) {
+            $this->videosGrupoCarreras->removeElement($videosGrupoCarrera);
+            // set the owning side to null (unless already changed)
+            if ($videosGrupoCarrera->getGrupoCarrera() === $this) {
+                $videosGrupoCarrera->setGrupoCarrera(null);
             }
         }
 

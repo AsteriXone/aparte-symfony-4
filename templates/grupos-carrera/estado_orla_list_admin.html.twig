@@ -30,6 +30,10 @@
     <span class="label" style="background-color: #afd300 !important;">
         Corrección
     </span>
+    {% elseif object.estado == 'fin_correccion' %}
+    <span class="label" style="background-color: #00d3ff !important;">
+        Fin corrección
+    </span>
     {% elseif object.estado == 'entregada' %}
     <span class="label" style="background-color: #00c81e !important;">
         Entregada

@@ -89,6 +89,13 @@ final class IncidenciasCarreraAdmin extends AbstractAdmin
                 'sort_parent_association_mappings' => array(array('fieldName'=>'user_carrera'))
 
             ])
+            ->add('user_carrera.user.nombreCompleto', null, [
+                'label'=>'Usuario',
+                'sortable' => true,
+                'sort_field_mapping'=> array('fieldName'=>'user'),
+                'sort_parent_association_mappings' => array(array('fieldName'=>'user_carrera'))
+            ])
+
             ->add('user_carrera', null, [
                 'label'=>'Usuario',
                 'sortable' => true,
@@ -129,5 +136,15 @@ final class IncidenciasCarreraAdmin extends AbstractAdmin
             ->add('incidencia')
             ->add('descripcion')
             ;
+    }
+
+    public function getExportFields(){
+        return array(
+            'Grupo' => 'user_carrera.grupo_carrera',
+            'Usuario' => 'user_carrera.user.nombreCompleto',
+            'Correo' => 'user_carrera',
+            'Incidencia'=> 'incidencia',
+            'Descripción' => 'descripcion',
+        );
     }
 }

@@ -65,6 +65,11 @@ class UserCarrera
      */
     private $incidenciasCarreras;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\VisualizacionOrlaGrupoCarrera", mappedBy="userCarrera", orphanRemoval=true)
+     */
+    private $visualizacionesOrlaGrupoCarrera;
+
     public function __construct()
     {
         $this->votacionesColorBecaCarrera = new ArrayCollection();
@@ -72,6 +77,7 @@ class UserCarrera
         $this->votacionesMuestraCarrera = new ArrayCollection();
         $this->citasFechaCuadranteGrupoCarreras = new ArrayCollection();
         $this->incidenciasCarreras = new ArrayCollection();
+        $this->visualizacionesOrlaGrupoCarrera = new ArrayCollection();
     }
 
     public function __toString()
@@ -286,6 +292,37 @@ class UserCarrera
             // set the owning side to null (unless already changed)
             if ($incidenciasCarrera->getUserCarrera() === $this) {
                 $incidenciasCarrera->setUserCarrera(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VisualizacionOrlaGrupoCarrera[]
+     */
+    public function getVisualizacionesOrlaGrupoCarrera(): Collection
+    {
+        return $this->visualizacionesOrlaGrupoCarrera;
+    }
+
+    public function addVisualizacionesOrlaGrupoCarrera(VisualizacionOrlaGrupoCarrera $visualizacionesOrlaGrupoCarrera): self
+    {
+        if (!$this->visualizacionesOrlaGrupoCarrera->contains($visualizacionesOrlaGrupoCarrera)) {
+            $this->visualizacionesOrlaGrupoCarrera[] = $visualizacionesOrlaGrupoCarrera;
+            $visualizacionesOrlaGrupoCarrera->setUserCarrera($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVisualizacionesOrlaGrupoCarrera(VisualizacionOrlaGrupoCarrera $visualizacionesOrlaGrupoCarrera): self
+    {
+        if ($this->visualizacionesOrlaGrupoCarrera->contains($visualizacionesOrlaGrupoCarrera)) {
+            $this->visualizacionesOrlaGrupoCarrera->removeElement($visualizacionesOrlaGrupoCarrera);
+            // set the owning side to null (unless already changed)
+            if ($visualizacionesOrlaGrupoCarrera->getUserCarrera() === $this) {
+                $visualizacionesOrlaGrupoCarrera->setUserCarrera(null);
             }
         }
 

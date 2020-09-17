@@ -13,9 +13,44 @@ use App\Entity\VotacionesColorBecaCarrera;
 use App\Entity\CitasFechaCuadranteGrupoCarrera;
 use App\Entity\Resegnia;
 use App\Entity\IncidenciasCarrera;
+use App\Entity\VisualizacionOrlaGrupoCarrera;
 
 class UsuariosCarreraController extends AbstractController
 {
+    /**
+     * @Route("/usuario-carrera/download-video", name="descargar-video")
+     */
+    public function descargarVideoAction(Request $request)
+    {
+        // Obtener video para grupo
+        $videos = $this->getUser()
+            ->getUserCarrera()
+            ->getGrupoCarrera()
+            ->getVideosGrupoCarreras();
+        if (count($videos)){
+            $videoPath = $this->getParameter('videos_directory').'/'.$videos[0];
+            return $this->file($videoPath);
+        }
+    }
+
+    /**
+     * @Route("/usuario-carrera/video", name="video-grupo-carrera")
+     */
+    public function videoGrupoCarreraAction(Request $request)
+    {
+        // Getting useAdmin
+        $videos = $this->getUser()
+            ->getUserCarrera()
+            ->getGrupoCarrera()
+            ->getVideosGrupoCarreras();
+        if (count($videos)){
+            // Existen Videos
+            return $this->render('usuarios_carrera/video.html.twig', ['videos' => $videos]);
+        } else {
+            return $this->render('usuarios_carrera/no-hay-videos.html.twig');
+        }
+    }
+
     /**
      * @Route("/usuario-carrera/orla-provisional", name="orla-provisional-grupo-carrera")
      */
@@ -26,8 +61,45 @@ class UsuariosCarreraController extends AbstractController
             ->getUserCarrera()
             ->getGrupoCarrera()
             ->getOrlasProvisionalGrupoCarreras();
-            //dump($orlasProvisional);
+
+        $estadoOrla = $this->getUser()
+            ->getUserCarrera()
+            ->getGrupoCarrera()
+            ->getProcesoOrlaGrupo()
+            ->getEstado();
+
         if ($orlasProvisional){
+            // Existen Orlas Provisionales
+
+            if ($estadoOrla != 'fin_correccion' && $estadoOrla != 'entregada'){
+                // Comprueba si hay visualizaciones de este usuario
+                $visualizacionesUserCarrera = $this->getUser()->getUserCarrera()->getVisualizacionesOrlaGrupoCarrera();
+                if (count($visualizacionesUserCarrera) == 0){
+                    // User no ha visualizado antes, guardar visualizacion en db
+                    $entityManager = $this->getDoctrine()->getManager();
+
+                    foreach ($orlasProvisional as $orlaProvisional) {
+                        $visualizacion = new VisualizacionOrlaGrupoCarrera();
+                        $visualizacion->setUserCarrera($this->getUser()->getUserCarrera());
+                        $visualizacion->setOrlaProvisionalGrupoCarrera($orlaProvisional);
+                        $visualizacion->setFechaVisualizacion(new \DateTime('now'));
+                        $entityManager->persist($visualizacion);
+                        $entityManager->flush();
+                    }
+                }
+                return $this->render('usuarios_carrera/orla-provisional.html.twig', ['orlas_provisionales' => $orlasProvisional]);
+            } else {
+                // Si estado es fin_correccion o entregada, no se puede poner incidencias
+                return $this->render(
+                    'usuarios_carrera/orla-provisional.html.twig',
+                    [
+                        'no_incidencias' => true,
+                        'orlas_provisionales' => $orlasProvisional
+                    ]
+                );
+            }
+
+
             return $this->render('usuarios_carrera/orla-provisional.html.twig', ['orlas_provisionales' => $orlasProvisional]);
         } else {
             return $this->render('usuarios_carrera/no-hay-orla-provisional.html.twig');
@@ -53,26 +125,30 @@ class UsuariosCarreraController extends AbstractController
             $mensajeEstado = "Tu orla aún no tiene estado";
             $color = '';
         } else if ($estadoOrla == "sesion"){
-            $estado = 16;
+            $estado = 15;
             $mensajeEstado = "Sesión de fotos activa";
             $color = 'bg-danger';
         } else if ($estadoOrla == "nombrado"){
-            $estado = 33;
+            $estado = 30;
             $mensajeEstado = "Estamos nombrando las fotografías";
             $color = 'bg-warning';
         } else if ($estadoOrla == "retoque"){
-            $estado = 50;
+            $estado = 45;
             $mensajeEstado = "Las fotos se están retocando";
             $color = 'bg-warning';
         } else if ($estadoOrla == "montaje"){
-            $estado = 66;
+            $estado = 60;
             $mensajeEstado = "Estamos montando la orla";
             $color = 'bg-info';
         } else if ($estadoOrla == "correccion"){
-            $estado = 83;
+            $estado = 75;
             $mensajeEstado = "Es momento de correcciones";
             $color = '';
-        } else if ($estadoOrla == "entregada"){
+        } else if ($estadoOrla == "fin_correccion"){
+            $estado = 90;
+            $mensajeEstado = "Correcciones finalizadas";
+            $color = '';
+        }else if ($estadoOrla == "entregada"){
             $estado = 100;
             $mensajeEstado = "Orla entregada con fecha ".$fecha;
             $color = 'bg-success';
@@ -84,6 +160,7 @@ class UsuariosCarreraController extends AbstractController
         }
         return $this->render('usuarios_carrera/estado-orla.html.twig', ['estado' => $estado, 'mensajeEstado' => $mensajeEstado, 'color'=>$color, 'tipo' => $tipo ]);
     }
+
     /**
      * @Route("/usuario-carrera/resenia", name="resenia")
      */

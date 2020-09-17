@@ -69,12 +69,12 @@ class User implements UserInterface
     private $telefono;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $mencion;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $isErasmus;
 
@@ -87,6 +87,11 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity="App\Entity\UserCarrera", mappedBy="user", cascade={"persist", "remove"})
      */
     private $userCarrera;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserSocial", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $userSocial;
 
     public function getNombreCompleto(){
         $nombre = $this->getNombre();
@@ -317,6 +322,23 @@ class User implements UserInterface
         // set the owning side of the relation if necessary
         if ($this !== $userCarrera->getUser()) {
             $userCarrera->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getUserSocial(): ?UserSocial
+    {
+        return $this->userSocial;
+    }
+
+    public function setUserSocial(UserSocial $userSocial): self
+    {
+        $this->userSocial = $userSocial;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $userSocial->getUser()) {
+            $userSocial->setUser($this);
         }
 
         return $this;

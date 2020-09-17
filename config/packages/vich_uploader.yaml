@@ -25,3 +25,7 @@ vich_uploader:
        orla_provisional_carrera:
            uri_prefix: /img/orlas_provisional
            upload_destination: '%kernel.project_dir%/public/build/img/orlas_provisional'
+
+       video_carrera:
+           uri_prefix: /video/video_grupo
+           upload_destination: '%kernel.project_dir%/public/build/video/video_grupo'

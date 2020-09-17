@@ -13,7 +13,9 @@
             <div class="col-md-10 alert alert-primary mx-auto text-center" role="alert">
                 <p class="h3">Orla Provisional</p>
                 <p>Puedes hacer click en la imágen y luego girar la rueda del ratón para aumentarla.</p>
-                <button data-toggle="modal" data-target="#modal-incidencia"class="btn btn-danger btn-sm">Enviar incidencia</button>
+                {% if no_incidencias is not defined %}
+                    <button data-toggle="modal" data-target="#modal-incidencia"class="btn btn-danger btn-sm">Enviar incidencia</button>
+                {% endif %}
             </div>
         </div>
 

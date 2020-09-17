@@ -14,10 +14,14 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <!-- ROLE_ADMIN -->
                     {% include '/menu/admin-header.html.twig' %}
-                {% elseif is_granted('ROLE_USER') %}
+                {% elseif is_granted('ROLE_CARRERA') %}
                     <!-- ROLE_USER -->
                     <!-- Menú para usuarios registrados -->
                     {% include '/menu/login-user-header.html.twig' %}
+                {% elseif is_granted('ROLE_SOCIAL') %}
+                    <!-- ROLE_USER -->
+                    <!-- Menú para usuarios registrados -->
+                    {% include '/menu/login-user-social.html.twig' %}
                 {% endif %}
             {% else %}
                 <!-- Menú para usuarios no logueados -->

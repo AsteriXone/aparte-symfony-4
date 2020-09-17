@@ -6,7 +6,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\File;
 use App\Entity\Galeria;
+
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class DefaultController extends AbstractController
 {
@@ -20,6 +24,19 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/download/guia", name="guia")
+     */
+    public function guiaAction(Request $request)
+    {
+        $response = new BinaryFileResponse($this->getParameter('guia_directory').'/guia_como_llegar.pdf');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,'guia_como_llegar.pdf');
+        return $response;
+        // // Obtener guia
+        // $samplePdf = new File($this->getParameter('guia_directory').'/guia_como_llegar.pdf');
+        // return $this->file($samplePdf);
+    }
+
+    /**
      * @Route("/foto-academica", name="foto-academica")
      */
     public function academicaAction(Request $request)
@@ -29,22 +46,6 @@ class DefaultController extends AbstractController
             ['academica' => true]
         );
     }
-
-    /**
-     * @Route("/foto-academica/{slug}", name="foto-academica-slug")
-     */
-    public function academicaSlugAction(Request $request, $slug)
-    {
-        // dump($slug);
-        // replace this example code with whatever you need
-        return $this->render('default/foto-academica-index.html.twig',
-            [
-                'academica' => true,
-                'anchor' => '#'.$slug
-            ]
-        );
-    }
-
 
     /**
      * @Route("/social", name="foto-social")
@@ -102,5 +103,74 @@ class DefaultController extends AbstractController
                 'galeria' => $galeria
             ]
         );
+    }
+
+    /**
+     * @Route("/resenia", name="resenia-no-loggin")
+     */
+    public function reseniaNoLogginAction(Request $request)
+    {
+        // TODO: Resenias usuarios o logueados
+        // Introducir codigo grupo
+        // Existe codigo grupo -> Puede dejar reseña
+        // No existe codigo grupo -> Mensaje error
+        // END-TODO
+
+
+        if ($request->getMethod()=="GET"){
+            // Get Method
+            return $this->render('default/resenia.html.twig');
+        } else {
+            // Post Method
+            $calidad = $request->request->get('calidad');
+            $ambiente = $request->request->get('ambiente');
+            $trato = $request->request->get('trato');
+            $accesibilidad = $request->request->get('accesibilidad');
+            $disenio = $request->request->get('disenio');
+            $comentario = $request->request->get('comentario');
+
+            if (!$calidad){
+                $calidad = 0;
+            }
+            if (!$ambiente){
+                $ambiente = 0;
+            }
+            if (!$trato){
+                $trato = 0;
+            }
+            if (!$accesibilidad){
+                $accesibilidad = 0;
+            }
+            if (!$disenio){
+                $disenio = 0;
+            }
+            if (!$comentario){
+                $isPublicada = 0;
+                $comentario = "No dejó comentario, no se publicará!";
+            } else {
+                $isPublicada = 1;
+            }
+            // Crea nueva resenia
+            $resenia = new Resegnia();
+            $resenia->setCalidadPrecio($calidad);
+            $resenia->setAmbiente($ambiente);
+            $resenia->setTrato($trato);
+            $resenia->setAccesibilidad($accesibilidad);
+            $resenia->setDisegnioOpciones($disenio);
+            $resenia->setComentario($comentario);
+            $resenia->setPublicada($isPublicada);
+
+            // TODO: Ver como solucionamos tema usuario
+            $resenia->setUserCarrera($this->getUser()->getUserCarrera());
+
+            $resenia->setFechaPublicacion(new \DateTime('now'));
+            // insert to DB
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($resenia);
+            $entityManager->flush();
+
+            return $this->render('default/resenia-enviada.html.twig', ['mensaje']);
+        }
+        return $this->render('default/resenia.html.twig');
     }
 }

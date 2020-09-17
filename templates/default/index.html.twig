@@ -16,9 +16,20 @@
 
         <!-- Seccion Bienvenida -->
         <div class="seccion pt-5 text-light">
-            <p class="h2 text-center mb-4">BIENVENIDOS A NUESTRA WEB</p>
+            <p class="h2 text-center mb-2">BIENVENIDOS A NUESTRA WEB</p>
             <br/>
-            <br/>
+            <div class="jumbotron p-4 ml-5 mr-5 text-dark alert-danger">
+                <div class="m-0 p-0 row">
+                    <div class="m-0 p-0 col-lg-2 col-md-2 text-center"><img class="img-circle mx-auto" src="{{ asset('build/img/vacaciones.png') }}" alt="Generic placeholder image" height="147" width="147"></div>
+                    <div class="align-middle m-0 p-0 col-lg-10 col-md-10">
+                        <h1>Estamos de vacaciones</h1>
+                        <p class="text-justify">Permaneceramos cerrados desde el 27 de julio <strong>hasta el próximo 31 de agosto</strong>, disfruta tus vacaciones con responsabilidad, usa mascarilla y mantén la distancia de seguridad, nos vemos pronto!</p>
+                    </div>
+                </div>
+
+
+            </div>
+
             <br/>
             <p class="h5 text-center mb-3">APARTEFOTOGRAFÍA es una empresa joven y dinámica</p>
             <p class="h5 text-center mb-3">Entendemos la fotografía como la forma de expresar e inmortalizar los momentos más importantes
@@ -27,6 +38,35 @@
             </p>
         </div>
         <!--End Seccion Bienvenida -->
+
+
+
+        <!-- Seccion Resenias -->
+        <div class="seccion pt-5 text-light">
+            <div class="slick-carousel">
+            {% for resegnia in resegnias.resegnias %}
+                {% if resegnia.publicada %}
+                    <div style="min-height: 270px">
+                      <div style="min-height: 270px; box-shadow: 0px 0px 5px #ffffff; border-radius: 3px 10px 3px 3px; margin: 15px; padding: 5px; background: rgba(0,0,0, .8)">
+                          <h4 class="mb-0" style="color: #FA0405">{{ resegnia.userCarrera.user.nombreCompletoResenia }}</h4>
+                          <h6 style="font-size: 0.8em" class="mb-0">{{ resegnia.userCarrera.grupoCarrera.especialidadCarrera }}</h6>
+                          <h6 style="font-size: 0.8em">{{ resegnia.userCarrera.grupoCarrera.universidad }}</h6>
+                          <p style="font-size: 0.9em; text-align: justify;">{{ resegnia.comentario }}</p>
+                          <p style="font-size: 0.7em; position: absolute; bottom: 6px; right: 25px;">Fecha publicación: <strong>{{ resegnia.fechaPublicacion|date('d/m/Y') }}</strong></p>
+                      </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+              {# <div>
+                <div style="box-shadow: 0px 0px 5px #ffffff; border-radius: 3px 10px 3px 3px; margin: 15px; padding: 5px; background: rgba(0,0,0, .8)">
+                    <h4 class="mb-0" style="color: #FA0405">Pepito Pérez</h4>
+                    <h6 style="font-size: 0.8em" class="mb-0">Ingeniería Informática</h6>
+                    <h6 style="font-size: 0.8em">Universidad de Sevilla</h6>
+                    <p style="font-size: 0.9em; text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar iaculis justo, ut pretium libero sodales sit amet. Maecenas in turpis malesuada, accumsan ex ut, mollis ex. Suspendisse eget leo et sem vulputate vehicula. Suspendisse id leo eget enim commodo feugiat. Cras nisl libero, accumsan quis hendrerit eu, eleifend at lectus. Donec mollis molestie venenatis. Proin vel enim ex.</p>
+                </div>
+              </div> #}
+        </div>
+        <!--End Seccion Resenias -->
         <br/>
         <br/>
         <br/>
@@ -118,32 +158,7 @@
         <!--End Seccion Proveedores y Calidad -->
 
 
-        <!-- Seccion Resenias -->
-        <div class="seccion pt-5 text-light">
-            <div class="slick-carousel">
-            {% for resegnia in resegnias.resegnias %}
-                {% if resegnia.publicada %}
-                    <div style="min-height: 270px">
-                      <div style="min-height: 270px; box-shadow: 0px 0px 5px #ffffff; border-radius: 3px 10px 3px 3px; margin: 15px; padding: 5px; background: rgba(0,0,0, .8)">
-                          <h4 class="mb-0" style="color: #FA0405">{{ resegnia.userCarrera.user.nombreCompletoResenia }}</h4>
-                          <h6 style="font-size: 0.8em" class="mb-0">{{ resegnia.userCarrera.grupoCarrera.especialidadCarrera }}</h6>
-                          <h6 style="font-size: 0.8em">{{ resegnia.userCarrera.grupoCarrera.universidad }}</h6>
-                          <p style="font-size: 0.9em; text-align: justify;">{{ resegnia.comentario }}</p>
-                          <p style="font-size: 0.7em; position: absolute; bottom: 6px; right: 25px;">Fecha publicación: <strong>{{ resegnia.fechaPublicacion|date('d/m/Y') }}</strong></p>
-                      </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-              {# <div>
-                <div style="box-shadow: 0px 0px 5px #ffffff; border-radius: 3px 10px 3px 3px; margin: 15px; padding: 5px; background: rgba(0,0,0, .8)">
-                    <h4 class="mb-0" style="color: #FA0405">Pepito Pérez</h4>
-                    <h6 style="font-size: 0.8em" class="mb-0">Ingeniería Informática</h6>
-                    <h6 style="font-size: 0.8em">Universidad de Sevilla</h6>
-                    <p style="font-size: 0.9em; text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pulvinar iaculis justo, ut pretium libero sodales sit amet. Maecenas in turpis malesuada, accumsan ex ut, mollis ex. Suspendisse eget leo et sem vulputate vehicula. Suspendisse id leo eget enim commodo feugiat. Cras nisl libero, accumsan quis hendrerit eu, eleifend at lectus. Donec mollis molestie venenatis. Proin vel enim ex.</p>
-                </div>
-              </div> #}
-        </div>
-        <!--End Seccion Resenias -->
+
 
 
         <div class="row" style="padding:0; margin:0; height:30vh;">

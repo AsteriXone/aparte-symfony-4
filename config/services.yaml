@@ -4,7 +4,12 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    contratos_directory: '%kernel.project_dir%/public/contratos'
+    contratos_directory: '%kernel.project_dir%/www/contratos'
+    videos_directory: '%kernel.project_dir%/www/build/video/video_grupo'
+    guia_directory: '%kernel.project_dir%/www/guia'
+    ricardo_directory: '%kernel.project_dir%/www/build/carpetas_social/ricardo'
+    andres_directory: '%kernel.project_dir%/www/build/carpetas_social/andres'
+    ruben_directory: '%kernel.project_dir%/www/build/carpetas_social/ruben'
 
 twig:
 
@@ -57,11 +62,32 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuarios Carrera, 'icon': '<i class="fa fa-users"></i>'}
         public: true
 
+    admin.user_social:
+        class: App\Admin\UserSocialAdmin
+        arguments: [~, App\Entity\UserSocial, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuarios Social, 'icon': '<i class="fa fa-users"></i>'}
+        public: true
+
+    # admin.user_social:
+    #     class: App\Admin\UserSocialAdmin
+    #     arguments: [~, App\Entity\UserSocial, ~]
+    #     tags:
+    #         - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuarios Social, 'icon': '<i class="fa fa-users"></i>'}
+    #     public: true
+
     admin.grupo_carrera:
         class: App\Admin\GrupoCarreraAdmin
         arguments: [~, App\Entity\GrupoCarrera, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Carreras, label: Grupos Carrera, 'icon': '<i class="fa fa-graduation-cap"></i>' }
+        public: true
+
+    admin.grupo_social:
+        class: App\Admin\GrupoSocialAdmin
+        arguments: [~, App\Entity\GrupoSocial, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Social, label: Grupos Social, 'icon': '<i class="fa fa-graduation-cap"></i>' }
         public: true
 
     admin.galeria:
@@ -211,9 +237,23 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Carreras, label: Orla Provisional Carrera }
         public: true
 
+    admin.videos_grupos_carrera:
+        class: App\Admin\VideosGruposCarreraAdmin
+        arguments: [~, App\Entity\VideosGrupoCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Video }
+        public: true
+
     admin.incidencias_carrera:
         class: App\Admin\IncidenciasCarreraAdmin
         arguments: [~, App\Entity\IncidenciasCarrera, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Carreras, label: Incidencias Carrera }
+        public: true
+
+    admin.visualizacion_orla_grupo_carrera:
+        class: App\Admin\VisualizacionOrlaGrupoCarreraAdmin
+        arguments: [~, App\Entity\VisualizacionOrlaGrupoCarrera, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Carreras, label: Visualizaciones Orla }
         public: true

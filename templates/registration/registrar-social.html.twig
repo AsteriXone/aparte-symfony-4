@@ -1,0 +1,138 @@
+{% extends 'layout.html.twig' %}
+{% block logo %}
+    {# include 'default/logo.html.twig' #}
+{% endblock %}
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-0">
+    <div class="container-fluid">
+
+        <!-- Seccion Formulario -->
+        <div class="seccion p-2 text-light">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mx-auto">
+                    <p class="h1 text-center mt-4 mb-4">Registrar</p>
+                    {{ form_start(registrationForm) }}
+                        <div class="row">
+                            {{ form_errors(registrationForm) }}
+                            {% for message in app.flashes('error-codigo-grupo') %}
+                                <div class="col-md-12 alert alert-danger" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                            <div class="col-md-12">
+                                {{ form_row(registrationForm.email) }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form_row(registrationForm.password) }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form_row(registrationForm.nombre) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(registrationForm.apellido_1) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(registrationForm.apellido_2) }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form_row(registrationForm.telefono) }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form_row(registrationForm.groupcode) }}
+                            </div>
+                        </div>
+                        <button class="btn btn-block btn-primary">Registrar</button>
+                    {{ form_end(registrationForm) }}
+                        <p style="font-size: 0.9rem">Al registrarte aceptas nuestras <a href="#" data-toggle="modal" data-target="#modal-condiciones-uso">Condiciones de uso.</a> Consulta nuestra <a href="#" data-toggle="modal" data-target="#modal-politica-cookies">Política de Cookies.</a></p>
+                </div>
+            </div>
+        </div>
+        <!--End Seccion Formulario -->
+        <!-- Modal Codiciones de uso -->
+        <div class="modal fade" id="modal-condiciones-uso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Condiciones de uso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+              <!-- Condiciones de uso -->
+                  <div style="text-align: center">
+                      <p style="text-align: justify; font-size: 0.7em">Si usted es cliente o proveedor de Andrés Pino Artero (APARTE FOTOGRAFÍA, nombre
+                          comercial), le informamos que, en cumplimiento de lo establecido en la legislación aplicable sobre protección de
+                          datos de carácter personal, sus datos pueden ser incorporados a un fichero del que Andrés Pino Artero (APARTE
+                          FOTOGRAFÍA, nombre comercial), es responsable, y cuya finalidad es, exclusivamente, la de realizar las
+                          comunicaciones y tratamientos de datos necesarios para prestar nuestros servicios a nuestros clientes y
+                          establecer relaciones comerciales con los proveedores. Usted puede ejercer sus derechos en las direcciones de
+                          correo electrónico y postal que se indican a continuación.</p>
+                      <p style="text-align: justify; font-size: 0.7em">Si el presente correo electrónico tuviera un contenido comercial y/o publicitario, y
+                          usted desea no recibir más comunicaciones de este tipo, le informamos que puede ejercer especialmente su derecho
+                          de oposición, manifestándolo así mediante el envío de un correo electrónico a la siguiente dirección:
+                          <strong>apartefotografia@gmail.com</strong></p>
+                      <p style="text-align: justify; font-size: 0.7em">También pude dirigirse por correo postal o presencialmente a la siguiente
+                          dirección:</p>
+                      <p style="text-align: left; font-size: 0.7em"><strong>C/ Perseo, nº 35. C.P. 28.935. Móstoles (Madrid).</strong></p>
+                      <p style="text-align: justify; font-size: 0.7em">En caso de que opte por este medio, el responsable de los datos podrá solicitarle cualquier medio razonable de
+                          identificación para atender a sus derechos e intereses legítimos.</p>
+                      <p style="text-align: justify; font-size: 0.7em">Igualmente informamos que este mensaje y sus archivos adjuntos pueden contener
+                          información confidencial y tienen como destinatario único la persona o personas a las que van dirigidos. En
+                          consecuencia, queda prohibida la difusión, copia o mera utilización por terceros de la información contenida en
+                          los mismos. Si usted lo recibiera por error, rogamos proceda a notificar tal circunstancia al remitente y
+                          destruya el mensaje y los documentos adjuntos que pudiera contener.</p>
+                      <p style="text-align: justify; font-size: 0.7em">Cualquier información adjunta, opinión, conclusión, recomendación u otra
+                          manifestación contenida en el presente mensaje no relacionada con la actividad profesional de Andrés Pino Artero
+                          (APARTE FOTOGRAFÍA, nombre comercial), y/o emitida por persona no legitimada para ello, deberá ser considerada
+                          como no proporcionada ni autorizada o aprobada por Andrés Pino Artero (APARTE FOTOGRAFÍA, nombre comercial),
+                          quien pone todos los medios precisos que se encuentran a su alcance a fin de garantizar la seguridad de la
+                          información y evitar que se produzcan errores en la correspondencia realizada por vía electrónica. No obstante,
+                          Andrés Pino Artero (APARTE FOTOGRAFÍA, nombre comercial), no puede asegurar ni garantizar la inexistencia de
+                          virus u otros elementos perniciosos, ni la no alteración de los documentos transmitidos por este medio, por lo
+                          que, a este respecto, no se hace responsable del acaecimiento de dichas circunstancias.</p>
+                    </div>
+              <!-- End Condiciones de uso -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Modal Codiciones de uso -->
+
+        <!-- Modal Política de Cookies -->
+        <div class="modal fade" id="modal-politica-cookies" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Política de Cookies</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+              <!-- Política de Cookies -->
+                  <div style="text-align: center">
+                      <p style="text-align: justify; font-size: 0.7em">En nuestra web somos claros, actualmente usamos una única cookie de sesión (denominada PHPSESSID) sólo para usuarios registrados, por motivos de identificación y nada más!</p>
+                    </div>
+              <!-- End Política de Cookies -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Modal Política de Cookies -->
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla" style="background-color: rgba(0, 0, 0, .7) !important"></div>
+            <div class="bg-container" style="background: #a8a8a8 !important;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

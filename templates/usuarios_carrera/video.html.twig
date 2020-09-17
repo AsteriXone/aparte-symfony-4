@@ -1,0 +1,55 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Video{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock %}
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-0">
+    <div class="container-fluid pb-0">
+        <div class="seccion pt-5 text-light mr-4 ml-4 mt-2">
+            <div class="col-md-10 alert alert-primary mx-auto text-center" role="alert">
+                <p class="h3">Video</p>
+                <p>Puedes visualizar el video o descargarlo en el enlace de la parte inferior.</p>
+            </div>
+        </div>
+
+            {# Contenedor orla #}
+            <div class="col-md-10 mx-auto text-center">
+
+                {% for video in videos %}
+                    <video id="my-video"
+                    class="video-js w-50"
+                    controls
+                    preload="auto"
+                    width=""
+                    height=""
+                    data-setup="{}">
+                        <source src="{{ asset('build/video/video_grupo/' ~ video.imageName) }}" type="video/mp4" />
+                        <p class="vjs-no-js">
+                          To view this video please enable JavaScript, and consider upgrading to a
+                          web browser that
+                          <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                        </p>
+                    </video>
+                {% endfor %}
+
+            </div>
+            {# End Contenedor orla #}
+            <div class="col-md-10 mx-auto text-center mt-2">
+                <a href="{{ path('descargar-video') }}" class="btn btn-primary active" role="button" aria-pressed="true">Descarga Video&nbsp;&nbsp;<i class="fas fa-file-download"></i></a>
+            </div>
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
