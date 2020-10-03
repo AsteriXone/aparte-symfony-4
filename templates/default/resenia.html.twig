@@ -1,0 +1,256 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Reseña{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+
+<style>
+/* .rating {
+      float:left;
+    } */
+
+    /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
+      follow these rules. Every browser that supports :checked also supports :not(), so
+      it doesn’t make the test unnecessarily selective */
+    .rating:not(:checked) > input {
+        position:absolute;
+        top:-9999px;
+        clip:rect(0,0,0,0);
+    }
+
+    .rating:not(:checked) > label {
+        float:right;
+        width:1em;
+        /* padding:0 .1em; */
+        overflow:hidden;
+        white-space:nowrap;
+        cursor:pointer;
+        font-size:100%;
+        /* line-height:1.2; */
+        color:#aaa;
+    }
+
+    .rating:not(:checked) > label:before {
+        content: '★ ';
+    }
+
+    .rating > input:checked ~ label {
+        color: #ff0;
+
+    }
+
+    .rating:not(:checked) > label:hover,
+    .rating:not(:checked) > label:hover ~ label {
+        color: #ff0;
+
+    }
+
+    .rating > input:checked + label:hover,
+    .rating > input:checked + label:hover ~ label,
+    .rating > input:checked ~ label:hover,
+    .rating > input:checked ~ label:hover ~ label,
+    .rating > label:hover ~ input:checked ~ label {
+        color: #ff0;
+    }
+
+    .rating > label:active {
+        position:relative;
+        top:2px;
+        left:2px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="contenedor-global" class="pt-5 pb-5">
+    <div class="container-fluid">
+
+        <div class="seccion pt-5 text-light">
+            <p class="h2 text-center">Ayúdanos a mejorar</p>
+            <div class="seccion pt-4 text-light mr-4 ml-4 mt-2">
+                {% if mensaje is defined %}
+                    <div class="col-md-6 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-0">{{ mensaje }}</p>
+                    </div>
+                {% else %}
+                    <div class="col-md-6 alert alert-primary mx-auto text-center" role="alert">
+                        <p class="mb-1">Al finalizar no olvides <strong>enviar</strong> tu valoración!</p>
+                    </div>
+                {% endif %}
+
+                <div class="col-md-6 mx-auto">
+                {% if grupoDesactivado is not defined %}
+                <form class="" method="post">
+                  <div class="form-group row">
+                    <label for="codigo" class="col-md-4 col-sm-3 col-form-label">Correo</label>
+                    <div class="col-md-8 col-sm-9">
+                      {% if (mail_error) is defined %}
+                          <input type="text" class="form-control is-invalid" id="correo" name="correo" placeholder="{{ mail_error }}">
+                      {% else %}
+                          <input type="text" class="form-control" id="correo" name="correo" placeholder="ejemplo@mail.com" {% if (email is defined) %} value="{{ email }}" {% endif %}>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="codigo" class="col-md-4 col-sm-3 col-form-label">Código Grupo</label>
+                    <div class="col-md-8 col-sm-9">
+                      {% if (code_error) is defined %}
+                          <input type="text" class="form-control is-invalid" id="codigo" name="codigo" placeholder="{{ code_error }}">
+                      {% else %}
+                          <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código">
+                      {% endif %}
+                    </div>
+                  </div>
+                  <table style="box-shadow: 0px 0px 20px rgba(255,255,255, 1)" class="mt-2 table table-hover table-dark">
+                    <thead>
+                      <tr>
+                        <th colspan="2" style="text-align: center" scope="col">Valoración</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="pl-5">
+                                Relación Calidad/Precio
+                            </td>
+                            <td>
+                                <div class="rating mr-5">
+                                {% if calidad is defined %}
+                                    <input type="radio" id="calidad5" name="calidad" value="5" {% if calidad == 5 %}checked{% endif %} /><label for="calidad5" title=""></label>
+                                    <input type="radio" id="calidad4" name="calidad" value="4" {% if calidad == 4 %}checked{% endif %} /><label for="calidad4" title=""></label>
+                                    <input type="radio" id="calidad3" name="calidad" value="3" {% if calidad == 3 %}checked{% endif %} /><label for="calidad3" title=""></label>
+                                    <input type="radio" id="calidad2" name="calidad" value="2" {% if calidad == 2 %}checked{% endif %} /><label for="calidad2" title=""></label>
+                                    <input type="radio" id="calidad1" name="calidad" value="1" {% if calidad == 1 %}checked{% endif %} /><label for="calidad1" title=""></label>
+                                {% else %}
+                                    <input type="radio" id="calidad5" name="calidad" value="5" /><label for="calidad5" title=""></label>
+                                    <input type="radio" id="calidad4" name="calidad" value="4" /><label for="calidad4" title=""></label>
+                                    <input type="radio" id="calidad3" name="calidad" value="3" /><label for="calidad3" title=""></label>
+                                    <input type="radio" id="calidad2" name="calidad" value="2" /><label for="calidad2" title=""></label>
+                                    <input type="radio" id="calidad1" name="calidad" value="1" /><label for="calidad1" title=""></label>
+                                {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pl-5">
+                                Ambiente fotográfico
+                            </td>
+                            <td>
+                                <div class="rating mr-5">
+                                {% if ambiente is defined %}
+                                    <input type="radio" id="ambiente5" name="ambiente" value="5" {% if ambiente == 5 %}checked{% endif %} /><label for="ambiente5" title=""></label>
+                                    <input type="radio" id="ambiente4" name="ambiente" value="4" {% if ambiente == 4 %}checked{% endif %} /><label for="ambiente4" title=""></label>
+                                    <input type="radio" id="ambiente3" name="ambiente" value="3" {% if ambiente == 3 %}checked{% endif %} /><label for="ambiente3" title=""></label>
+                                    <input type="radio" id="ambiente2" name="ambiente" value="2" {% if ambiente == 2 %}checked{% endif %} /><label for="ambiente2" title=""></label>
+                                    <input type="radio" id="ambiente1" name="ambiente" value="1" {% if ambiente == 1 %}checked{% endif %} /><label for="ambiente1" title=""></label>
+                                {% else %}
+                                    <input type="radio" id="ambiente5" name="ambiente" value="5" /><label for="ambiente5" title=""></label>
+                                    <input type="radio" id="ambiente4" name="ambiente" value="4" /><label for="ambiente4" title=""></label>
+                                    <input type="radio" id="ambiente3" name="ambiente" value="3" /><label for="ambiente3" title=""></label>
+                                    <input type="radio" id="ambiente2" name="ambiente" value="2" /><label for="ambiente2" title=""></label>
+                                    <input type="radio" id="ambiente1" name="ambiente" value="1" /><label for="ambiente1" title=""></label>
+                                {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pl-5">
+                                Trato profesional
+                            </td>
+                            <td>
+                                <div class="rating mr-5">
+                                {% if trato is defined %}
+                                    <input type="radio" id="trato5" name="trato" value="5" {% if trato == 5 %}checked{% endif %} /><label for="trato5" title=""></label>
+                                    <input type="radio" id="trato4" name="trato" value="4" {% if trato == 4 %}checked{% endif %} /><label for="trato4" title=""></label>
+                                    <input type="radio" id="trato3" name="trato" value="3" {% if trato == 3 %}checked{% endif %} /><label for="trato3" title=""></label>
+                                    <input type="radio" id="trato2" name="trato" value="2" {% if trato == 2 %}checked{% endif %} /><label for="trato2" title=""></label>
+                                    <input type="radio" id="trato1" name="trato" value="1" {% if trato == 1 %}checked{% endif %} /><label for="trato1" title=""></label>
+                                {% else %}
+                                    <input type="radio" id="trato5" name="trato" value="5" /><label for="trato5" title=""></label>
+                                    <input type="radio" id="trato4" name="trato" value="4" /><label for="trato4" title=""></label>
+                                    <input type="radio" id="trato3" name="trato" value="3" /><label for="trato3" title=""></label>
+                                    <input type="radio" id="trato2" name="trato" value="2" /><label for="trato2" title=""></label>
+                                    <input type="radio" id="trato1" name="trato" value="1" /><label for="trato1" title=""></label>
+                                {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pl-5">
+                                Accesibilidad
+                            </td>
+                            <td>
+                                <div class="rating mr-5">
+                                {% if accesibilidad is defined %}
+                                    <input type="radio" id="accesibilidad5" name="accesibilidad" value="5" {% if accesibilidad == 5 %}checked{% endif %} /><label for="accesibilidad5" title=""></label>
+                                    <input type="radio" id="accesibilidad4" name="accesibilidad" value="4" {% if accesibilidad == 4 %}checked{% endif %} /><label for="accesibilidad4" title=""></label>
+                                    <input type="radio" id="accesibilidad3" name="accesibilidad" value="3" {% if accesibilidad == 3 %}checked{% endif %} /><label for="accesibilidad3" title=""></label>
+                                    <input type="radio" id="accesibilidad2" name="accesibilidad" value="2" {% if accesibilidad == 2 %}checked{% endif %} /><label for="accesibilidad2" title=""></label>
+                                    <input type="radio" id="accesibilidad1" name="accesibilidad" value="1" {% if accesibilidad == 1 %}checked{% endif %} /><label for="accesibilidad1" title=""></label>
+                                {% else %}
+                                    <input type="radio" id="accesibilidad5" name="accesibilidad" value="5" /><label for="accesibilidad5" title=""></label>
+                                    <input type="radio" id="accesibilidad4" name="accesibilidad" value="4" /><label for="accesibilidad4" title=""></label>
+                                    <input type="radio" id="accesibilidad3" name="accesibilidad" value="3" /><label for="accesibilidad3" title=""></label>
+                                    <input type="radio" id="accesibilidad2" name="accesibilidad" value="2" /><label for="accesibilidad2" title=""></label>
+                                    <input type="radio" id="accesibilidad1" name="accesibilidad" value="1" /><label for="accesibilidad1" title=""></label>
+                                {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pl-5">
+                                Diseño y opciones
+                            </td>
+                            <td>
+                                <div class="rating mr-5">
+                                {% if disenio is defined %}
+                                    <input type="radio" id="disenio5" name="disenio" value="5" {% if disenio == 5 %}checked{% endif %} /><label for="disenio5" title=""></label>
+                                    <input type="radio" id="disenio4" name="disenio" value="4" {% if disenio == 4 %}checked{% endif %} /><label for="disenio4" title=""></label>
+                                    <input type="radio" id="disenio3" name="disenio" value="3" {% if disenio == 3 %}checked{% endif %} /><label for="disenio3" title=""></label>
+                                    <input type="radio" id="disenio2" name="disenio" value="2" {% if disenio == 2 %}checked{% endif %} /><label for="disenio2" title=""></label>
+                                    <input type="radio" id="disenio1" name="disenio" value="1" {% if disenio == 1 %}checked{% endif %} /><label for="disenio1" title=""></label>
+                                {% else %}
+                                    <input type="radio" id="disenio5" name="disenio" value="5" /><label for="disenio5" title=""></label>
+                                    <input type="radio" id="disenio4" name="disenio" value="4" /><label for="disenio4" title=""></label>
+                                    <input type="radio" id="disenio3" name="disenio" value="3" /><label for="disenio3" title=""></label>
+                                    <input type="radio" id="disenio2" name="disenio" value="2" /><label for="disenio2" title=""></label>
+                                    <input type="radio" id="disenio1" name="disenio" value="1" /><label for="disenio1" title=""></label>
+                                {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pl-5 pr-5" colspan="2">
+                                Deja tu comentario:
+                                <br/>
+                                {% if comentario is defined %}
+                                    <textarea style="min-width: 100%" class="form-control" id="comentario" name="comentario" rows="3">{{ comentario }}</textarea>
+                                {% else %}
+                                    <textarea style="min-width: 100%" class="form-control" id="comentario" name="comentario" rows="3"></textarea>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                  {% if grupoDesactivado is not defined %}
+                  <button type="submit" class="btn btn-primary mb-2">Enviar</button>
+                  {% endif %}
+                </form>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding:0; margin:0; height:30vh;">
+            <div class="malla"></div>
+            <div class="bg-container" style="background: #a8a8a8;">
+                <img width="100%" style="min-width: 600px" src="{{ asset('build/img/Inicio.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+
+{% endblock %}

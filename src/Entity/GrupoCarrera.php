@@ -141,6 +141,7 @@ class GrupoCarrera
      */
     private $videosGrupoCarreras;
 
+
     public function __construct()
     {
         $this->usersCarrera = new ArrayCollection();

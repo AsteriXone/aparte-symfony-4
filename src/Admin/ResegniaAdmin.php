@@ -20,18 +20,23 @@ final class ResegniaAdmin extends AbstractAdmin
         $collection->remove('create');
     }
 
+    protected $datagridValues = [
+
+        // display the first page (default = 1)
+        '_page' => 1,
+
+        // reverse order (default = 'ASC')
+        '_sort_order' => 'DESC',
+
+        // name of the ordered field (default = the model's id field, if any)
+        // '_sort_by' => 'tipo_galleria',
+    ];
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
         // TODO
             ->add('id')
-            // ->add('calidad_precio')
-            // ->add('ambiente')
-            // ->add('trato')
-            // ->add('accesibilidad')
-            // ->add('disegnio_opciones')
-            // ->add('comentario')
-            // ->add('publicada')
             ;
     }
 

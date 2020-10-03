@@ -31,7 +31,7 @@ class Resegnias
         // Traer resenias de DB
 //        $entityManager = $this->em->getRepository(Galeria::class);
         $entityManager = $this->em->getRepository(Resegnia::class);
-        $resegnias = $entityManager->findAll();
+        $resegnias = $entityManager->findBy(array(), array('id' => 'DESC'));
         // dump(galerias);
         if ($resegnias){
             return $resegnias;

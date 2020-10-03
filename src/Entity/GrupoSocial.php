@@ -74,6 +74,7 @@ class GrupoSocial
      */
     private $contratoUpdateAt;
 
+
     /**
      * @ TODO: ORM\OneToMany(targetEntity="App\Entity\CuadrantesGruposCarrera", mappedBy="grupo_carrera", orphanRemoval=true)
      */
@@ -86,7 +87,6 @@ class GrupoSocial
 
     public function __toString()
     {
-        // TODO: Return String Data Social
         return $this->getCodigoGrupo() ?: '';
     }
 

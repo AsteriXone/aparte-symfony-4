@@ -57,7 +57,7 @@ class Resegnia
     private $fecha_publicacion;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\UserCarrera", inversedBy="resegnia", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\UserCarrera", inversedBy="resegnia")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user_carrera;
